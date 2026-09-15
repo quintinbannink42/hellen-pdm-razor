@@ -1,0 +1,1839 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "58d1ef36-9821-4a01-902d-65a56364218a")
+	(paper "A3")
+	(title_block
+		(title "pdmrazora - ADIO x8")
+		(date "2026-09-15")
+		(rev "a")
+		(company "quintinbannink42")
+		(comment 1 "8A high-side + V/I sense + PU stubs; PN TBD")
+	)
+	(lib_symbols
+
+		(symbol "Device:Power_Switch_PROFET_TBD"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -5.08 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "BTS70xx-TBD"
+				(at 2.54 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "PROFET-class high-side placeholder; pick exact PN in BOARD.md"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Power_Switch_PROFET_TBD_0_1"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "Power_Switch_PROFET_TBD_1_1"
+				(pin input line
+					(at -7.62 2.54 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -7.62 -2.54 0)
+					(length 2.54)
+					(name "IS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VBAT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+
+	)
+	(text "ADIO1-8 stubs: 8A high-side + bidirectional I/O node to SuperSeal ADIOn.\nEN / I-sense / V-sense / PU-EN per PINMAP.md. Value BTS70xx-TBD — pick PN later.\nSense resistors / dividers not yet placed."
+		(exclude_from_sim no)
+		(at 10 10 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left top)
+		)
+		(uuid "c75b4a05-d11e-4054-8a20-8a80344e8ee9")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 40 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "89cfae45-4162-42ac-ae77-250678dc759d")
+		(property "Reference" "U11"
+			(at 34.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 48 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 40 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 40 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 32.38 42.54) (xy 22.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9af0ee70-74b0-4063-b5e6-5007d5e097bb")
+	)
+	(global_label "IN_MAP1"
+		(shape input)
+		(at 22.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bcc796dd-6895-447e-8bc0-37174104e943")
+	)
+	(wire
+		(pts
+			(xy 32.38 37.46) (xy 22.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff180ea4-5c97-413a-adee-74bf2f5c0bb4")
+	)
+	(global_label "OUT_PWM5"
+		(shape input)
+		(at 22.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9b6b9d63-fd7c-446b-825e-70f9eedecfe4")
+	)
+	(wire
+		(pts
+			(xy 40.00 47.62) (xy 40.00 54.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f83443cc-4999-4885-92e3-37087b383002")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 40.00 54.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4e599f83-4a0f-4cb5-9b5f-203f03711e09")
+	)
+	(wire
+		(pts
+			(xy 40.00 32.38) (xy 40.00 26.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61ab74d7-0060-4853-a33b-3626ab80b19b")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 40.00 26.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0c2b862e-d6cd-4d22-8659-0ea59df7a644")
+	)
+	(wire
+		(pts
+			(xy 47.62 40.00) (xy 62.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0aeacbb4-223c-4aa6-8360-0fa18074b17c")
+	)
+	(global_label "ADIO1"
+		(shape input)
+		(at 62.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fc7f5a48-3397-46a3-9c57-5830319a7bbb")
+	)
+	(global_label "IN_TPS"
+		(shape input)
+		(at 62.00 45.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3a78501e-b850-4cde-a1cc-1b5a9af7b2fc")
+	)
+	(global_label "OUT_IO9"
+		(shape input)
+		(at 62.00 34.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "73ff74d7-ad08-49f1-a947-ce3f746ee297")
+	)
+	(text "ADIO1\nV=IN_TPS\nPU=OUT_IO9"
+		(exclude_from_sim no)
+		(at 22 60 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "473556e2-883c-4b2e-b668-73573f280cc6")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 110 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3bd8dd4c-4815-41f7-9763-7afab9cee90b")
+		(property "Reference" "U12"
+			(at 104.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 118 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 110 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 110 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 102.38 42.54) (xy 92.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "641de111-e0c5-4a44-acda-dd0e90777cac")
+	)
+	(global_label "IN_MAP2"
+		(shape input)
+		(at 92.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1e5ce607-9730-40c4-9311-c5d0f4ced28c")
+	)
+	(wire
+		(pts
+			(xy 102.38 37.46) (xy 92.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ad78933-0b95-40b1-aa70-73a6897cb4da")
+	)
+	(global_label "OUT_PWM6"
+		(shape input)
+		(at 92.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f04702f4-9533-4e3f-969f-4820c97a08ae")
+	)
+	(wire
+		(pts
+			(xy 110.00 47.62) (xy 110.00 54.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f947236-30d7-4e89-92be-f070a5b6544e")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 110.00 54.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7b0131b6-deaf-4e7c-a5fc-68d85771e1ee")
+	)
+	(wire
+		(pts
+			(xy 110.00 32.38) (xy 110.00 26.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0a64134f-4627-4c01-b697-6bda6361a575")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 110.00 26.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b4fc31e3-18e2-4a00-96da-8150d382463c")
+	)
+	(wire
+		(pts
+			(xy 117.62 40.00) (xy 132.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7288daa-9d0e-4a51-99ce-004c437590ab")
+	)
+	(global_label "ADIO2"
+		(shape input)
+		(at 132.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e42bb63f-b314-42c5-b797-a88dcfae6f8d")
+	)
+	(global_label "IN_PPS"
+		(shape input)
+		(at 132.00 45.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "369da178-a4ef-4409-8fc3-9f6ed70385f0")
+	)
+	(global_label "OUT_IO10"
+		(shape input)
+		(at 132.00 34.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "34ef4e3f-8c9f-424d-8be2-c2c20dd40194")
+	)
+	(text "ADIO2\nV=IN_PPS\nPU=OUT_IO10"
+		(exclude_from_sim no)
+		(at 92 60 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "e8536941-2cda-4f94-9b52-1d6dbc7c2242")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 180 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "561d9615-0083-4f21-baeb-09c229be4387")
+		(property "Reference" "U13"
+			(at 174.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 188 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 180 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 180 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 180 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 172.38 42.54) (xy 162.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2af3014a-13ea-4256-a707-5dafb21280f6")
+	)
+	(global_label "IN_MAP3"
+		(shape input)
+		(at 162.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c87d0ca5-da96-4723-98a1-93d4206b4c9b")
+	)
+	(wire
+		(pts
+			(xy 172.38 37.46) (xy 162.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fdea3a46-eaa9-4642-9692-622e6fd61872")
+	)
+	(global_label "OUT_PWM7"
+		(shape input)
+		(at 162.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "96ed1cb1-614c-4653-b085-318445caff4d")
+	)
+	(wire
+		(pts
+			(xy 180.00 47.62) (xy 180.00 54.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b78e6d50-3abd-40d2-8a9b-c9fefe25d3ca")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 180.00 54.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "805ae4f1-ad11-4acd-91b7-ac406f1fe484")
+	)
+	(wire
+		(pts
+			(xy 180.00 32.38) (xy 180.00 26.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f5196296-154d-469e-83ed-d865c19f86ea")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 180.00 26.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1487534e-cd3d-4bfc-874e-ac84206b2d9d")
+	)
+	(wire
+		(pts
+			(xy 187.62 40.00) (xy 202.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f54f7e5f-e951-4c48-ab01-8e375b88405f")
+	)
+	(global_label "ADIO3"
+		(shape input)
+		(at 202.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fba29f1b-55b3-4db4-8e6f-a9d0a23d3a2d")
+	)
+	(global_label "IN_TPS2"
+		(shape input)
+		(at 202.00 45.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6bc0bca2-c0da-4e96-bd5f-0ff66181ed03")
+	)
+	(global_label "OUT_IO11"
+		(shape input)
+		(at 202.00 34.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a7f17314-ec1b-4920-8363-195666fa25e1")
+	)
+	(text "ADIO3\nV=IN_TPS2\nPU=OUT_IO11"
+		(exclude_from_sim no)
+		(at 162 60 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "2b6b3cf3-d328-4972-bd84-51776208073f")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 250 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "f9651b81-1e03-4f0d-888f-0ef68b49672c")
+		(property "Reference" "U14"
+			(at 244.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 258 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 250 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 250 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 242.38 42.54) (xy 232.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "282d113c-a5e3-47db-b581-1d1b983d1398")
+	)
+	(global_label "IN_O2S"
+		(shape input)
+		(at 232.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6c9e431c-cf13-4021-8460-18dabe844636")
+	)
+	(wire
+		(pts
+			(xy 242.38 37.46) (xy 232.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0cba316-e0ab-47e8-b9c6-087957acfdc4")
+	)
+	(global_label "OUT_PWM8"
+		(shape input)
+		(at 232.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "938e3667-d4e1-441a-9c96-b9df886754f7")
+	)
+	(wire
+		(pts
+			(xy 250.00 47.62) (xy 250.00 54.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d9437a4-d5ec-4c2a-b7d7-73baedc27cab")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 250.00 54.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4879841e-e85b-487c-b929-9d328405c76c")
+	)
+	(wire
+		(pts
+			(xy 250.00 32.38) (xy 250.00 26.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95f998b4-a0bb-4987-91b6-51808c716219")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 250.00 26.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9f51ffc0-4f86-466a-882a-3b394e2324ef")
+	)
+	(wire
+		(pts
+			(xy 257.62 40.00) (xy 272.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93adc7bf-660e-45f1-831a-ddf4dda1bc3e")
+	)
+	(global_label "ADIO4"
+		(shape input)
+		(at 272.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "aad1a089-5e0f-44e7-b84a-fa6f70c39982")
+	)
+	(global_label "IN_PPS2"
+		(shape input)
+		(at 272.00 45.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "110a0d8c-e060-4732-a4ce-494309df4bad")
+	)
+	(global_label "OUT_IO12"
+		(shape input)
+		(at 272.00 34.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5ed72d35-6bf7-4ab1-92df-25a767a8e61c")
+	)
+	(text "ADIO4\nV=IN_PPS2\nPU=OUT_IO12"
+		(exclude_from_sim no)
+		(at 232 60 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "c0ca3e3d-4d60-492e-a13b-dffd4a885567")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 40 110 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "63a06edf-d4a1-408c-b493-027813fc81b9")
+		(property "Reference" "U15"
+			(at 34.92 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 48 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 40 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 40 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 32.38 112.54) (xy 22.00 112.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "07b39610-3d92-46ff-8a91-470f9ea0d249")
+	)
+	(global_label "IN_O2S2"
+		(shape input)
+		(at 22.00 112.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "eed666c4-14b0-46ce-964d-af6d2715995a")
+	)
+	(wire
+		(pts
+			(xy 32.38 107.46) (xy 22.00 107.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d43b6f0c-fd27-4843-a989-6afc80185043")
+	)
+	(global_label "OUT_IO5"
+		(shape input)
+		(at 22.00 107.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "395f2cda-0b47-40fa-82c2-8e05a6c334e0")
+	)
+	(wire
+		(pts
+			(xy 40.00 117.62) (xy 40.00 124.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f00e005-1181-4bbc-a778-0ca431f62a7f")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 40.00 124.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4b94f1a1-66cb-41d7-98e7-8b7780d27602")
+	)
+	(wire
+		(pts
+			(xy 40.00 102.38) (xy 40.00 96.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db0af0d2-7a03-4396-b0f7-7b4a54870867")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 40.00 96.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f9153cd8-ca0d-4b85-bb9d-8af5ea4b988b")
+	)
+	(wire
+		(pts
+			(xy 47.62 110.00) (xy 62.00 110.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49b47772-dec5-4a38-8baf-c0981db6b4eb")
+	)
+	(global_label "ADIO5"
+		(shape input)
+		(at 62.00 110.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7d737b54-f243-42ff-b5b6-49220cdd23dc")
+	)
+	(global_label "IN_CLT"
+		(shape input)
+		(at 62.00 115.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3fdf060e-f166-41b2-a1a3-cbc20ef0ac63")
+	)
+	(global_label "OUT_IO13"
+		(shape input)
+		(at 62.00 104.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5c9fef17-9a44-4ee5-8826-b538848c2a57")
+	)
+	(text "ADIO5\nV=IN_CLT\nPU=OUT_IO13"
+		(exclude_from_sim no)
+		(at 22 130 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "ae86fa57-8a03-45fc-96d4-21d800bbf434")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 110 110 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "740180fc-fc9b-4b9b-823c-446f7324bed0")
+		(property "Reference" "U16"
+			(at 104.92 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 118 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 110 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 110 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 110 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 102.38 112.54) (xy 92.00 112.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0494a19-2ce1-40c2-a43a-1e1027d9244e")
+	)
+	(global_label "IN_RES1"
+		(shape input)
+		(at 92.00 112.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c685fcb8-2df1-4520-9293-12a611b9d846")
+	)
+	(wire
+		(pts
+			(xy 102.38 107.46) (xy 92.00 107.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "216b4f5f-e6be-41fe-b075-2a09666d4708")
+	)
+	(global_label "OUT_IO6"
+		(shape input)
+		(at 92.00 107.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6165d949-df89-4e74-973c-23f12ad34ae9")
+	)
+	(wire
+		(pts
+			(xy 110.00 117.62) (xy 110.00 124.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a4c2ded-62ce-43a5-8089-61fe40508ef0")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 110.00 124.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "82663920-8f22-4820-9bf2-0bc48633228c")
+	)
+	(wire
+		(pts
+			(xy 110.00 102.38) (xy 110.00 96.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4131a664-d6cb-423e-9b81-6bf712563f62")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 110.00 96.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0b95df5a-16de-4cc2-9ebc-936e92c7e71c")
+	)
+	(wire
+		(pts
+			(xy 117.62 110.00) (xy 132.00 110.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26953a28-e6dc-40cd-a18e-7b91ed81c868")
+	)
+	(global_label "ADIO6"
+		(shape input)
+		(at 132.00 110.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1a5c3c4f-288c-41c3-b5ba-0e96e114bc44")
+	)
+	(global_label "IN_IAT"
+		(shape input)
+		(at 132.00 115.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5a2c8d09-f444-4e9a-b258-6fa40c6368f4")
+	)
+	(global_label "IO1"
+		(shape input)
+		(at 132.00 104.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3e3c2706-0378-4f88-9393-65c112423f93")
+	)
+	(text "ADIO6\nV=IN_IAT\nPU=IO1"
+		(exclude_from_sim no)
+		(at 92 130 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "bcc47f6b-70d7-4e84-bd86-f12521b860a2")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 180 110 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7b2fd1c2-d0ad-455d-aea9-00036bd00d4c")
+		(property "Reference" "U17"
+			(at 174.92 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 188 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 180 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 180 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 180 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 172.38 112.54) (xy 162.00 112.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "904226ee-f2c8-4b42-a21a-324cf7f1bb38")
+	)
+	(global_label "IN_RES2"
+		(shape input)
+		(at 162.00 112.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9579e498-ccd6-43a0-baf8-5ba57a9bee3b")
+	)
+	(wire
+		(pts
+			(xy 172.38 107.46) (xy 162.00 107.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6551a1b4-d4bf-4e5b-b237-24582969b7fd")
+	)
+	(global_label "OUT_IO7"
+		(shape input)
+		(at 162.00 107.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b0d07446-6270-46d1-a21b-1a31a5591447")
+	)
+	(wire
+		(pts
+			(xy 180.00 117.62) (xy 180.00 124.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32851567-1b99-4779-abd8-96a54a85103a")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 180.00 124.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4b26c799-0f3b-43aa-9b3d-47e7876967fc")
+	)
+	(wire
+		(pts
+			(xy 180.00 102.38) (xy 180.00 96.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eeb0342f-5e3b-4db7-9d9e-363c597ea722")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 180.00 96.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "229a745f-fc7e-49ac-9971-5da66cefb7ad")
+	)
+	(wire
+		(pts
+			(xy 187.62 110.00) (xy 202.00 110.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6eb7c6e4-1b09-458a-9b1b-47d4f50d2bf7")
+	)
+	(global_label "ADIO7"
+		(shape input)
+		(at 202.00 110.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "87f56434-54c1-447f-8c83-5af54407b562")
+	)
+	(global_label "IN_AT1"
+		(shape input)
+		(at 202.00 115.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "52cf5463-e543-479c-bef6-e1c95d8ea2bf")
+	)
+	(global_label "IO2"
+		(shape input)
+		(at 202.00 104.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "24f5bcfa-f031-4940-9ce0-0031fcea3cdd")
+	)
+	(text "ADIO7\nV=IN_AT1\nPU=IO2"
+		(exclude_from_sim no)
+		(at 162 130 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "1d121042-7100-4cba-9e6e-29af32e3179c")
+	)
+	(symbol
+		(lib_id "Device:Power_Switch_PROFET_TBD")
+		(at 250 110 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9ada55c9-09b9-498b-83b3-358599c07fbf")
+		(property "Reference" "U18"
+			(at 244.92 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS70xx-TBD"
+			(at 258 102.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 250 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 250 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 250 110 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "1"
+			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
+		)
+		(pin "2"
+			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
+		)
+		(pin "3"
+			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
+		)
+		(pin "4"
+			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
+		)
+		(pin "5"
+			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
+		)
+	)
+	(wire
+		(pts
+			(xy 242.38 112.54) (xy 232.00 112.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5cb427b0-524c-4f81-a754-2c7fbb4ca482")
+	)
+	(global_label "IN_RES3"
+		(shape input)
+		(at 232.00 112.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "21d756e9-2fdc-45c0-b539-c576e0e6bdf2")
+	)
+	(wire
+		(pts
+			(xy 242.38 107.46) (xy 232.00 107.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3442add3-fb65-49bb-a47a-61096a0b77c2")
+	)
+	(global_label "OUT_IO8"
+		(shape input)
+		(at 232.00 107.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f78f94d4-25cb-4efe-a16b-58998b509b1c")
+	)
+	(wire
+		(pts
+			(xy 250.00 117.62) (xy 250.00 124.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0711bdd-00a9-4387-bb56-a999398795bf")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 250.00 124.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e1bbdaab-36a1-4ef7-a937-aa2217f254dc")
+	)
+	(wire
+		(pts
+			(xy 250.00 102.38) (xy 250.00 96.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bc01cc85-bf4c-457b-a5f4-9128dac713b4")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 250.00 96.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "55aae06d-bbef-4574-99b5-458f7bcdcad3")
+	)
+	(wire
+		(pts
+			(xy 257.62 110.00) (xy 272.00 110.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b8429b9-3369-497d-9d65-bd07a2f70798")
+	)
+	(global_label "ADIO8"
+		(shape input)
+		(at 272.00 110.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7aa30b8e-e832-4dd5-abc2-362afee27791")
+	)
+	(global_label "IN_AT2"
+		(shape input)
+		(at 272.00 115.08 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "90bfe0da-8a96-49b2-a8e1-a848ddc28ac2")
+	)
+	(global_label "IO3"
+		(shape input)
+		(at 272.00 104.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3569f253-de13-4989-88bf-497a64905c6c")
+	)
+	(text "ADIO8\nV=IN_AT2\nPU=IO3"
+		(exclude_from_sim no)
+		(at 232 130 0)
+		(effects
+			(font
+				(size 0.9 0.9)
+			)
+			(justify left top)
+		)
+		(uuid "caaa0a76-f564-40d0-8420-73e11565883d")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

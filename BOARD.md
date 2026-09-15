@@ -1,45 +1,66 @@
 # Board status — pdmrazora (rev a)
 
-## Stubbed in this commit
+## This commit
 
 | Item | Status |
 |------|--------|
 | Hellen-example skeleton (`.gitmodules`, workflows, `revision.txt`, `.gitignore`) | Done |
 | Authoritative connector / pin map / spec docs | Done (`CONNECTOR.md`, `PINMAP.md`, …) |
-| KiCad frame `pdmrazora.*` | Done — schematic nets match Razor pinout |
+| KiCad frame `pdmrazora.*` | Done — SuperSeal nets match Razor pinout |
 | 26-pin SuperSeal symbol + net labels | Done (generic `Conn_02x13_Top_Bottom` placeholder footprint) |
 | M6 VBAT+ / GND stubs | Done (schematic + PCB pad placeholders) |
-| USB-C | Note on schematic only (module USB when mega-mcu144 is merged) |
-| mega-mcu144 ≥ 0.7 module footprint / gerber merge | **Not yet** — submodule present; place module per wiki |
-| HP PROFET ×4 power stage | **TODO** block on schematic |
-| ADIO ×8 front-end | **TODO** block on schematic |
+| USB-C | Enclosure note; nets `USBM` / `USBP` / `USBID` on MM144 sheet |
+| mega-mcu144 **0.7** module | **Placed** — footprint `M1000` on PCB (`Module:mega-mcu144/0.7`), symbol + PINMAP edge labels on sheet `MM144.kicad_sch` |
+| HP PROFET ×4 | **Schematic stubs** — sheet `HP.kicad_sch`, Infineon `BTS50010-1TAD` as 40 A-class stand-in (`BTS50010-1TAD-TBD`); exact PN TBD |
+| ADIO ×8 | **Schematic stubs** — sheet `ADIO.kicad_sch`, generic `BTS70xx-TBD` 8 A high-side + V/I/PU labels per PINMAP |
 | Fab outputs under `boards/pdmrazora/` | After create-board Action succeeds |
 
-## Hellen module placement (next steps)
+## Hellen module placement
 
-Follow the [hellen-one wiki](https://github.com/andreika-git/hellen-one/wiki) “frame” workflow:
+Follow the [hellen-one wiki](https://github.com/andreika-git/hellen-one/wiki) “frame” workflow.
 
-1. Init submodules: `git submodule update --init --recursive`
-2. Import mega-mcu144 **0.7+** symbol/footprint from `hellen-one/modules/mega-mcu144/` (versioned folder).
-3. Place the module footprint on the frame PCB. Rotation must be a multiple of **90°** (gerber merge constraint).
-4. Keep `aux_axis_origin` at the board bottom-left; all coordinates ≥ 0.
-5. Connect SuperSeal / M6 nets to module edge pads per [PINMAP.md](PINMAP.md):
-   - CANH / CANL → module CAN
-   - IGN_SW → divider → `IN_VIGN`
-   - SENSOR_5V → `V5A_SWITCHABLE` via `OUT_PWR_EN`
-   - SENSOR_GND → AGND island (do **not** bond to chassis)
-   - HP1–4 EN/PWM/IS and ADIO1–8 as in PINMAP
-6. Design HP PROFET and ADIO stages (still TODO).
-7. Push to **`main`** so `.github/workflows/create-board.yaml` can merge module gerbers.
+- Submodules: `hellen-one` + `kicad6-libraries`
+- Module files: `hellen-one/modules/mega-mcu144/0.7/`
+- Footprint lib: `fp-lib-table` → `hellen-one-mega-mcu144-0.7`
+- Symbol lib: `sym-lib-table` → `mega-mcu144-0.7`
+- PCB: `M1000` at (15, 55) mm, rotation **0°** (90° multiple). Outline enlarged to **160 × 120 mm**. `aux_axis_origin` bottom-left `(0, 120)`. No negative board coordinates.
+- Value string for gerber merge: `Module:mega-mcu144/0.7`
+
+Edge nets already labeled toward Razor (global labels, PINMAP.md):
+
+- CANH / CANL → SuperSeal
+- OUT_PWR_EN, USB (USBM/USBP/USBID)
+- HP EN/PWM (`OUT_PWM1..4`) and IS (`IN_AUX1..4`)
+- ADIO EN / I-sense / V-sense / PU (`OUT_PWM5..8`, `OUT_IO5..8`, `IN_MAP*`, `IN_O2S*`, `IN_RES*`, `IN_TPS*`, `OUT_IO9..13`, `IO1..3`)
+- SENSOR_5V ← `V5A_SWITCHABLE`; SENSOR_GND ← `GNDA` (do **not** bond to chassis)
+- IGN_SW still needs a divider into `IN_VIGN` (not yet a discrete stage)
+
+## Schematic sheets
+
+| Sheet | File | Contents |
+|-------|------|----------|
+| Root | `pdmrazora.kicad_sch` | SuperSeal 26 + M6 power |
+| MM144 | `MM144.kicad_sch` | mega-mcu144 0.7 + PINMAP globals |
+| HP | `HP.kicad_sch` | HP1–4 PROFET stubs |
+| ADIO | `ADIO.kicad_sch` | ADIO1–8 8 A HS + sense/PU stubs |
+
+## Remaining fab blockers
+
+1. **Replace SuperSeal footprint** — current `PinHeader_2x13` is not a production AMP SuperSeal 26 FP.
+2. **Pick exact HP PROFET PN** — `BTS50010-1TAD` is a 40 A / 1 mΩ class placeholder. Confirm continuous 25 A / 80 A peak SOA, package, and IS scaling; likely BTS7xxx / BTS50xxx family. Update Value + footprint before fab.
+3. **Pick exact ADIO PN** — `BTS70xx-TBD` generic 8 A high-side. Add sense resistors / dividers for I-sense and V-sense; PU FET or resistor for `OUT_IOx` enable.
+4. **Power entry** — TVS, reverse protection, input fuse; IGN_SW divider → `IN_VIGN`.
+5. **Copper** — route SuperSeal / M6 / module edge pads; HP/ADIO footprints not on PCB yet (schematic-only stubs).
+6. **create-board** — push to `main` so `.github/workflows/create-board.yaml` can merge module gerbers into `boards/`.
 
 Useful references:
 
 - https://github.com/andreika-git/hellen-one/wiki
 - https://wiki.rusefi.com/Hellen-One-Platform
-- Example frames: [rusefi/uaefi](https://github.com/rusefi/uaefi), [rusefi/hellen-example](https://github.com/rusefi/hellen-example)
+- Example frames: [rusefi/uaefi](https://github.com/rusefi/uaefi), [rusefi/hellen-example](https://github.com/rusefi/hellen-example), [rusefi/alphax-2chan](https://github.com/rusefi/alphax-2chan)
 
 ## PCB notes (rev a)
 
-- Outline placeholder ~100×80 mm; enlarge as stages are added.
-- Connector footprint is a **placeholder** (not a production SuperSeal FP yet) — replace with a verified AMP SuperSeal 26 footprint before fab.
-- Module outline on Eco1.User marks intended mega-mcu144 keepout until the real footprint is placed.
+- Outline **160 × 120 mm**; origin bottom-left; `aux_axis_origin 0 120`.
+- Connector footprint is a **placeholder** — replace with a verified AMP SuperSeal 26 footprint before fab.
+- mega-mcu144 **0.7** footprint is placed (`M1000`). Eco1 keepout placeholder removed.

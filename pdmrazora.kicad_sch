@@ -1141,8 +1141,9 @@
 		)
 		(uuid "4bb3df38-0a4f-4935-b383-132fd00740ee")
 	)
-	(label "PWR_OUT2"
+	(global_label "PWR_OUT2"
 		(at 82.22 125.24 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1181,8 +1182,9 @@
 		)
 		(uuid "f9c6a5d5-9026-476c-bd99-c228e801047b")
 	)
-	(label "CANH"
+	(global_label "CANH"
 		(at 82.22 120.16 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1201,8 +1203,9 @@
 		)
 		(uuid "f60cc524-d59a-4c80-82f8-d813fb4c8290")
 	)
-	(label "IGN_SW"
+	(global_label "IGN_SW"
 		(at 82.22 117.62 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1221,8 +1224,9 @@
 		)
 		(uuid "dd555920-a2de-48cb-bc7a-8b67b6faf43b")
 	)
-	(label "SENSOR_5V"
+	(global_label "SENSOR_5V"
 		(at 82.22 115.08 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1241,8 +1245,9 @@
 		)
 		(uuid "548c187f-a993-433e-9954-eab948f6a70e")
 	)
-	(label "SENSOR_GND"
+	(global_label "SENSOR_GND"
 		(at 82.22 112.54 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1261,8 +1266,9 @@
 		)
 		(uuid "6aaf6f28-3634-41e9-88fa-b74b729e9130")
 	)
-	(label "PWR_OUT3"
+	(global_label "PWR_OUT3"
 		(at 82.22 110.0 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1281,8 +1287,9 @@
 		)
 		(uuid "aa74bc1b-3b13-44e6-93e6-d31aefd61bc2")
 	)
-	(label "PWR_OUT2"
+	(global_label "PWR_OUT2"
 		(at 82.22 107.46 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1321,8 +1328,9 @@
 		)
 		(uuid "8f460277-3a5f-494b-89ba-e33d6f884fce")
 	)
-	(label "CANL"
+	(global_label "CANL"
 		(at 82.22 102.38 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1341,8 +1349,9 @@
 		)
 		(uuid "a788606a-0a8e-4905-bcde-3622a890e700")
 	)
-	(label "SENSOR_5V"
+	(global_label "SENSOR_5V"
 		(at 82.22 99.84 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1361,8 +1370,9 @@
 		)
 		(uuid "5b749ce3-c8e7-4d7a-87d1-345b2e906126")
 	)
-	(label "SENSOR_GND"
+	(global_label "SENSOR_GND"
 		(at 82.22 97.3 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1381,8 +1391,9 @@
 		)
 		(uuid "35311c87-43c3-40cc-8394-9f3fda473447")
 	)
-	(label "PWR_OUT3"
+	(global_label "PWR_OUT3"
 		(at 82.22 94.76 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1401,8 +1412,9 @@
 		)
 		(uuid "c565d3d4-3175-4d30-9fd0-e536bb71e2fc")
 	)
-	(label "PWR_OUT1"
+	(global_label "PWR_OUT1"
 		(at 120.32000000000001 125.24 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1421,8 +1433,9 @@
 		)
 		(uuid "0ba2b807-dca1-4d2b-beaf-01347270daf1")
 	)
-	(label "ADIO2"
+	(global_label "ADIO2"
 		(at 120.32000000000001 122.7 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1441,8 +1454,9 @@
 		)
 		(uuid "48a35235-f50b-4d97-b151-669a80a4a651")
 	)
-	(label "ADIO4"
+	(global_label "ADIO4"
 		(at 120.32000000000001 120.16 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1461,8 +1475,9 @@
 		)
 		(uuid "8fc2bf1f-1b95-4e2e-860c-965262498955")
 	)
-	(label "ADIO6"
+	(global_label "ADIO6"
 		(at 120.32000000000001 117.62 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1481,8 +1496,9 @@
 		)
 		(uuid "da84c1c5-0f6b-4001-9cd6-2b0bc9548dbb")
 	)
-	(label "ADIO8"
+	(global_label "ADIO8"
 		(at 120.32000000000001 115.08 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1501,8 +1517,9 @@
 		)
 		(uuid "61d6d22a-c86e-4eda-9cc5-5a4d099329f3")
 	)
-	(label "PWR_OUT4"
+	(global_label "PWR_OUT4"
 		(at 120.32000000000001 112.54 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1521,8 +1538,9 @@
 		)
 		(uuid "84f3f07e-2751-4a77-b4f7-376e72f22526")
 	)
-	(label "PWR_OUT1"
+	(global_label "PWR_OUT1"
 		(at 120.32000000000001 110.0 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1541,8 +1559,9 @@
 		)
 		(uuid "b5d9e1e3-4a27-47af-8409-dceb780a1612")
 	)
-	(label "ADIO1"
+	(global_label "ADIO1"
 		(at 120.32000000000001 107.46 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1561,8 +1580,9 @@
 		)
 		(uuid "4ebf3f5c-f4b8-4dd6-84b6-8289e9c2c70e")
 	)
-	(label "ADIO3"
+	(global_label "ADIO3"
 		(at 120.32000000000001 104.92 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1581,8 +1601,9 @@
 		)
 		(uuid "a4422558-9d85-4714-bcdf-d58303742322")
 	)
-	(label "ADIO5"
+	(global_label "ADIO5"
 		(at 120.32000000000001 102.38 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1601,8 +1622,9 @@
 		)
 		(uuid "ff4eb13f-7cfe-4102-8ffc-e1d8c566df6b")
 	)
-	(label "ADIO7"
+	(global_label "ADIO7"
 		(at 120.32000000000001 99.84 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1641,8 +1663,9 @@
 		)
 		(uuid "411da803-533a-4074-86e7-b7cffbfee82b")
 	)
-	(label "PWR_OUT4"
+	(global_label "PWR_OUT4"
 		(at 120.32000000000001 94.76 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1725,8 +1748,9 @@
 		)
 		(uuid "582721d1-3fd9-4760-b372-8eb4f71b03e6")
 	)
-	(label "VBAT"
+	(global_label "VBAT"
 		(at 19.76 35.0 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1737,7 +1761,7 @@
 	)
 	(wire
 		(pts
-			(xy 29.92 32.46) (xy 19.76 32.46)
+			(xy 29.92 37.54) (xy 19.76 37.54)
 		)
 		(stroke
 			(width 0)
@@ -1745,8 +1769,9 @@
 		)
 		(uuid "44cf211c-e455-400b-8934-a519f9e2ecce")
 	)
-	(label "GND"
-		(at 19.76 32.46 0)
+	(global_label "GND"
+		(at 19.76 37.54 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1754,50 +1779,6 @@
 			(justify right)
 		)
 		(uuid "68fc02b0-c3e6-4b4b-bd53-acccc1067981")
-	)
-	(text "mega-mcu144 module >= 0.7\nPlace hellen-one module footprint (submodule).\nEdges: CANH/CANL, USB, OUT_PWR_EN,\nOUT_PWM1..8, OUT_IO*, IN_AUX*, IN_VIGN\nSee PINMAP.md and hellen-one wiki"
-		(exclude_from_sim no)
-		(at 20 55 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "94dc3b93-9ef0-4f0c-84bd-5c40d81a15d2")
-	)
-	(text "TODO: HP PROFET x4\n25A cont / 80A peak class\nIS -> IN_AUX1..4\nEN/PWM -> OUT_PWM1..4\nFeeds PWR_OUT1..4 (dual SuperSeal pins)"
-		(exclude_from_sim no)
-		(at 175 40 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "83fdf2b9-137d-46b4-b826-acb6a59a0f4f")
-	)
-	(text "TODO: ADIO x8\n8A high-side + V/I sense + soft PU\nADIO1..8 nets on SuperSeal\nSee PINMAP.md"
-		(exclude_from_sim no)
-		(at 175 70 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "5982276a-4664-4289-a8f8-7e840ab38c3a")
-	)
-	(text "USB-C: enclosure / frame note\nWire to mega-mcu144 USB (USBM/USBP/USBID)\nwhen module is placed. RusEFI config port."
-		(exclude_from_sim no)
-		(at 20 85 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left top)
-		)
-		(uuid "f8a5175d-a3ff-4e23-8ef9-3911af0c8cc3")
 	)
 	(text "Power entry stub:\nM6+ = VBAT, M6- = GND\nAdd TVS, reverse protect, fuse,\nVBATT sense -> IN_VIGN"
 		(exclude_from_sim no)
@@ -1810,9 +1791,131 @@
 		)
 		(uuid "6868f392-e873-427c-a22d-160f5e58ab41")
 	)
+	(text "Status: mega-mcu144 0.7 placed (sheet MM144).\nHP PROFET x4 + ADIO x8 schematic stubs on sheets.\nUSB-C -> MM144 USBM/USBP/USBID. IGN_SW -> IN_VIGN path TBD."
+		(exclude_from_sim no)
+		(at 20 95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "c90a4c8f-3ea9-4ae5-a5a1-80f560c52249")
+	)
+	(sheet
+		(at 20 55)
+		(size 40 25)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a1111111-1111-4111-a111-111111111111")
+		(property "Sheetname" "MM144"
+			(at 20 53.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "MM144.kicad_sch"
+			(at 20 81.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+	)
+	(sheet
+		(at 175 35)
+		(size 40 25)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a2222222-2222-4222-a222-222222222222")
+		(property "Sheetname" "HP"
+			(at 175 33.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "HP.kicad_sch"
+			(at 175 61.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+	)
+	(sheet
+		(at 175 70)
+		(size 40 25)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a3333333-3333-4333-a333-333333333333")
+		(property "Sheetname" "ADIO"
+			(at 175 68.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "ADIO.kicad_sch"
+			(at 175 96.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+	)
 	(sheet_instances
 		(path "/"
 			(page "1")
+		)
+		(path "/a1111111-1111-4111-a111-111111111111"
+			(page "2")
+		)
+		(path "/a2222222-2222-4222-a222-222222222222"
+			(page "3")
+		)
+		(path "/a3333333-3333-4333-a333-333333333333"
+			(page "4")
 		)
 	)
 	(embedded_fonts no)

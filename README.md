@@ -27,14 +27,14 @@ Hellen-One **frame** hardware for a Link ECU **Razor PDM**-compatible power dist
 - `pdmrazora.kicad_pro` / `.kicad_sch` / `.kicad_pcb` (no dashes/underscores — hellen-one requirement)
 - `revision.txt` → `BOARD_PREFIX=pdm` `BOARD_SUFFIX=razor` `BOARD_REVISION=a`
 
-Schematic includes the SuperSeal with **exact Razor nets**, M6 VBAT+/GND stubs, USB-C note, and TODO blocks for HP PROFET ×4 and ADIO ×8. Full mega-mcu144 module merge lands after submodule init + hellen-one create-board flow (see BOARD.md).
+Schematic: SuperSeal with **exact Razor nets**, M6 VBAT+/GND, hierarchical sheets **MM144** (mega-mcu144 0.7 + PINMAP edges), **HP** (PROFET ×4 stubs), **ADIO** (8 A ×8 stubs). PCB has the mega-mcu144 0.7 footprint placed. See BOARD.md for PN TBD and remaining fab blockers.
 
 ## How to build (Hellen-One)
 
 1. `git clone --recurse-submodules https://github.com/quintinbannink42/hellen-pdm-razor.git`
 2. Open `pdmrazora.kicad_pro` in KiCad 6+ (8/9 OK for editing the frame).
-3. Place / refresh the **mega-mcu144 ≥ 0.7** module footprint from the `hellen-one` submodule (see [hellen-one wiki](https://github.com/andreika-git/hellen-one/wiki)).
-4. Route connector nets per CONNECTOR.md / PINMAP.md; fill HP PROFET and ADIO stages.
+3. mega-mcu144 **0.7** is already on the frame (`M1000`). Refresh from `hellen-one/modules/mega-mcu144/0.7/` if the submodule moves.
+4. Route SuperSeal / M6 / module pads per CONNECTOR.md / PINMAP.md; replace HP/ADIO schematic stubs with chosen PNs + sense parts.
 5. Push to **`main`**. GitHub Action `.github/workflows/create-board.yaml` calls hellen-one create-board to merge module gerbers into `boards/`.
 6. Daily workflows keep `hellen-one` and `kicad6-libraries` submodule refs updated.
 

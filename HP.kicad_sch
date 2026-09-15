@@ -1,0 +1,1003 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "3ead682b-6ddd-4554-97f6-247b77756d84")
+	(paper "A3")
+	(title_block
+		(title "pdmrazora - HP PROFET x4")
+		(date "2026-09-15")
+		(rev "a")
+		(company "quintinbannink42")
+		(comment 1 "Smart high-side stubs; exact PN TBD — see BOARD.md")
+	)
+	(lib_symbols
+(symbol "Power_Management:BTS50010-1TAD"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(property "Reference" "U"
+			(at -5.08 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS50010-1TAD"
+			(at 8.89 6.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-7_TabPin4"
+			(at 21.59 -7.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BTS50010-1TAD-DS-v01_00-EN.pdf?fileId=5546d462576f34750157c38810ca55cd"
+			(at 0 -10.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Smart High-Side Power Switch, PROFET, Single, 1mOhm, 40A, 18V, TO-263-7"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "BTS50010 PROFET"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_fp_filters" "TO*263*TabPin4*"
+			(at 0 0 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(symbol "BTS50010-1TAD_0_1"
+			(rectangle
+				(start -5.08 5.08)
+				(end 5.08 -5.08)
+				(stroke
+					(width 0.254)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+		)
+		(symbol "BTS50010-1TAD_1_1"
+			(pin input line
+				(at -7.62 2.54 0)
+				(length 2.54)
+				(name "IN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at -7.62 -2.54 0)
+				(length 2.54)
+				(name "IS"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 0 7.62 270)
+				(length 2.54)
+				(name "Vbb"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 0 -7.62 90)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 7.62 0 180)
+				(length 2.54)
+				(name "OUT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 7.62 0 180)
+				(length 2.54)
+				(hide yes)
+				(name "OUT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 7.62 0 180)
+				(length 2.54)
+				(hide yes)
+				(name "OUT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	)
+	(text "HP1-4 smart high-side (PROFET-class) schematic stubs\nEN from MM144 OUT_PWM1..4; IS to IN_AUX1..4; OUT to PWR_OUTn.\nPlaceholder PN BTS50010-1TAD-TBD (40A class) — confirm peak/SOA for Razor 80A."
+		(exclude_from_sim no)
+		(at 10 10 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left top)
+		)
+		(uuid "226e8ddb-b4dd-4a6c-b455-d07bbeb19958")
+	)
+	(symbol
+		(lib_id "Power_Management:BTS50010-1TAD")
+		(at 50 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c132cc24-c941-4490-83f6-95c9cedca9be")
+		(property "Reference" "U1"
+			(at 44.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS50010-1TAD-TBD"
+			(at 58 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-7_TabPin4"
+			(at 50 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "2"
+			(uuid "ade9d786-7794-49c6-9458-d66394260133")
+		)
+		(pin "3"
+			(uuid "423ad3ae-e9ea-40db-a5db-4dad05fcc461")
+		)
+		(pin "4"
+			(uuid "ab3b8667-8010-46f0-997b-2111528562d2")
+		)
+		(pin "1"
+			(uuid "3dd097f1-9e14-4fe5-a31b-a7e2a6b501f3")
+		)
+		(pin "5"
+			(uuid "a0e062fc-3111-4b33-902c-262f417982a9")
+		)
+		(pin "6"
+			(uuid "30a9c3de-b9c0-4185-8c93-13170262d45a")
+		)
+		(pin "7"
+			(uuid "c206a4c6-5349-4914-af76-c0182b99b9e7")
+		)
+	)
+	(wire
+		(pts
+			(xy 42.38 42.54) (xy 30.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b685aa64-c269-48c2-800d-4d7068dbe0a6")
+	)
+	(global_label "IN_AUX1"
+		(shape input)
+		(at 30.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "471566e6-96f0-4f7d-93bb-329225b4b19e")
+	)
+	(wire
+		(pts
+			(xy 42.38 37.46) (xy 30.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70f372c7-38ae-4457-bbcb-cde2fd01d1c0")
+	)
+	(global_label "OUT_PWM1"
+		(shape input)
+		(at 30.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6c506580-fd7b-4c9c-87fc-32af30dd7ccd")
+	)
+	(wire
+		(pts
+			(xy 50.00 47.62) (xy 50.00 55.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "31cb2b97-37ba-46db-a9c2-6896caceefa9")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 50.00 55.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "29ca1d5a-416a-4489-8333-aeac3c7e8960")
+	)
+	(wire
+		(pts
+			(xy 50.00 32.38) (xy 50.00 25.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "788d6700-d608-4e74-be3a-9dc848f5c429")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 50.00 25.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "80f8b09d-a9b6-4136-ad75-e465055e0314")
+	)
+	(wire
+		(pts
+			(xy 57.62 40.00) (xy 75.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "50f20a22-3032-468f-b1e5-f0d01bb3e156")
+	)
+	(global_label "PWR_OUT1"
+		(shape input)
+		(at 75.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "43aa2d9d-e10e-429f-93ab-ad5891c344e1")
+	)
+	(text "HP1: PROFET stub (PN TBD)\nDIR optional -> OUT_IO1\nOUT -> SuperSeal PWR_OUT1 dual pins"
+		(exclude_from_sim no)
+		(at 30 62 0)
+		(effects
+			(font
+				(size 1.0 1.0)
+			)
+			(justify left top)
+		)
+		(uuid "2f118e72-1abd-4634-b2ef-ec7b01171e1d")
+	)
+	(symbol
+		(lib_id "Power_Management:BTS50010-1TAD")
+		(at 140 40 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7a40afc3-407a-4d4a-ab0b-147d1fbb9129")
+		(property "Reference" "U2"
+			(at 134.92 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS50010-1TAD-TBD"
+			(at 148 32.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-7_TabPin4"
+			(at 140 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 140 40 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "2"
+			(uuid "ade9d786-7794-49c6-9458-d66394260133")
+		)
+		(pin "3"
+			(uuid "423ad3ae-e9ea-40db-a5db-4dad05fcc461")
+		)
+		(pin "4"
+			(uuid "ab3b8667-8010-46f0-997b-2111528562d2")
+		)
+		(pin "1"
+			(uuid "3dd097f1-9e14-4fe5-a31b-a7e2a6b501f3")
+		)
+		(pin "5"
+			(uuid "a0e062fc-3111-4b33-902c-262f417982a9")
+		)
+		(pin "6"
+			(uuid "30a9c3de-b9c0-4185-8c93-13170262d45a")
+		)
+		(pin "7"
+			(uuid "c206a4c6-5349-4914-af76-c0182b99b9e7")
+		)
+	)
+	(wire
+		(pts
+			(xy 132.38 42.54) (xy 120.00 42.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "486cec80-c76f-4563-bc73-7a463e64f3bf")
+	)
+	(global_label "IN_AUX2"
+		(shape input)
+		(at 120.00 42.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "88ca22ea-a4c2-4162-a6f8-3cfb01f80a9e")
+	)
+	(wire
+		(pts
+			(xy 132.38 37.46) (xy 120.00 37.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84a16556-4366-47e4-a01d-663f682c279a")
+	)
+	(global_label "OUT_PWM2"
+		(shape input)
+		(at 120.00 37.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d676823d-384c-4f2e-8013-9a237cb5b228")
+	)
+	(wire
+		(pts
+			(xy 140.00 47.62) (xy 140.00 55.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "263ac845-0e44-491b-9f0f-8623cb7ce355")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 140.00 55.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b09ccaf5-5ed1-407d-abf2-5219b00ad57f")
+	)
+	(wire
+		(pts
+			(xy 140.00 32.38) (xy 140.00 25.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b682e12-84bb-42d8-a183-7db2fa363cf1")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 140.00 25.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "007d5d74-9fb4-406a-b257-789fb37ece5d")
+	)
+	(wire
+		(pts
+			(xy 147.62 40.00) (xy 165.00 40.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f30af8be-0dfd-413d-97c9-a37d3d1deab2")
+	)
+	(global_label "PWR_OUT2"
+		(shape input)
+		(at 165.00 40.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4080e09a-10e5-4b89-8ec5-6f47c6cd1bfe")
+	)
+	(text "HP2: PROFET stub (PN TBD)\nDIR optional -> OUT_IO2\nOUT -> SuperSeal PWR_OUT2 dual pins"
+		(exclude_from_sim no)
+		(at 120 62 0)
+		(effects
+			(font
+				(size 1.0 1.0)
+			)
+			(justify left top)
+		)
+		(uuid "7506673b-6a75-43c6-a84a-157d1f31594c")
+	)
+	(symbol
+		(lib_id "Power_Management:BTS50010-1TAD")
+		(at 50 90 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e121c5c8-4c66-4b09-887d-cc3487efbc7a")
+		(property "Reference" "U3"
+			(at 44.92 82.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS50010-1TAD-TBD"
+			(at 58 82.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-7_TabPin4"
+			(at 50 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "2"
+			(uuid "ade9d786-7794-49c6-9458-d66394260133")
+		)
+		(pin "3"
+			(uuid "423ad3ae-e9ea-40db-a5db-4dad05fcc461")
+		)
+		(pin "4"
+			(uuid "ab3b8667-8010-46f0-997b-2111528562d2")
+		)
+		(pin "1"
+			(uuid "3dd097f1-9e14-4fe5-a31b-a7e2a6b501f3")
+		)
+		(pin "5"
+			(uuid "a0e062fc-3111-4b33-902c-262f417982a9")
+		)
+		(pin "6"
+			(uuid "30a9c3de-b9c0-4185-8c93-13170262d45a")
+		)
+		(pin "7"
+			(uuid "c206a4c6-5349-4914-af76-c0182b99b9e7")
+		)
+	)
+	(wire
+		(pts
+			(xy 42.38 92.54) (xy 30.00 92.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d996723f-0782-4009-bc65-1d4290526620")
+	)
+	(global_label "IN_AUX3"
+		(shape input)
+		(at 30.00 92.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9082e2e8-6215-4942-a989-dafbe1b69f86")
+	)
+	(wire
+		(pts
+			(xy 42.38 87.46) (xy 30.00 87.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ed6b37b-092b-4570-86e8-e03a40168919")
+	)
+	(global_label "OUT_PWM3"
+		(shape input)
+		(at 30.00 87.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b0204302-f34c-4aea-8d44-f2ff9d6f30a9")
+	)
+	(wire
+		(pts
+			(xy 50.00 97.62) (xy 50.00 105.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0ced443e-2dc7-496c-8fec-2dbbc05d3543")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 50.00 105.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "92c4b393-8020-42cc-acdc-a162074b754b")
+	)
+	(wire
+		(pts
+			(xy 50.00 82.38) (xy 50.00 75.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18467a8a-8ba5-415c-8abc-0b57ef89bd54")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 50.00 75.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b6c1e2bc-e01d-48c9-946c-2269725cf077")
+	)
+	(wire
+		(pts
+			(xy 57.62 90.00) (xy 75.00 90.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "54aef51a-79d6-4f90-8436-c0598927debb")
+	)
+	(global_label "PWR_OUT3"
+		(shape input)
+		(at 75.00 90.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "34881414-79aa-43b5-870e-bd4faaec6b15")
+	)
+	(text "HP3: PROFET stub (PN TBD)\nDIR optional -> OUT_IO3\nOUT -> SuperSeal PWR_OUT3 dual pins"
+		(exclude_from_sim no)
+		(at 30 112 0)
+		(effects
+			(font
+				(size 1.0 1.0)
+			)
+			(justify left top)
+		)
+		(uuid "9c04f15f-deb9-4b19-9990-e5899320ce1f")
+	)
+	(symbol
+		(lib_id "Power_Management:BTS50010-1TAD")
+		(at 140 90 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b788ee97-839c-4d75-907d-3d2feabf1129")
+		(property "Reference" "U4"
+			(at 134.92 82.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "BTS50010-1TAD-TBD"
+			(at 148 82.38 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:TO-263-7_TabPin4"
+			(at 140 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 140 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 140 90 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+			(pin "2"
+			(uuid "ade9d786-7794-49c6-9458-d66394260133")
+		)
+		(pin "3"
+			(uuid "423ad3ae-e9ea-40db-a5db-4dad05fcc461")
+		)
+		(pin "4"
+			(uuid "ab3b8667-8010-46f0-997b-2111528562d2")
+		)
+		(pin "1"
+			(uuid "3dd097f1-9e14-4fe5-a31b-a7e2a6b501f3")
+		)
+		(pin "5"
+			(uuid "a0e062fc-3111-4b33-902c-262f417982a9")
+		)
+		(pin "6"
+			(uuid "30a9c3de-b9c0-4185-8c93-13170262d45a")
+		)
+		(pin "7"
+			(uuid "c206a4c6-5349-4914-af76-c0182b99b9e7")
+		)
+	)
+	(wire
+		(pts
+			(xy 132.38 92.54) (xy 120.00 92.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ae4d0232-78c7-4b1c-b101-727aa7e3a3d9")
+	)
+	(global_label "IN_AUX4"
+		(shape input)
+		(at 120.00 92.54 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bcc2c229-05af-4441-b4cd-07414bf36ec0")
+	)
+	(wire
+		(pts
+			(xy 132.38 87.46) (xy 120.00 87.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a5ea026-d41f-422c-bd45-7e839416d6c3")
+	)
+	(global_label "OUT_PWM4"
+		(shape input)
+		(at 120.00 87.46 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c5b1c4ae-d8eb-4000-929b-c4f5d5a99946")
+	)
+	(wire
+		(pts
+			(xy 140.00 97.62) (xy 140.00 105.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "95089fbc-7ef3-4c8e-a104-09ad5e4ee237")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 140.00 105.00 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "11113bca-13d7-494a-9100-648aede9c1f0")
+	)
+	(wire
+		(pts
+			(xy 140.00 82.38) (xy 140.00 75.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4b6688bb-ccdf-4ad1-aa92-b80d1ff0e448")
+	)
+	(global_label "VBAT"
+		(shape input)
+		(at 140.00 75.00 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2a1ed9b7-9a02-4be2-a04f-44353f30bb80")
+	)
+	(wire
+		(pts
+			(xy 147.62 90.00) (xy 165.00 90.00)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14955e05-1ca5-413a-90a8-54bfa9ef947c")
+	)
+	(global_label "PWR_OUT4"
+		(shape input)
+		(at 165.00 90.00 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4de9573c-4dd8-4d57-800e-2377715d3fac")
+	)
+	(text "HP4: PROFET stub (PN TBD)\nDIR optional -> OUT_IO4\nOUT -> SuperSeal PWR_OUT4 dual pins"
+		(exclude_from_sim no)
+		(at 120 112 0)
+		(effects
+			(font
+				(size 1.0 1.0)
+			)
+			(justify left top)
+		)
+		(uuid "601a79a4-2bf8-4643-8ccb-8d2fa136c43e")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
