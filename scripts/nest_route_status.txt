@@ -1,0 +1,53 @@
+board_mm=150.0x130.0
+before_unc=145
+before_open_nets=42
+after_unc_tracks=0
+after_open_nets=44
+tracks=0
+footprints=53
+strategy=nested_v5_pours_outlined_fill_in_pcbnew_then_route_ratsnest
+place_drc=clean_except_J2_stub_pad_clearance_and_J1_courtyard
+open	VBAT
+open	GND
+open	PWR_OUT1
+open	PWR_OUT2
+open	PWR_OUT3
+open	PWR_OUT4
+open	ADIO1
+open	ADIO2
+open	ADIO3
+open	ADIO4
+open	ADIO5
+open	ADIO6
+open	ADIO7
+open	ADIO8
+open	OUT_PWM1
+open	OUT_PWM2
+open	OUT_PWM3
+open	OUT_PWM4
+open	OUT_PWM5
+open	OUT_PWM6
+open	OUT_PWM7
+open	OUT_PWM8
+open	OUT_IO5
+open	OUT_IO6
+open	OUT_IO7
+open	OUT_IO8
+open	IN_AUX1
+open	IN_AUX2
+open	IN_AUX3
+open	IN_AUX4
+open	IN_MAP1
+open	IN_MAP2
+open	IN_MAP3
+open	IN_O2S
+open	IN_O2S2
+open	IN_RES1
+open	IN_RES2
+open	IN_RES3
+open	CANH
+open	CANL
+open	SENSOR_5V
+open	SENSOR_GND
+open	IGN_SW
+open	IN_VIGN

@@ -9,3 +9,4 @@ fp-info-cache
 
 # KiCad ERC reports
 *-erc.rpt
+__pycache__/
