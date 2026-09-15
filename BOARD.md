@@ -4,63 +4,56 @@
 
 | Item | Status |
 |------|--------|
-| Hellen-example skeleton (`.gitmodules`, workflows, `revision.txt`, `.gitignore`) | Done |
-| Authoritative connector / pin map / spec docs | Done (`CONNECTOR.md`, `PINMAP.md`, …) |
+| Hellen-example skeleton | Done |
+| Connector / pin map / spec docs | Done |
 | KiCad frame `pdmrazora.*` | Done — SuperSeal nets match Razor pinout |
-| 26-pin SuperSeal symbol + net labels | Done (generic `Conn_02x13_Top_Bottom` placeholder footprint) |
-| M6 VBAT+ / GND stubs | Done (schematic + PCB pad placeholders) |
-| USB-C | Enclosure note; nets `USBM` / `USBP` / `USBID` on MM144 sheet |
-| mega-mcu144 **0.7** module | **Placed** — footprint `M1000` on PCB (`Module:mega-mcu144/0.7`), symbol + PINMAP edge labels on sheet `MM144.kicad_sch` |
-| HP PROFET ×4 | **Schematic stubs** — sheet `HP.kicad_sch`, Infineon `BTS50010-1TAD` as 40 A-class stand-in (`BTS50010-1TAD-TBD`); exact PN TBD |
-| ADIO ×8 | **Schematic stubs** — sheet `ADIO.kicad_sch`, generic `BTS70xx-TBD` 8 A high-side + V/I/PU labels per PINMAP |
-| Fab outputs under `boards/pdmrazora/` | After create-board Action succeeds |
+| **26-pin SuperSeal footprint** | **Done** — TE **9-6437287-8**, FP `pdmrazora:TE_9-6437287-8_SuperSeal26` |
+| M6 VBAT+ / GND stubs | Done |
+| USB-C | Enclosure note; nets on MM144 |
+| mega-mcu144 **0.7** | **Placed** (`M1000`) |
+| HP PROFET ×4 | **BTS50010-1TAD** + RIS 2k7 / 10n; footprints on PCB |
+| ADIO ×8 | **BTS7004-1EPP** + RIS 4k7 / PU 4k7; footprints on PCB |
+| Power entry + IGN_SW divider | **Done (schematic)** — F1, TVS SMBJ33CA, bulk caps, 100k/10k → IN_VIGN |
+| Fab outputs `boards/pdmrazora/` | After create-board Action |
+
+See [HARDWARE_BOM.md](HARDWARE_BOM.md) for kILIS / AmpsPerVolt TODOs.
 
 ## Hellen module placement
 
-Follow the [hellen-one wiki](https://github.com/andreika-git/hellen-one/wiki) “frame” workflow.
-
 - Submodules: `hellen-one` + `kicad6-libraries`
-- Module files: `hellen-one/modules/mega-mcu144/0.7/`
-- Footprint lib: `fp-lib-table` → `hellen-one-mega-mcu144-0.7`
-- Symbol lib: `sym-lib-table` → `mega-mcu144-0.7`
-- PCB: `M1000` at (15, 55) mm, rotation **0°** (90° multiple). Outline enlarged to **160 × 120 mm**. `aux_axis_origin` bottom-left `(0, 120)`. No negative board coordinates.
+- Module: `hellen-one/modules/mega-mcu144/0.7/` → `M1000` at (15, 55) mm, rotation **0°**
+- Outline **180 × 140 mm**; `aux_axis_origin` bottom-left `(0, 140)`; no negative coordinates
 - Value string for gerber merge: `Module:mega-mcu144/0.7`
-
-Edge nets already labeled toward Razor (global labels, PINMAP.md):
-
-- CANH / CANL → SuperSeal
-- OUT_PWR_EN, USB (USBM/USBP/USBID)
-- HP EN/PWM (`OUT_PWM1..4`) and IS (`IN_AUX1..4`)
-- ADIO EN / I-sense / V-sense / PU (`OUT_PWM5..8`, `OUT_IO5..8`, `IN_MAP*`, `IN_O2S*`, `IN_RES*`, `IN_TPS*`, `OUT_IO9..13`, `IO1..3`)
-- SENSOR_5V ← `V5A_SWITCHABLE`; SENSOR_GND ← `GNDA` (do **not** bond to chassis)
-- IGN_SW still needs a divider into `IN_VIGN` (not yet a discrete stage)
 
 ## Schematic sheets
 
 | Sheet | File | Contents |
 |-------|------|----------|
-| Root | `pdmrazora.kicad_sch` | SuperSeal 26 + M6 power |
+| Root | `pdmrazora.kicad_sch` | SuperSeal 26 (9-6437287-8) + M6 + power entry + IGN_SW divider |
 | MM144 | `MM144.kicad_sch` | mega-mcu144 0.7 + PINMAP globals |
-| HP | `HP.kicad_sch` | HP1–4 PROFET stubs |
-| ADIO | `ADIO.kicad_sch` | ADIO1–8 8 A HS + sense/PU stubs |
+| HP | `HP.kicad_sch` | HP1–4 BTS50010-1TAD + IS sense |
+| ADIO | `ADIO.kicad_sch` | ADIO1–8 BTS7004-1EPP + IS/PU |
 
-## Remaining fab blockers
+## Fab-blocker checklist
 
-1. **Replace SuperSeal footprint** — current `PinHeader_2x13` is not a production AMP SuperSeal 26 FP.
-2. **Pick exact HP PROFET PN** — `BTS50010-1TAD` is a 40 A / 1 mΩ class placeholder. Confirm continuous 25 A / 80 A peak SOA, package, and IS scaling; likely BTS7xxx / BTS50xxx family. Update Value + footprint before fab.
-3. **Pick exact ADIO PN** — `BTS70xx-TBD` generic 8 A high-side. Add sense resistors / dividers for I-sense and V-sense; PU FET or resistor for `OUT_IOx` enable.
-4. **Power entry** — TVS, reverse protection, input fuse; IGN_SW divider → `IN_VIGN`.
-5. **Copper** — route SuperSeal / M6 / module edge pads; HP/ADIO footprints not on PCB yet (schematic-only stubs).
-6. **create-board** — push to `main` so `.github/workflows/create-board.yaml` can merge module gerbers into `boards/`.
+| # | Blocker | Status |
+|---|---------|--------|
+| 1 | Real AMP SuperSeal 26 footprint | **Done** — TE 9-6437287-8 / project pretty |
+| 2 | Final PROFET PNs + sense networks | **Done** — BTS50010-1TAD + BTS7004-1EPP; RIS/PU/docs |
+| 3 | Power entry + IGN_SW divider | **Done (schematic)** — PCB pads for F1/TVS/caps still partial (ratnest) |
+| 4 | Place HP/ADIO footprints on PCB | **Done** — nets assigned; thermal zones stubbed; full length routing **partial** |
+| 5 | create-board / copper finish | **Partial** — push triggers workflow; finish routing + ideal-diode part later |
 
-Useful references:
+## Remaining (non-blocking polish)
 
-- https://github.com/andreika-git/hellen-one/wiki
-- https://wiki.rusefi.com/Hellen-One-Platform
-- Example frames: [rusefi/uaefi](https://github.com/rusefi/uaefi), [rusefi/hellen-example](https://github.com/rusefi/hellen-example), [rusefi/alphax-2chan](https://github.com/rusefi/alphax-2chan)
+- Ideal-diode / reverse-protect controller PN + footprint
+- Discrete FET for ADIO PU hard-enable (soft R to SENSOR_5V placed)
+- Full length-perfect routing SuperSeal ↔ PROFET ↔ module
+- ADIO V-sense divider resistor values
+- ERC/DRC cleanup after KiCad reload
 
 ## PCB notes (rev a)
 
-- Outline **160 × 120 mm**; origin bottom-left; `aux_axis_origin 0 120`.
-- Connector footprint is a **placeholder** — replace with a verified AMP SuperSeal 26 footprint before fab.
-- mega-mcu144 **0.7** footprint is placed (`M1000`). Eco1 keepout placeholder removed.
+- Outline **180 × 140 mm**; origin bottom-left; `aux_axis_origin 0 140`
+- J1 = production SuperSeal FP (not pin-header)
+- HP U1–U4 TO-263-7 on right; ADIO U11–U18 TSDSO-14 mid-right; thermal Cu zones on VBAT/OUT

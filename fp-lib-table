@@ -2,4 +2,6 @@
   (version 7)
   (lib (name "hellen-one-mega-mcu144-0.7")(type "KiCad")(uri "${KIPRJMOD}/hellen-one/modules/mega-mcu144/0.7")(options "")(descr "Hellen-One mega-mcu144 0.7"))
   (lib (name "hellen-one-common")(type "KiCad")(uri "${KIPRJMOD}/hellen-one/kicad/footprints")(options "")(descr "Hellen-One common footprints"))
+  (lib (name "pdmrazora")(type "KiCad")(uri "${KIPRJMOD}/pdmrazora.pretty")(options "")(descr "pdmrazora project footprints (SuperSeal etc.)"))
+  (lib (name "kicad6-connectors")(type "KiCad")(uri "${KIPRJMOD}/kicad6-libraries/Connectors.pretty")(options "")(descr "rusefi Connectors.pretty incl. 6473423-1 SuperSeal pattern"))
 )

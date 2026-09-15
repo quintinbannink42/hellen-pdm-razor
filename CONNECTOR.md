@@ -11,6 +11,8 @@ Sources: Link PDM Quick Start Guide; Link KB inputs/outputs.
 
 ## 26-pin AMP SuperSeal 1.0 (Link “Connector C”)
 
+**Board header PN:** TE Connectivity **9-6437287-8** (SuperSeal 1.0, 26-pos, right-angle, Au, keying 1). Footprint `pdmrazora:TE_9-6437287-8_SuperSeal26` (same pattern as TE 6473423-1 / drawing 9-1437287-8).
+
 Viewed looking into wire side of loom connector (or into PDM header).
 
 | Pin | Signal | Notes |

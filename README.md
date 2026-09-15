@@ -21,13 +21,14 @@ Hellen-One **frame** hardware for a Link ECU **Razor PDM**-compatible power dist
 | [REV1_SPEC.md](REV1_SPEC.md) | Goals, architecture, e-fuse behaviour |
 | [BLOCK_DIAGRAM.md](BLOCK_DIAGRAM.md) | Carrier block diagram |
 | [BOARD.md](BOARD.md) | What’s stubbed vs next; module placement steps |
+| [HARDWARE_BOM.md](HARDWARE_BOM.md) | Chosen PNs, kILIS, AmpsPerVolt TODOs |
 
 ## KiCad project
 
 - `pdmrazora.kicad_pro` / `.kicad_sch` / `.kicad_pcb` (no dashes/underscores — hellen-one requirement)
 - `revision.txt` → `BOARD_PREFIX=pdm` `BOARD_SUFFIX=razor` `BOARD_REVISION=a`
 
-Schematic: SuperSeal with **exact Razor nets**, M6 VBAT+/GND, hierarchical sheets **MM144** (mega-mcu144 0.7 + PINMAP edges), **HP** (PROFET ×4 stubs), **ADIO** (8 A ×8 stubs). PCB has the mega-mcu144 0.7 footprint placed. See BOARD.md for PN TBD and remaining fab blockers.
+Schematic: SuperSeal **TE 9-6437287-8** (exact Razor nets), M6 VBAT+/GND + power entry/IGN_SW divider, sheets **MM144** / **HP** (**BTS50010-1TAD** ×4) / **ADIO** (**BTS7004-1EPP** ×8 + sense/PU). PCB: mega-mcu144 0.7 + SuperSeal FP + HP/ADIO footprints. Parts/kILIS: [HARDWARE_BOM.md](HARDWARE_BOM.md). Status: [BOARD.md](BOARD.md).
 
 ## How to build (Hellen-One)
 
