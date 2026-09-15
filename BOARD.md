@@ -1,5 +1,7 @@
 # Board status — pdmrazora (rev a)
 
+Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
+
 ## This commit
 
 | Item | Status |

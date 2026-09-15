@@ -25,6 +25,8 @@ Hellen-One **frame** hardware for a Link ECU **Razor PDM**-compatible power dist
 
 ## KiCad project
 
+Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
+
 - `pdmrazora.kicad_pro` / `.kicad_sch` / `.kicad_pcb` (no dashes/underscores — hellen-one requirement)
 - `revision.txt` → `BOARD_PREFIX=pdm` `BOARD_SUFFIX=razor` `BOARD_REVISION=a`
 
@@ -33,7 +35,8 @@ Schematic: SuperSeal **TE 9-6437287-8** (exact Razor nets), M6 VBAT+/GND + power
 ## How to build (Hellen-One)
 
 1. `git clone --recurse-submodules https://github.com/quintinbannink42/hellen-pdm-razor.git`
-2. Open `pdmrazora.kicad_pro` in KiCad 6+ (8/9 OK for editing the frame).
+2. Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
+   Open `pdmrazora.kicad_pro`.
 3. mega-mcu144 **0.7** is already on the frame (`M1000`). Refresh from `hellen-one/modules/mega-mcu144/0.7/` if the submodule moves.
 4. Route SuperSeal / M6 / module pads per CONNECTOR.md / PINMAP.md; replace HP/ADIO schematic stubs with chosen PNs + sense parts.
 5. Push to **`main`**. GitHub Action `.github/workflows/create-board.yaml` calls hellen-one create-board to merge module gerbers into `boards/`.
