@@ -10,6 +10,7 @@ Typical flow used to produce the cleanup commit:
   4. ZONE_FILLER + downgrade to KiCad 8 (20240108 / 8.0).
 
 Do NOT touch hellen-one (HELLCORE). Prefer deleting conflict segments over dense remesh.
+  5. scripts/route_en_is_lanes.py — EN/IS exclusive-lane gated restore (after 5f0f389).
 """
 from __future__ import annotations
 
