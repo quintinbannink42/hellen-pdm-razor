@@ -2,14 +2,16 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — copper fill + selective routing
+## This commit — interactive DRC cleanup leftovers
 
 | Item | Status |
 |------|--------|
-| Nested floorplan | **Done** — 53 footprints on **150 × 130 mm** |
-| Zone fills | **Done** — VBAT / GND / PWR_OUT1–4 / ADIO1–8 filled; M1000 keepout respected (no pour under module) |
-| Tracks / vias | **328 tracks + 82 vias** (was 0) |
-| Unconnected (DRC) | **254 → 97** |
+| DRC shorts | **94 → 1** (only known J2 VBAT↔GND 2.54 mm header remains) |
+| DRC crossings | **110 → 33** |
+| Unconnected (DRC) | **97 → 145** (tradeoff: conflict copper deleted; ~71 are GND pour islands) |
+| Tracks / vias | **276 tracks + 117 vias** (was 328 / 82) |
+| SENSOR_5V → R201–R208 | **Done** — PU taps + top bus + right-edge riser to J1 |
+| GND stitch | **Done** — vias west of sense-R GND pads + island stitches |
 | KiCad format | **20240108 / generator_version 8.0** |
 | HELLCORE | **Not touched** |
 
@@ -29,45 +31,45 @@ See [HARDWARE_BOM.md](HARDWARE_BOM.md) for kILIS / AmpsPerVolt TODOs.
 
 Prefer **zone fills for power/GND** + **selective Manhattan tracks** (not a dense star mesh):
 
-1. **VBAT** — F.Cu pours: power-entry island, HP island, bottom link, ADIO supply strips; stubs from ADIO thermal pads + M1000.N27
-2. **GND** — B.Cu near-full board (keepout punches module) + F.Cu entry/HP islands
-3. **PWR_OUT1..4** — local islands at HP OUT + wide F.Cu corridors to dual SuperSeal pins (unique mid-x / target-y)
-4. **ADIO1..8** — local OUT islands + B.Cu long corridors (left bank x≈62–67, right bank x≈132–136) to J1
-5. **Control/sense** — EN/PWM/IO and ISENSE via adjacent vias + exclusive B.Cu lanes into M1000 east/south pads
-6. **System** — IGN_SW→divider→IN_VIGN; CANH/CANL left-edge B.Cu; SENSOR_5V/GND bottom B.Cu spines to J1 + M1000
+1. **VBAT** — F.Cu pours: power-entry island, HP island, bottom link, ADIO supply strips
+2. **GND** — B.Cu near-full board (keepout punches module) + F.Cu entry/HP islands + stitch vias
+3. **PWR_OUT1..4** — local OUT bar north of pin row; B.Cu corridors; short F stubs at J1
+4. **ADIO1..8** — local OUT islands; B.Cu corridors left (x≈55–60) / right (x≈140–145); via_y≥53.5 clear of IS
+5. **SENSOR_5V** — top B bus (y=5) + right riser (x=147) + taps to R201–R208 pad1
+6. **Control/sense** — EN/IS partially cleaned by deleting shorting segments; some ratsnest remains for interactive finish
 
 FreeRouting / aggressive track meshes were skipped (mega-mcu144 padstacks + prior short storms).
 
 ## Unconnected / routing status
 
-| Metric | Nest commit (a39b6c3) | This commit |
-|--------|----------------------|-------------|
-| DRC unconnected | **254** | **97** |
-| Tracks | 0 | **328** |
-| Vias | 0 | **82** |
-| Zones with fill | 0 (outlines only) | **20/20** copper zones filled |
+| Metric | Copper commit (a8d03e9) | This commit |
+|--------|-------------------------|-------------|
+| DRC shorts | **94** | **1** |
+| DRC crossings | **110** | **33** |
+| DRC unconnected | **97** | **145** |
+| Tracks | 328 | **276** |
+| Vias | 82 | **117** |
 | Footprints | 53 | 53 |
 | Board outline | 150 × 130 | 150 × 130 |
 
 ### Remaining ratsnest / multi-pad gaps
 
-- Some **GND** pad islands outside F.Cu pours still need vias/stitches (B.Cu pour present)
-- **SENSOR_5V** to ADIO PU resistors (R201–R208) — J1↔M1000 spine done; local PU taps still open
-- A few **VBAT** / sense pad edges outside pour connectivity tolerance
-- EN/IS routes present but may need interactive cleanup where DRC reports crossings
+- **GND** pour islands (~71 DRC items) — F.Cu islands outside stitch coverage; B.Cu pour present
+- **EN/IS** long-haul fragments after shorting-segment deletes — need interactive re-route with exclusive lanes
+- A few **VBAT** zone-to-zone / pad edges
+- **PWR_OUT / ADIO / CAN** — mostly restored; a few stub gaps remain after conflict deletes
 
 ## DRC notes
 
-`kicad-cli pcb drc` after this commit (~315 error-level findings):
+`kicad-cli pcb drc` after this commit:
 
 | Issue | Notes |
 |-------|-------|
-| shorting_items / tracks_crossing (~90–110) | Manhattan B/F lane congestion near HP/ADIO/M1000; **interactive cleanup** next — do not treat as fab-ready |
+| shorting_items (**1**) | Only J2 pin-header VBAT↔GND at 2.54 mm — replace with real M6 later |
+| tracks_crossing (**33**) | Down from ~110; remaining are non-short crossings / density |
 | solder_mask_bridge | J2 stub / module / via density — non-blocking for this stage |
-| J2 VBAT↔GND clearance | Pin-header stub pads at 2.54 mm; replace with real M6 later |
 | J1 malformed courtyard | Pre-existing SuperSeal FP courtyard not closed |
 | M1000 padstack | Module artifact; ignore for carrier DRC |
-| clearance / hole_clearance | Mostly via-to-track near dense clusters |
 
 ## Schematic sheets
 
@@ -86,12 +88,12 @@ FreeRouting / aggressive track meshes were skipped (mega-mcu144 padstacks + prio
 | 2 | Final PROFET PNs + sense networks | **Done** |
 | 3 | Power entry + IGN_SW divider | **Done** |
 | 4 | Place HP/ADIO footprints on PCB | **Done** |
-| 5 | create-board / copper finish | **Partial** — pours filled + substantial routing; DRC shorts/crossings need interactive cleanup |
+| 5 | create-board / copper finish | **Partial** — shorts cleared; SENSOR_5V PUs done; EN/IS + GND islands still need interactive finish |
 
 ## Remaining polish
 
-- Interactive DRC cleanup of shorts/crossings (priority: PWR_OUT↔ADIO, EN↔IS near drivers)
-- SENSOR_5V taps to R201–R208
+- Interactive re-route of EN/IS fragments (exclusive B.Cu lanes west of ADIO corridors)
+- Finish remaining PWR/ADIO/CAN stub gaps without recreating shorts
 - Ideal-diode / reverse-protect controller
 - Discrete FET for ADIO PU hard-enable
 - Replace J2 pin-header with true M6 mechanical
@@ -99,5 +101,8 @@ FreeRouting / aggressive track meshes were skipped (mega-mcu144 padstacks + prio
 
 ## Scripts
 
-- `scripts/fill_and_route.py` — reshape/fill zones + selective copper; downgrades K9 save → K8 headers
+- `scripts/surgical_drc_fix.py` — delete shorting/crossing copper by DRC UUID; SENSOR taps + GND stitches
+- `scripts/drc_cleanup_route.py` — full selective re-route attempt (reference; denser rebuild)
+- `scripts/restore_connectivity.py` — family restore helpers
 - `scripts/copper_status.txt` — before/after metrics
+- `scripts/fill_and_route.py` — original pour fill + selective copper (prior commit)
