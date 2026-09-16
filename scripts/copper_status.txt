@@ -1,0 +1,10 @@
+before_tracks=0
+before_unc=254
+after_tracks=328
+after_vias=82
+after_unc=97
+zones_with_fill=20
+strategy=selective_manhattan_plus_zone_fill_k8
+drc_shorts~94
+drc_unconnected=97
+note=EN/IS/CAN/SENSOR/HP/ADIO/power routed; interactive cleanup for remaining shorts/crossings
