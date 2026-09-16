@@ -69,7 +69,7 @@ FreeRouting / aggressive track meshes were skipped (mega-mcu144 padstacks + prio
 | Issue | Notes |
 |-------|-------|
 | shorting_items (**1**) | Only J2 pin-header VBAT↔GND at 2.54 mm — replace with real M6 later |
-| tracks_crossing (**33**) | Down from ~110; remaining are non-short crossings / density |
+| tracks_crossing (**87**) | Up from 33 — EN B exclusive lanes vs existing ADIO/PWR B geometry (no new shorts) |
 | solder_mask_bridge | J2 stub / module / via density — non-blocking for this stage |
 | J1 malformed courtyard | Pre-existing SuperSeal FP courtyard not closed |
 | M1000 padstack | Module artifact; ignore for carrier DRC |
