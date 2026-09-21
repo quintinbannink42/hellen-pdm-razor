@@ -1,0 +1,178 @@
+(footprint "M6_Bolt_Bobbin_Dual"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "Dual M6 bolt-through bobbins. Pad1 VBAT+ / pad2 GND. 6.5mm drill, 14mm pad, 22mm pitch. ISO 4762 M6 + nylon/brass bobbin; HARDWARE_BOM.md.")
+	(tags "M6 bolt bobbin standoff VBAT GND PowerCore")
+	(property "Reference" "REF**"
+		(at 11 -12 0)
+		(layer "F.SilkS")
+		(uuid "111f2f4d-25c9-401d-a5a5-54665289bdcf")
+		(effects (font (size 1 1) (thickness 0.15)))
+	)
+	(property "Value" "M6_VBAT_GND"
+		(at 11 12 0)
+		(layer "F.Fab")
+		(uuid "9397699a-6e60-4c1c-b340-dbb63db4682d")
+		(effects (font (size 1 1) (thickness 0.15)))
+	)
+	(attr through_hole)
+	(fp_text user "+"
+		(at 0 -9 0)
+		(layer "F.SilkS")
+		(uuid "8245fd6b-2eaa-43c3-9ea3-3c13097b19fe")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "-"
+		(at 22 -9 0)
+		(layer "F.SilkS")
+		(uuid "dad9afb8-86a1-44f4-96aa-939748fd23a5")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "VBAT"
+		(at 0 9.5 0)
+		(layer "F.Fab")
+		(uuid "395ebb6f-f2fc-48cc-be88-99476d060725")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_text user "GND"
+		(at 22 9.5 0)
+		(layer "F.Fab")
+		(uuid "a7375ac4-ec42-42b8-989a-04cb27d66ff5")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.15)
+			)
+		)
+	)
+	(fp_circle
+		(center 0 0)
+		(end 8 0)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "62da2f12-6102-427c-b82d-c34e32ad492f")
+	)
+	(fp_circle
+		(center 22 0)
+		(end 30 0)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "509c2ab4-802c-4641-a91e-afe5f0ece0df")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 7.2 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "4fe3ef42-61dd-4c45-807e-ea2bb836a911")
+	)
+	(fp_circle
+		(center 22 0)
+		(end 29.2 0)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "8e4b0294-8eb6-4163-adc9-1670fc5aca04")
+	)
+	(fp_line
+		(start -9 -9)
+		(end 31 -9)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "7d796484-61c8-489d-9a64-757f0bee4db1")
+	)
+	(fp_line
+		(start 31 -9)
+		(end 31 9)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8d96b045-30ea-4a6c-a8e2-a9b1717f9dcd")
+	)
+	(fp_line
+		(start 31 9)
+		(end -9 9)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ff1c4856-297b-4eea-aed4-1b2d08f77c6a")
+	)
+	(fp_line
+		(start -9 9)
+		(end -9 -9)
+		(stroke
+			(width 0.15)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d7ff4614-ec4f-4409-9d0f-aabad7aa5a61")
+	)
+	(fp_rect
+		(start -10 -10)
+		(end 32 10)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "f45083d1-835b-476d-944f-8b3e8c78a181")
+	)
+	(pad "1" thru_hole circle
+		(at 0 0)
+		(size 14 14)
+		(drill 6.5)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(zone_connect 2)
+		(uuid "709d1169-aca2-4ed5-81fb-0b84a85be950")
+	)
+	(pad "2" thru_hole circle
+		(at 22 0)
+		(size 14 14)
+		(drill 6.5)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(zone_connect 2)
+		(uuid "5cc3bbfd-4b1f-48f2-9e01-ef746bf874b5")
+	)
+)

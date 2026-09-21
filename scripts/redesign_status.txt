@@ -1,0 +1,21 @@
+board_mm=124.0x106.0
+before_board_mm=150.0x130.0
+j1=vertical_6437288-6_rot90_emi_split
+j2=M6_Bolt_Bobbin_Dual_22mm
+m1000=hellen-one mega-mcu144 0.7 keepout_aligned Value=Module:mega-mcu144/0.7
+tracks=371
+vias=26
+footprints=53
+geom_crossings=1011
+geom_unconnected=15
+en_is_open=0
+aux_axis_origin=0,106.0
+kicad=20240108/8.0
+baseline_drc_shorts=1
+baseline_drc_crossings=89
+baseline_drc_unconnected=116
+baseline_en_is_unconnected=0
+note=kicad-cli unavailable in this environment; geom_* is track-segment DRC proxy
+open	GND	13	42
+open	VBAT	2	19
+open	SENSOR_GND	3	4

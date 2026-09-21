@@ -13,7 +13,7 @@ Sources: Link PDM Quick Start Guide; Link KB inputs/outputs.
 
 ## 26-pin AMP SuperSeal 1.0 (Link “Connector C”)
 
-**Board header PN:** TE Connectivity **9-6437287-8** (SuperSeal 1.0, 26-pos, right-angle, Au, keying 1). Footprint `pdmrazora:TE_9-6437287-8_SuperSeal26` (same pattern as TE 6473423-1 / drawing 9-1437287-8).
+**Board header PN:** TE Connectivity **6437288-6** (SuperSeal 1.0, 26-pos, **vertical**, Au, keying 1). Footprint `pdmrazora:TE_6437288-6_SuperSeal26_V` (same 4-row / 3.0 mm pin pattern as RA 9-6437287-8 / drawing 9-1437287-8; vertical header has **no mounting holes**). Mating plug and **pin numbers are unchanged** vs Link Razor CONNECTOR C.
 
 Viewed looking into wire side of loom connector (or into PDM header).
 
@@ -52,7 +52,7 @@ Also on enclosure (not SuperSeal): **USB-C** for config.
 
 | Razor loom | PowerCore nets |
 |------------|----------------|
-| M6 + / − | VBAT / GND power entry (fusing, TVS) |
+| M6 + / − | VBAT / GND power entry (fusing, TVS) — M6 bolt-through bobbins on the power plane |
 | PWR OUT 1..4 (paired pins) | HP1..HP4 dual SuperSeal feeds from PROFET outs |
 | ADIO 1..8 | ADIO front-end I/O |
 | CAN H/L | Module CANH/CANL |

@@ -36,7 +36,7 @@ Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCa
 - `pdmrazora.kicad_pro` / `.kicad_sch` / `.kicad_pcb` (no dashes/underscores — hellen-one requirement)
 - `revision.txt` → `BOARD_PREFIX=pdm` `BOARD_SUFFIX=razor` `BOARD_REVISION=a`
 
-Schematic: SuperSeal **TE 9-6437287-8** (Link Razor-compatible nets), M6 VBAT+/GND + power entry/IGN_SW divider, sheets **MM144** / **HP** (**BTS50010-1TAD** ×4) / **ADIO** (**BTS7004-1EPP** ×8 + sense/PU). PCB: mega-mcu144 0.7 + SuperSeal FP + HP/ADIO footprints. Parts/kILIS: [HARDWARE_BOM.md](HARDWARE_BOM.md). Status: [BOARD.md](BOARD.md).
+Schematic: SuperSeal **TE 6437288-6** (vertical; Link Razor-compatible nets), M6 VBAT+/GND **bolt-through bobbins** + power entry/IGN_SW divider, sheets **MM144** / **HP** (**BTS50010-1TAD** ×4) / **ADIO** (**BTS7004-1EPP** ×8 + sense/PU). PCB: mega-mcu144 0.7 (keepout aligned) + vertical SuperSeal + M6 bobbins + HP/ADIO. Outline **124 × 106 mm** (was 150 × 130). Parts/kILIS: [HARDWARE_BOM.md](HARDWARE_BOM.md). Status: [BOARD.md](BOARD.md).
 
 ## How to build (Hellen-One)
 

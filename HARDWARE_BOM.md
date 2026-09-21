@@ -6,7 +6,7 @@ Production-intent parts chosen for Link Razor-compatible ratings. Firmware must 
 
 | Ref | PN | Notes |
 |-----|-----|-------|
-| J1 | **TE Connectivity 9-6437287-8** | AMP SuperSeal 1.0, 26-way, right-angle, Au, **keying 1**. Mating loom: SuperSeal 1.0 26S keying 1 (Link “Connector C”). Footprint: `pdmrazora:TE_9-6437287-8_SuperSeal26` (same PCB pattern as obsolete 6473423-1 / TE drawing 9-1437287-8; pitch 3.0 mm, 4 rows). Pin numbers = TE / [CONNECTOR.md](CONNECTOR.md). |
+| J1 | **TE Connectivity 6437288-6** | AMP SuperSeal 1.0, 26-way, **vertical/straight**, Au, **keying 1**. Mating loom: SuperSeal 1.0 26S keying 1 (Link “Connector C”) — **same pinout as RA 9-6437287-8**. Footprint: `pdmrazora:TE_6437288-6_SuperSeal26_V` (same 3.0 mm / 4-row pin pattern as drawing 9-1437287-8; **no mounting holes** on the vertical header). Pin numbers = TE / [CONNECTOR.md](CONNECTOR.md). |
 
 ## High-power (HP1–4)
 
@@ -64,13 +64,25 @@ Voltage sense dividers to `IN_TPS` / `IN_PPS` / … are labeled on the ADIO shee
 
 | Ref | PN / value | Role |
 |-----|------------|------|
-| J2 | M6 stud stubs | VBAT+ / GND |
+| J2 | **Dual M6 bolt-through bobbins** (see below) | VBAT+ (pad 1) / GND (pad 2), 22 mm pitch, tied into F.Cu VBAT / B.Cu GND planes |
 | F1 | **150 A Mega / fusible-link TBD** | Input fuse placeholder |
 | — | Ideal-diode / P-FET note | Reverse-polarity strategy (not a placed controller yet) |
 | D1 | **SMBJ33CA** (24–40 V automotive TVS class) | VBAT ↔ GND |
 | C1 | **100 µF 50 V** stub | Bulk |
 | C2 | **100 nF** | HF bypass |
 | R1 / R2 | **100 kΩ / 10 kΩ** | IGN_SW → **IN_VIGN** ≈ **11:1** (V = Vin · 10/110) for Hellen `H144_IN_VBATT` path |
+
+### J2 M6 bolt-through bobbin assumptions (rev a)
+
+Not a 2.54 mm pin-header. Each terminal is a plated **M6 clearance hole** in the power plane.
+
+| Item | Assumed PN / spec | Notes |
+|------|-------------------|-------|
+| PCB hole / pad | **6.5 mm drill**, **14 mm** plated pad, 1 oz+ Cu, full zone connect | Footprint `pdmrazora:M6_Bolt_Bobbin_Dual`; pad 1 = VBAT+, pad 2 = GND @ **22 mm** C-C |
+| Bolt | **ISO 4762 / DIN 912 M6×20** 8.8, zinc-flake or stainless | Through bobbin + 25 mm² ring lug; **torque 4 Nm** ([CONNECTOR.md](CONNECTOR.md)) |
+| Bobbin / standoff | Nylon or brass spacer **ID 6.4 mm, OD 12 mm, L 8 mm** (e.g. Accu / Keystone-class M6 clearance spacer) **or** Würth ICS LF PowerPlus M6 press-fit element if a production bolt terminal is preferred | Holds lug off soldermask; current into the plane is via the plated hole + pad, not the plastic |
+| Nut / washer | M6 hex + Nord-Lock or star washer | Lock against vibration |
+| Lug | M6 ring, **25 mm² / 4 AWG** | Battery positive / chassis return |
 
 **SENSOR_GND** (SuperSeal pins 6 & 12): keep as AGND island — **do not** bond to chassis or power-GND star.
 
