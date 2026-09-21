@@ -1168,6 +1168,114 @@
 				)
 			)
 		)
+		(symbol "Connector_Generic:Conn_01x01"
+			(pin_names
+				(offset 1.016)
+				hide
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x01"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x01, script generated (kicad-library-utils/schlib/autogen/connector/)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Conn_01x01_1_1"
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -1.27)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(rectangle
+					(start -1.27 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "Pin_1" (effects
+							(font
+								(size 1.27 1.27)
+							)
+						))
+					(number "1" (effects
+							(font
+								(size 1.27 1.27)
+							)
+						))
+				)
+			)
+		)
 		(symbol "Connector_Generic:Conn_01x02"
 			(pin_names
 				(offset 1.016)
@@ -3657,7 +3765,7 @@
 		(uuid "af0f924e-4e9a-44ce-81f8-a200e7a349ce")
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_01x02")
+		(lib_id "Connector_Generic:Conn_01x01")
 		(at 35 35 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -3666,22 +3774,22 @@
 		(dnp no)
 		(uuid "ec62a57a-2242-4d2c-8cb4-02550fc8b156")
 		(property "Reference" "J2"
-			(at 35 30 0)
+			(at 35 32.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Value" "M6_VBAT_GND"
-			(at 35 40 0)
+		(property "Value" "M6_VBAT"
+			(at 35 37.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "pdmrazora:M6_BoltThrough_Bobbin_x2"
+		(property "Footprint" "pdmrazora:M6_BoltThrough_Bobbin"
 			(at 35 35 0)
 			(effects
 				(font
@@ -3699,7 +3807,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "M6 bolt-through bobbins VBAT+ / GND, 25 mm pitch"
+		(property "Description" "M6 bolt-through bobbin VBAT+ (north power-field edge)"
 			(at 35 35 0)
 			(effects
 				(font
@@ -3710,9 +3818,6 @@
 		)
 		(pin "1"
 			(uuid "580ed1c2-f9c5-4acc-9977-68f1c52e4715")
-		)
-		(pin "2"
-			(uuid "c4d7e215-b4cf-4d7f-9d04-3c2b2ce08b99")
 		)
 	)
 	(wire
@@ -3734,16 +3839,72 @@
 		)
 		(uuid "c463eee5-7cce-4df2-8e52-d76814625aad")
 	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x01")
+		(at 35 45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9e105c1b-21ad-5598-b623-bd842ff7c017")
+		(property "Reference" "J3"
+			(at 35 42.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "M6_GND"
+			(at 35 47.5 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "pdmrazora:M6_BoltThrough_Bobbin"
+			(at 35 45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35 45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "M6 bolt-through bobbin GND (south power-field edge)"
+			(at 35 45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "684204a9-0ccc-5c77-abe6-eee763dd152f")
+		)
+	)
 	(wire
-		(pts (xy 29.92 37.54) (xy 19.76 37.54))
+		(pts (xy 29.92 45.0) (xy 19.76 45.0))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "44cf211c-e455-400b-8934-a519f9e2ecce")
+		(uuid "1279658e-afbf-5025-a9df-69f12851ef67")
 	)
 	(global_label "GND"
-		(at 19.76 37.54 0)
+		(at 19.76 45.0 0)
 		(shape input)
 		(effects
 			(font
@@ -3753,7 +3914,7 @@
 		)
 		(uuid "68fc02b0-c3e6-4b4b-bd53-acccc1067981")
 	)
-	(text "Power entry:\nM6+ = VBAT, M6- = GND (bolt-through bobbins)\nAdd TVS, reverse protect, fuse,\nVBATT sense -> IN_VIGN"
+	(text "Power entry:\nM6+ J2 north = VBAT, M6- J3 south = GND (split bobbins, drivers between)\nAdd TVS, reverse protect, fuse,\nVBATT sense -> IN_VIGN"
 		(at 20 105 0)
 		(effects
 			(font
