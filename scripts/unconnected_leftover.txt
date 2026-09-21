@@ -1,0 +1,15 @@
+# Leftover unconnected nets (pad islands after track/via/zone-outline snap)
+
+## GND
+- GND: 32 pad islands before zone fill; carrier pads are via-stitched to the B.Cu pour (M1000 G pads are module-internal).
+
+## Critical signal nets
+- none
+
+## Other (DIR, PU FET, V-sense, USB-on-module, unused MM144)
+- none
+
+USBID/USBM/USBP live only on M1000 (USB-C is on the module).
+OUT_IO9–13 / IO1–3 PU FET not stuffed (BOARD.md TODO).
+IN_TPS/PPS/CLT/IAT/AT* ADIO V-sense dividers not stuffed.
+OUT_IO1–4 HP DIR not stuffed.
