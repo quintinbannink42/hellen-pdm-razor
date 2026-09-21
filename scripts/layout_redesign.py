@@ -272,7 +272,7 @@ def make_superseal_vertical() -> str:
 	(generator "pcbnew")
 	(generator_version "8.0")
 	(layer "F.Cu")
-	(descr "TE/AMP SuperSeal 1.0 26-way VERTICAL header; PN 6473418-1 (V Au, mounting holes) / 6437288-6 family. Same 3.0 mm 4-row PCB pattern as 9-1437287-8 so CONNECTOR.md pin numbers are unchanged. Closed courtyard. Place rotated 90 deg as EMI wall.")
+	(descr "TE/AMP SuperSeal 1.0 26-way VERTICAL header; PN 6473418-1. Courtyard is TE width 39 mm x catalog vertical length D 29 mm (fits M1000–HP gap). Cmts.User shows product-page 39x36.5 mm shroud which does NOT fit this EMI-wall nest. Same 3.0 mm 4-row PCB pattern as 9-1437287-8.")
 	(tags "TE AMP SuperSeal 1.0 26 6473418-1 6437288-6 vertical Connector C")
 	(property "Reference" "REF**"
 		(at 0 -24 0)
@@ -336,8 +336,8 @@ def make_superseal_vertical() -> str:
 	)
 	(attr through_hole)
 	(fp_rect
-		(start -18.5 -21)
-		(end 18.5 3.5)
+		(start -19.5 -23.95)
+		(end 19.5 5.05)
 		(stroke
 			(width 0.2)
 			(type solid)
@@ -347,8 +347,8 @@ def make_superseal_vertical() -> str:
 		(uuid "{uid("ss-silk-rect")}")
 	)
 	(fp_rect
-		(start -18.5 -21)
-		(end 18.5 3.5)
+		(start -19.5 -23.95)
+		(end 19.5 5.05)
 		(stroke
 			(width 0.2)
 			(type solid)
@@ -358,8 +358,19 @@ def make_superseal_vertical() -> str:
 		(uuid "{uid("ss-bsilk-rect")}")
 	)
 	(fp_rect
-		(start -18.5 -20.5)
-		(end 18.5 3)
+		(start -19.5 -23.95)
+		(end 19.5 5.05)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "{uid("ss-fab-body")}")
+	)
+	(fp_rect
+		(start -19.75 -24.2)
+		(end 19.75 5.3)
 		(stroke
 			(width 0.05)
 			(type solid)
@@ -367,6 +378,17 @@ def make_superseal_vertical() -> str:
 		(fill no)
 		(layer "F.CrtYd")
 		(uuid "{uid("ss-crtyd")}")
+	)
+	(fp_rect
+		(start -19.5 -31.45)
+		(end 19.5 5.05)
+		(stroke
+			(width 0.12)
+			(type dash)
+		)
+		(fill no)
+		(layer "Cmts.User")
+		(uuid "{uid("ss-shroud-365")}")
 	)
 	(fp_text user "VERTICAL / EMI SPLIT"
 		(at 0 -19 0)
