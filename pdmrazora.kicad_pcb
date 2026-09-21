@@ -12,7 +12,7 @@
 		(date "2026-09-15")
 		(rev "a")
 		(company "quintinbannink42")
-		(comment 1 "Hellen-One Razor PDM frame - mega-mcu144 0.7 placed")
+		(comment 1 "PowerCore PDM (pdmrazora) - Razor-compatible SuperSeal - mega-mcu144 0.7")
 	)
 	(layers
 		(0 "F.Cu" signal)

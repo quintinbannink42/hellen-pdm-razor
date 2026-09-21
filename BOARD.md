@@ -1,4 +1,4 @@
-# Board status — pdmrazora (rev a)
+# Board status — PowerCore (`pdmrazora` rev a)
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
@@ -17,7 +17,7 @@ Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCa
 | IS long-haul | **Still closed** — south-ring topology kept; no EN/IS rebuild |
 | KiCad format | **20240108 / generator_version 8.0** |
 | HELLCORE | **Not touched** |
-| Branding | **Not started** — PowerCore docs rename blocked until copper improves |
+| Branding | **PowerCore** — user-facing docs; KiCad stem stays `pdmrazora`; Link Razor loom/connector compatibility unchanged |
 
 See [HARDWARE_BOM.md](HARDWARE_BOM.md) for kILIS / AmpsPerVolt TODOs.
 

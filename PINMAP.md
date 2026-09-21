@@ -1,4 +1,4 @@
-# Rev 1 pin map — mega-mcu144 (H144 / STM32F767ZI)
+# PowerCore pin map — mega-mcu144 (H144 / STM32F767ZI)
 
 Symbols from `firmware/config/boards/hellen_meta.h` (`H144_*`).  
 Edge nets on the KiCad symbol are unprefixed (`OUT_PWM1`, `IN_VIGN`, …).
@@ -49,6 +49,7 @@ Freq / digital capture for ADIO5–8 when used as inputs: `H144_IN_D_1`–`4` (P
 
 ## Firmware notes
 
+- Firmware overlay: [fw-powercore](https://github.com/quintinbannink42/fw-powercore) (`SHORT_BOARD_NAME=powercore`).
 - Prefer template [fw-custom-hellen144-f4](https://github.com/rusefi/fw-custom-hellen144-f4) (F7 CPU in our `meta-info.env`) or Hellen boards using `hellen-common144.mk` / `hellen-common-mega144.mk`.
 - Hardware frame: [hellen-example](https://github.com/rusefi/hellen-example).
 - `protected_gpio` covers 8 channels: map **HP1–4 + ADIO1–4** first; ADIO5–8 protection is TODO / second bank.

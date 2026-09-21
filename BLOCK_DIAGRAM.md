@@ -1,4 +1,4 @@
-# Rev 1 carrier block diagram
+# PowerCore rev 1 carrier block diagram
 
 ```mermaid
 flowchart TB
