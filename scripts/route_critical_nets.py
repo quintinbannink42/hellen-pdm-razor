@@ -27,7 +27,9 @@ LEFTOVER = ROOT / "scripts" / "unconnected_leftover.txt"
 
 BOARD_W, BOARD_H = 104.0, 93.0
 CLR = 0.22  # netclass 0.2 + slop
-VIA_R = 0.30  # 0.6 mm via
+VIA_R = 0.30  # nominal; signal vias 0.45, power 0.8
+VIA_MIN_POWER = 1.05  # 0.8 via + 0.22 clearance
+VIA_MIN_SIG = 0.72  # 0.45 via + 0.22 clearance
 
 NET_CODE: dict[str, int] = {}
 NET_NAME: dict[int, str] = {}
@@ -239,9 +241,16 @@ class Router:
         self.nseg += 1
         self.segs.append((x1, y1, x2, y2, layer, net, width))
 
-    def via(self, x, y, net, size=0.6, drill=0.3):
-        x = max(0.6, min(BOARD_W - 0.6, x))
-        y = max(0.6, min(BOARD_H - 0.6, y))
+    def via(self, x, y, net, size=None, drill=None):
+        if size is None:
+            if net == "VBAT":
+                size, drill = 0.8, 0.4
+            elif net == "GND":
+                size, drill = 0.6, 0.3
+            else:
+                size, drill = 0.45, 0.2
+        x = max(0.8, min(BOARD_W - 0.8, x))
+        y = max(0.8, min(BOARD_H - 0.8, y))
         self.copper.append(via_block(x, y, net, self._tag(f"v-{net}"), size, drill))
         self.nvia += 1
         self.vias.append((x, y, net))
@@ -332,6 +341,25 @@ def count_crossings(rt: Router) -> list[tuple]:
         for j in range(i + 1, len(segs)):
             if segs_cross_same_layer(segs[i], segs[j]):
                 hits.append((segs[i][5], segs[j][5], segs[i][4]))
+    return hits
+
+
+def count_via_packs(rt: Router) -> list[tuple]:
+    """Via pairs closer than (size1+size2)/2 + 0.22 (would short)."""
+    hits = []
+    vias = rt.vias
+    def sz(n):
+        if n == "VBAT":
+            return 0.8
+        if n == "GND":
+            return 0.6
+        return 0.45
+    for i, (x1, y1, n1) in enumerate(vias):
+        for x2, y2, n2 in vias[i + 1 :]:
+            need = (sz(n1) + sz(n2)) / 2 + 0.22
+            d = math.hypot(x1 - x2, y1 - y2)
+            if d + 1e-4 < need:
+                hits.append((n1, n2, round(d, 3), round(need, 3)))
     return hits
 
 
@@ -555,43 +583,49 @@ def route_power(rt: Router, P):
     rt.track(spine_x, 8.0, spine_x, 3.2, 0.5, "VBAT")
     rt.via(spine_x, 3.2, "VBAT")
     rt.manh([(spine_x, 3.2), (n27.x, 3.2), (n27.x, n27.y)], 0.5, "VBAT", "B.Cu")
-    rt.via(n27.x, n27.y, "VBAT")
+    # N27 is PTH — no extra via on the module pad.
 
-    # GND stitches: every carrier GND pad → B.Cu, plus M6 already has footprint vias
-    rt.via(j2g.x - 9.2, j2g.y, "GND")
-    rt.via(j2g.x + 9.2, j2g.y, "GND")
-    rt.via(d1g.x - 1.6, d1g.y, "GND")
-    rt.track(d1g.x, d1g.y, d1g.x - 1.6, d1g.y, 0.5, "GND")
+    # GND stitches: sparse (east half is ~36 mm — do not pack vias that short).
+    # M6 already has footprint via rings.
+    def gnd_stitch(px, py, src=None, w=0.4):
+        for vx, vy, n in rt.vias:
+            if n == "GND" and (px - vx) ** 2 + (py - vy) ** 2 < 2.2 ** 2:
+                if src is not None:
+                    rt.track(src.x, src.y, vx, vy, w, "GND")
+                return
+            if (px - vx) ** 2 + (py - vy) ** 2 < 1.05 ** 2:
+                if src is not None:
+                    rt.track(src.x, src.y, vx, vy, w, "GND")
+                return
+        if src is not None:
+            rt.track(src.x, src.y, px, py, w, "GND")
+        rt.via(px, py, "GND")
+
+    gnd_stitch(j2g.x - 9.2, j2g.y)
+    gnd_stitch(j2g.x + 9.2, j2g.y)
+    gnd_stitch(d1g.x - 1.8, d1g.y, d1g, 0.5)
     for p, ox, oy in (
-        (c1g, 0.0, 1.4),
-        (c2g, 0.0, 1.4),
+        (c1g, 0.0, 1.6),
+        (c2g, 0.0, 1.6),
     ):
-        vx, vy = p.x + ox, p.y + oy
-        rt.track(p.x, p.y, vx, vy, 0.4, "GND")
-        rt.via(vx, vy, "GND")
+        gnd_stitch(p.x + ox, p.y + oy, p, 0.4)
 
     r2g = pads_of(P, "R2", "2")
-    rt.track(r2g.x, r2g.y, r2g.x, r2g.y + 1.5, 0.3, "GND")
-    rt.via(r2g.x, r2g.y + 1.5, "GND")
+    gnd_stitch(r2g.x, r2g.y + 1.6, r2g, 0.3)
 
-    # HP / ADIO / sense GND
     for uref in ["U1", "U2", "U3", "U4"]:
         g = pads_of(P, uref, "1")
-        vx, vy = g.x - 0.2, g.y + 2.6
-        rt.track(g.x, g.y, vx, vy, 0.4, "GND")
-        rt.via(vx, vy, "GND")
+        gnd_stitch(g.x - 0.2, g.y + 3.4, g, 0.4)
     for uref in [f"U{n}" for n in range(11, 19)]:
         g = pads_of(P, uref, "1")
-        vx, vy = g.x, g.y + 1.35
-        rt.track(g.x, g.y, vx, vy, 0.3, "GND")
-        rt.via(vx, vy, "GND")
+        gnd_stitch(g.x - 1.9, g.y, g, 0.3)
+    # Sense R/C GND: skip extra vias when a U stitch is already nearby.
     for ref in (
         [f"R{n}" for n in (10, 20, 30, 40)]
         + [f"R{n}" for n in range(101, 109)]
         + [f"C{n}" for n in (10, 20, 30, 40)]
         + [f"C{n}" for n in range(101, 109)]
     ):
-        # R*: pad1 GND; C*: pad2 GND
         num = "1" if ref.startswith("R") else "2"
         try:
             g = pads_of(P, ref, num)
@@ -599,93 +633,93 @@ def route_power(rt: Router, P):
             continue
         if g.net != "GND":
             continue
-        vx, vy = g.x, g.y + (1.3 if ref.startswith("R") else -1.3)
-        rt.track(g.x, g.y, vx, vy, 0.25, "GND")
-        rt.via(vx, vy, "GND")
+        gnd_stitch(g.x, g.y + (1.5 if ref.startswith("R") else -1.5), g, 0.25)
 
     # GND plane is the B.Cu zone; only local F stubs + vias (no B.Cu GND buses
     # that would cross EN/IS/ADIO long-haul).
 
 
 def route_hp_out(rt: Router, P):
-    """F.Cu to unique columns; F vertical crosses EN B band; B.Cu into J1 pins."""
-    esc_y = [71.55, 72.05, 84.15, 84.70]
-    ax = [73.10, 72.55, 72.00, 71.45]  # south nets → west columns
+    """U1/U2 stay north of the EN B band; U3/U4 F-hop it on 1.3 mm columns (no 0.55 mm via pack)."""
+    # Unique columns east of the pin field and west of U1 courtyard (~74.3).
+    ax = [70.35, 71.70, 72.95, 73.90]
     for idx, (net, uref, jpins) in enumerate(HP_OUT):
         outs = [pads_of(P, uref, n) for n in ("5", "6", "7")]
         ys = [p.y for p in outs]
         xs = [p.x for p in outs]
         cy = sum(ys) / len(ys)
-        rt.track(min(xs), cy, max(xs), cy, 1.0, net)
+        rt.track(min(xs), cy, max(xs), cy, 0.9, net)
         for p in outs:
-            rt.track(p.x, p.y, p.x, cy, 0.8, net)
+            rt.track(p.x, p.y, p.x, cy, 0.7, net)
         cx = sum(xs) / 3
-        ey, col = esc_y[idx], ax[idx]
-        rt.manh([(cx, cy), (cx, ey), (col, ey)], 0.8, net)
-        rt.via(col, ey, net)
-        # F-hop only the EN B band (y=66.9–71.1); rest of the north run is B.Cu
-        hop_s, hop_n = 71.22, 66.78
-        if ey > hop_s + 0.2:
-            rt.track(col, ey, col, hop_s, 0.6, net, "B.Cu")
-            rt.via(col, hop_s, net)
-        rt.track(col, hop_s, col, hop_n, 0.6, net, "F.Cu")
-        rt.via(col, hop_n, net)
+        col = ax[idx]
         jps = [pads_of(P, "J1", jp) for jp in jpins]
         mid_y = sum(p.y for p in jps) / 2
-        rt.manh_vh([(col, hop_n), (col, mid_y)], 0.7, net, "B.Cu")
-        rt.via(col, mid_y, net)
+        if idx < 2:
+            # U1/U2 sit at y≈58, inside the SuperSeal Y span — west on B, no EN hop.
+            rt.manh([(cx, cy), (col, cy)], 0.7, net)
+            rt.via(col, cy, net)
+            rt.manh_vh([(col, cy), (col, mid_y)], 0.6, net, "B.Cu")
+            rt.via(col, mid_y, net)
+        else:
+            # U3/U4 at y≈71 sit on the EN B highways — F-hop y=71.3–66.7 only.
+            ey = 72.6 + (idx - 2) * 0.95
+            rt.manh([(cx, cy), (cx, ey), (col, ey)], 0.7, net)
+            rt.via(col, ey, net)
+            hop_s, hop_n = 71.30, 66.20
+            rt.track(col, ey, col, hop_s, 0.55, net, "B.Cu")
+            rt.via(col, hop_s, net)
+            rt.track(col, hop_s, col, hop_n, 0.55, net, "F.Cu")
+            rt.via(col, hop_n, net)
+            rt.manh_vh([(col, hop_n), (col, mid_y)], 0.6, net, "B.Cu")
+            rt.via(col, mid_y, net)
         for jp in jps:
-            rt.manh([(col, mid_y), (jp.x, mid_y), (jp.x, jp.y)], 0.8, net)
+            rt.manh([(col, mid_y), (jp.x, mid_y), (jp.x, jp.y)], 0.7, net)
 
 
 def route_adio_out(rt: Router, P):
-    """Local F.Cu at the chip; exclusive B.Cu columns east of the SuperSeal pin field."""
+    """Local F.Cu at the chip; exclusive B.Cu columns with ≥0.90 mm via pitch (no 0.32 mm pack)."""
     for idx, (net, uref, jpin, rp) in enumerate(ADIO_OUT):
         outs = [pads_of(P, uref, n) for n in ("8", "9", "10", "12", "13", "14")]
         ox = outs[0].x
         ys = [p.y for p in outs]
-        rt.track(ox, min(ys), ox, max(ys), 0.45, net)
+        rt.track(ox, min(ys), ox, max(ys), 0.40, net)
         for p in outs:
-            rt.track(p.x, p.y, ox, p.y, 0.3, net)
+            rt.track(p.x, p.y, ox, p.y, 0.28, net)
         r = pads_of(P, rp, "2")
-        # PU tap into the OUT bar (not a dangling stub at PU Y)
         mid_y = (min(ys) + max(ys)) / 2
-        rt.manh([(r.x, r.y), (ox, r.y), (ox, mid_y)], 0.3, net)
+        rt.manh([(r.x, r.y), (ox, r.y), (ox, mid_y)], 0.28, net)
         j = pads_of(P, "J1", jpin)
-        # B column east of pin field; F-hop across EN B highways at y=66.9–71.1
-        col = 68.05 + idx * 0.32
-        rt.track(ox, mid_y, col, mid_y, 0.3, net)
-        rt.via(col, mid_y, net)
-        hop_s, hop_n = 72.15, 65.35
-        rt.manh_vh([(col, mid_y), (col, hop_s)], 0.28, net, "B.Cu")
+        # East of pin field (x≳64.5), west of U1 courtyard (~74.3): 8 × 0.90 mm.
+        col = 64.55 + idx * 0.80
+        hop_s, hop_n = 78.20 + (idx % 2) * 0.95, 64.70 - (idx % 2) * 0.95
+        # F to hop_s (south of EN); no via at chip Y (that packed onto IS pads).
+        rt.manh([(ox, mid_y), (col, mid_y), (col, hop_s)], 0.25, net)
         rt.via(col, hop_s, net)
-        rt.track(col, hop_s, col, hop_n, 0.28, net, "F.Cu")
+        rt.track(col, hop_s, col, hop_n, 0.25, net, "F.Cu")
         rt.via(col, hop_n, net)
-        rt.manh_vh([(col, hop_n), (col, j.y), (j.x, j.y)], 0.28, net, "B.Cu")
+        rt.manh_vh([(col, hop_n), (col, j.y), (j.x, j.y)], 0.25, net, "B.Cu")
         rt.via(j.x, j.y, net)
 
 
 def route_en(rt: Router, P):
-    """Exclusive lanes around J1: 6 B + 6 F columns in the MCU–SuperSeal gap."""
-    w = 0.22
+    """Exclusive lanes around J1: 6 B + 6 F columns, 0.15 mm traces / 0.38 mm pitch."""
+    w = 0.15
     for idx, (net, uref, pins, mpad) in enumerate(EN_MAP):
         coords = [pads_of(P, uref, pn) for pn in pins]
         if len(coords) > 1:
-            rt.track(coords[0].x, coords[0].y, coords[1].x, coords[1].y, 0.25, net)
+            rt.track(coords[0].x, coords[0].y, coords[1].x, coords[1].y, 0.22, net)
         sx, sy = coords[0].x, coords[0].y
         m = pads_of(P, "M1000", mpad)
         use_f_gap = idx >= 6
-        # South highways get west gap columns so a westbound never crosses a
-        # neighbour's northbound (verticals only exist north of their own hwy).
         if not use_f_gap:
-            gap_x = 46.50 - idx * 0.28
+            gap_x = 46.35 - idx * 0.38
         else:
-            gap_x = 46.64 - (idx - 6) * 0.28
-        hwy = 66.90 + idx * 0.38  # 66.90 .. 71.08 (south of courtyard y=65)
-        vx, vy = sx - 1.25, sy
+            gap_x = 46.50 - (idx - 6) * 0.38
+        hwy = 67.00 + idx * 0.70
+        vx, vy = sx - 1.40, sy
         rt.track(sx, sy, vx, vy, w, net)
         rt.via(vx, vy, net)
-        # B west on private hwy into the gap
         rt.manh_vh([(vx, vy), (vx, hwy), (gap_x, hwy)], w, net, "B.Cu")
         if use_f_gap:
             rt.via(gap_x, hwy, net)
@@ -715,17 +749,21 @@ def route_is_local(rt: Router, P):
 
 
 def route_is_long(rt: Router, P):
-    """F.Cu private column to a unique highway, then B.Cu west to S pads (EN is B further north)."""
+    """B.Cu to east skirt (staggered vias), westbound in the EN–ADIO gap (y=75.5–80)."""
     w = 0.20
+    adio_r = {f"R{n}" for n in range(101, 109)}
     for idx, (net, rref, mpad) in enumerate(IS_LONG):
         r = pads_of(P, rref, "2")
         m = pads_of(P, "M1000", mpad)
-        hwy = 73.15 + idx * 0.45
-        if r.x < 78:
-            col = 69.60 - idx * 0.40
+        col = 100.20 if idx % 2 == 0 else 101.40
+        hwy = 75.55 + (idx // 2) * 0.90
+        if rref in adio_r:
+            rt.manh([(r.x, r.y), (col, r.y), (col, hwy)], w, net, "B.Cu")
         else:
-            col = 98.40 + (idx % 4) * 0.55
-        rt.manh([(r.x, r.y), (col, r.y), (col, hwy)], w, net)
+            vx, vy = r.x + 1.55, r.y
+            rt.track(r.x, r.y, vx, vy, w, net)
+            rt.via(vx, vy, net)
+            rt.manh([(vx, vy), (col, vy), (col, hwy)], w, net, "B.Cu")
         rt.via(col, hwy, net)
         rt.manh([(col, hwy), (m.x, hwy), (m.x, m.y)], w, net, "B.Cu")
 
@@ -740,11 +778,11 @@ def route_system(rt: Router, P):
     rt.manh([(r1b.x, r1b.y), (r2a.x, r1b.y), (r2a.x, r2a.y)], 0.3, "IN_VIGN")
     # IN_VIGN → N26 via north corridor B
     n26 = pads_of(P, "M1000", "N26")
-    vx, vy = r1b.x - 2.2, r1b.y
-    rt.track(r1b.x, r1b.y, vx, vy, 0.25, "IN_VIGN")
+    vx, vy = 24.2, 22.4
+    rt.manh([(r1b.x, r1b.y), (vx, r1b.y), (vx, vy)], 0.25, "IN_VIGN")
     rt.via(vx, vy, "IN_VIGN")
     rt.manh([(vx, vy), (vx, 4.0), (n26.x, 4.0), (n26.x, n26.y)], 0.25, "IN_VIGN", "B.Cu")
-    rt.via(n26.x, n26.y, "IN_VIGN")
+    # N26 is PTH — no extra via on the module pad.
 
     # CAN: W pads (MCU west) → north B → J1 pins 3/10 through north corridor
     for net, mpad, jpin, lane_y in (("CANH", "W12", "3", 5.2), ("CANL", "W13", "10", 6.0)):
@@ -765,8 +803,8 @@ def route_system(rt: Router, P):
     rt.via(46.8, e38.y, "SENSOR_5V")
     rt.manh([(1.6, bus_n), (bus_e, bus_n), (bus_e, bus_s)], 0.35, "SENSOR_5V", "B.Cu")
     rt.manh([(46.8, e38.y), (46.8, bus_n)], 0.35, "SENSOR_5V", "B.Cu")
-    rt.via(n30.x, n30.y, "SENSOR_5V")
     rt.manh([(n30.x, n30.y), (n30.x, bus_n)], 0.3, "SENSOR_5V", "B.Cu")
+    # N30 is PTH.
     rt.track(w2.x, w2.y, 1.6, w2.y, 0.3, "SENSOR_5V")
     rt.via(1.6, w2.y, "SENSOR_5V")
     rt.manh([(1.6, w2.y), (1.6, bus_n)], 0.3, "SENSOR_5V", "B.Cu")
@@ -778,10 +816,10 @@ def route_system(rt: Router, P):
         rt.manh([(ex, j.y), (ex, bus_n)], 0.35, "SENSOR_5V", "B.Cu")
     for r in range(201, 209):
         rp = pads_of(P, f"R{r}", "1")
-        side = rp.x - 1.7
-        rt.track(rp.x, rp.y, side, rp.y, 0.25, "SENSOR_5V")
-        rt.via(side, rp.y, "SENSOR_5V")
-        rt.manh([(side, rp.y), (side, bus_s), (bus_e, bus_s)], 0.25, "SENSOR_5V", "B.Cu")
+        side_x, side_y = rp.x, rp.y + 1.85
+        rt.track(rp.x, rp.y, side_x, side_y, 0.25, "SENSOR_5V")
+        rt.via(side_x, side_y, "SENSOR_5V")
+        rt.manh([(side_x, side_y), (side_x, bus_s), (bus_e, bus_s)], 0.25, "SENSOR_5V", "B.Cu")
 
     # SENSOR_GND dedicated (do not via-stitch to GND pour except isolated tracks)
     a = pads_of(P, "J1", "6")
@@ -1070,8 +1108,22 @@ def main() -> int:
     route_is_long(rt, pads)
     route_system(rt, pads)
 
+    # mega-mcu144 pads are PTH — drop carrier vias stacked on them (N26/N27 ~0.8 mm).
+    mxy = [(p.x, p.y) for p in pads if p.ref == "M1000"]
+    sig = [(x, y, n) for x, y, n in rt.vias if n != "GND"]
+    cleaned = []
+    for x, y, n in rt.vias:
+        if any(abs(x - px) < 0.5 and abs(y - py) < 0.5 for px, py in mxy):
+            continue
+        if n == "GND" and any(math.hypot(x - sx, y - sy) < 1.2 for sx, sy, _ in sig):
+            continue
+        cleaned.append((x, y, n))
+    if len(cleaned) != len(rt.vias):
+        rebuild_from_lists(rt, rt.segs, cleaned)
+
     hops = apply_hops(rt, max_hops=0)
     crosses = count_crossings(rt)
+    via_packs = count_via_packs(rt)
     open_nets = connectivity(pads, rt)
 
     # rebuild PCB
@@ -1114,13 +1166,15 @@ def main() -> int:
                 f"vias={rt.nvia}",
                 f"footprints={fp_count}",
                 f"geom_crossings={len(crosses)}",
+                f"via_packs={len(via_packs)}",
                 f"hops={hops}",
                 f"open_nets={len(open_nets)}",
                 f"en_is_open={len(en_open)}",
                 f"gnd_pad_islands_before_pour={gnd_islands}",
-                f"strategy=sexp_104x93_emi_split_exclusive_en_b_is_f",
+                f"strategy=sexp_104x93_emi_split_spread_vias_ss_courtyard",
                 "kicad_cli=unavailable",
                 "hellcore=untouched",
+                "fuse=ATO_placeholder_untouched",
             ]
         )
         + "\n"
@@ -1149,6 +1203,18 @@ def main() -> int:
     lines.append("OUT_IO9–13 / IO1–3 PU FET not stuffed (BOARD.md TODO).")
     lines.append("IN_TPS/PPS/CLT/IAT/AT* ADIO V-sense dividers not stuffed.")
     lines.append("OUT_IO1–4 HP DIR not stuffed.")
+    lines.append("F1 ATO fuse placeholder not replaced (Jeoff: do not block).")
+    lines.append("")
+    lines.append("## Jeoff caveats")
+    lines.append(
+        "- East via packs: signal vias 0.45 mm, ADIO columns 0.80 mm, EN 0.15/0.38 mm, PWR_OUT U1/U2 skip EN hop. "
+        f"Remaining via pairs closer than size+clearance: {len(via_packs)}."
+    )
+    lines.append(
+        "- TE 6473418-1: courtyard now 39.5×29.5 mm (TE width 39 × catalog vertical D 29, west-aligned in the M1000–HP gap). "
+        "Product-page 39×36.5 mm shroud is drawn on Cmts.User and overlaps U1 — it does not fit this EMI-wall nest without moving HP."
+    )
+    lines.append("- Old 150×130 south-ring / cut_crossings_sexp.py scripts were not replayed.")
     LEFTOVER.write_text("\n".join(lines) + "\n")
 
     art = Path("/opt/cursor/artifacts/copper_f_b_overview.png")
@@ -1158,7 +1224,9 @@ def main() -> int:
 
     print(f"footprints={fp_count} tracks={rt.nseg} vias={rt.nvia} hops={hops}")
     sig_cross = [(a, b, l) for a, b, l in crosses if a not in ("VBAT", "GND") and b not in ("VBAT", "GND")]
-    print(f"signal_signal_crossings={len(sig_cross)}")
+    print(f"signal_signal_crossings={len(sig_cross)} via_packs={len(via_packs)}")
+    if via_packs[:8]:
+        print("via_pack sample", via_packs[:8])
     if crosses[:12]:
         from collections import Counter
 

@@ -8,18 +8,21 @@ Mechanical placement from the previous commit is **unchanged** (53 footprints, 1
 
 | Item | Status |
 |------|--------|
-| Tracks / vias | **386 / 165** (was 0 / 0 after the move) |
-| EN/IS (HP1–4 + ADIO1–8) | **Connected** (exclusive EN B.Cu south-of-J1 highways + MCU-gap columns; IS local F + B.Cu long-haul to S pads) |
-| PWR_OUT1–4 / ADIO1–8 | **Connected** to SuperSeal (F local, B into pins; ADIO F-hops the EN band) |
+| Tracks / vias | **385 / 136** (was 0 / 0 after the move) |
+| EN/IS (HP1–4 + ADIO1–8) | **Connected** (exclusive EN B.Cu south-of-J1 highways + MCU-gap columns; IS local F + B.Cu east-skirt long-haul to S pads) |
+| PWR_OUT1–4 / ADIO1–8 | **Connected** to SuperSeal (U1/U2 west of EN band; U3/U4 F-hop; ADIO 0.80 mm columns) |
 | VBAT | F.Cu entry spine M6+→F1→C/D + B.Cu east alley to HP tabs; module N27 via **north corridor only** |
-| GND | B.Cu full-board pour + local F stubs/vias; **no SENSOR_GND bond**; M6− F island only (no overlapping VBAT F pour) |
+| GND | B.Cu full-board pour + sparse local F stubs/vias (no overcrowded east packs); **no SENSOR_GND bond**; M6− F island only |
 | CAN / SENSOR_5V / SENSOR_GND / IGN_SW / IN_VIGN | **Connected** (north/east skirt; SENSOR_5V does not traverse the EN field) |
 | USB | On-module only (USB-C is on mega-mcu144) — not a carrier leftover |
+| J1 courtyard | **39.5 × 29.5 mm** (TE width 39 × catalog vertical D 29). Product-page **39 × 36.5 mm** shroud is on Cmts.User and **does not fit** between M1000 and U1 without moving HP. |
+| Via packs (size+0.22) | **0** |
 | KiCad format | **20240108 / generator_version 8.0** |
 | HELLCORE | **Not touched** |
+| F1 | **ATO placeholder left** (Jeoff: do not block) |
 | Footprints | **53** |
 
-`kicad-cli pcb drc` is **still unavailable** here. Geometric H–V scan (not KiCad DRC) still sees same-layer crossings in the packed east/south field (HP pin-row vs PWR_OUT/IS, ADIO vs sense). **Fill zones in pcbnew** then run DRC; expect shorts ≤ mechanical-redesign baseline (J2 header short is gone) and crossings that need human polish, not a clean DRC.
+`kicad-cli pcb drc` is **still unavailable** here. Geometric H–V scan (not KiCad DRC) still sees same-layer crossings in the packed east/south field. **Fill zones in pcbnew** then run DRC. Via-to-via shorts from the first copper pass were cleared (0.32 mm ADIO packs are gone).
 
 See [scripts/unconnected_leftover.txt](scripts/unconnected_leftover.txt).
 
@@ -78,12 +81,12 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 
 | Metric | 150×130 nest (`main`) | Floorplan-only | This copper |
 |--------|----------------------|----------------|-------------|
-| DRC shorts | **1** (J2 header) | J2 short **gone**; DRC not run | **Not run** (`kicad-cli` missing) |
+| DRC shorts | **1** (J2 header) | J2 short **gone**; DRC not run | **Not run** (`kicad-cli` missing). Via-pack scan **0** (was overcrowded 0.32 mm ADIO vias) |
 | DRC crossings | **89** | ~0 (no tracks) | **Human DRC required** — geometric H–V scan is not KiCad DRC; east/south packing is tight |
 | DRC unconnected | **116** | Up (copper stripped) | EN/IS/ADIO/PWR/CAN/SENSOR **track-connected**; GND completes on B pour fill |
 | EN/IS unconnected | **0** | Open | **0** (pad-island check) |
-| Tracks | 346 | **0** | **386** |
-| Vias | 142 | **0** (M6 stitches in footprint) | **165** + M6 footprint stitches |
+| Tracks | 346 | **0** | **385** |
+| Vias | 142 | **0** (M6 stitches in footprint) | **136** + M6 footprint stitches |
 | Footprints | 53 | **53** | **53** |
 | Board outline | 150 × 130 | **104 × 93** | **104 × 93** |
 
@@ -96,7 +99,7 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 | shorting_items | Previous unique short was J2 pin-header VBAT↔GND @ 2.54 mm. M6 pads are 25 mm apart with 16 mm Cu — will not short each other. Remaining shorts = zone-to-pad after a fill, for a human to check. |
 | tracks_crossing | Geometric H–V scan ≈480 in the packed east/south field (not KiCad DRC). Human polish after zone fill. |
 | solder_mask_bridge | M6 16 mm pads / module padstack — inspect after pour. |
-| J1 courtyard | Closed `fp_rect` (previous RA courtyard was open). TE body is 39 × 36.5 mm; courtyard is pin-field + mounting (~37 × 23.5 mm). **Verify against 6473418-1 drawing** — shroud may need a larger keepout. |
+| J1 courtyard | Closed `fp_rect`. **Width 39 mm** (TE). **Length 29 mm** (catalog vertical D), west-aligned in the M1000–U1 gap (~29.6 mm available). Product-page **36.5 mm** shroud is Cmts.User only — it overlaps U1 courtyard (x≈74.3) and was **not** forced into F.CrtYd. |
 | M1000 padstack | Module artifact; ignore for carrier DRC. Keepout now matches silk `(0.1,0)…(42.2,−40)`. |
 
 ## Schematic sheets
@@ -123,9 +126,10 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 - **Fill VBAT/GND zones in pcbnew** and run `kicad-cli pcb drc` — this VM has no KiCad package
 - Clear remaining H–V crossings in the HP/ADIO south field (PWR_OUT vs IS locals, ADIO vs sense). Do **not** replay `scripts/cut_crossings_sexp.py` (150×130)
 - Confirm no zone-to-zone shorts at the SuperSeal wall after fill; SENSOR_GND must stay off chassis GND
-- Confirm TE **6473418-1** 3D/courtyard vs the 39×36.5 mm datasheet body
+- TE **6473418-1**: courtyard is 39×29 mm (fits the EMI wall). Product-page 39×36.5 mm shroud **does not fit** without nudging HP/M1000 — verify against the TE drawing before fab
 - M6 hardware: copper bobbin + M6×8 button-head, 4 N·m, 25 mm² cable (CONNECTOR.md)
 - ADIO/HP courtyard packing on the east half is tight — nudge before fab
+- F1 remains the ATO blade placeholder
 - Ideal-diode / reverse-protect controller
 - Discrete FET for ADIO PU hard-enable (`OUT_IO9–13`, `IO1–3`)
 - ADIO V-sense divider values (`IN_TPS` / `IN_PPS` / …)
