@@ -3051,7 +3051,7 @@
 				)
 			)
 		)
-		(property "Value" "9-6437287-8"
+		(property "Value" "6473418-1"
 			(at 100 130 0)
 			(effects
 				(font
@@ -3059,7 +3059,7 @@
 				)
 			)
 		)
-		(property "Footprint" "pdmrazora:TE_9-6437287-8_SuperSeal26"
+		(property "Footprint" "pdmrazora:TE_6473418-1_SuperSeal26_Vertical"
 			(at 100 110 0)
 			(effects
 				(font
@@ -3068,7 +3068,7 @@
 				(hide yes)
 			)
 		)
-		(property "Datasheet" "https://www.te.com/en/product-9-6437287-8.html"
+		(property "Datasheet" "https://www.te.com/en/product-6473418-1.html"
 			(at 100 110 0)
 			(effects
 				(font
@@ -3077,7 +3077,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "TE/AMP SuperSeal 1.0 26pos RA Au keying1 (9-6437287-8); Link Connector C"
+		(property "Description" "TE/AMP SuperSeal 1.0 26pos vertical Au (6473418-1); Link Connector C pin numbers"
 			(at 100 110 0)
 			(effects
 				(font
@@ -3681,7 +3681,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+		(property "Footprint" "pdmrazora:M6_BoltThrough_Bobbin_x2"
 			(at 35 35 0)
 			(effects
 				(font
@@ -3699,7 +3699,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "M6 main power stubs VBAT+ / GND"
+		(property "Description" "M6 bolt-through bobbins VBAT+ / GND, 25 mm pitch"
 			(at 35 35 0)
 			(effects
 				(font
@@ -3753,7 +3753,7 @@
 		)
 		(uuid "68fc02b0-c3e6-4b4b-bd53-acccc1067981")
 	)
-	(text "Power entry stub:\nM6+ = VBAT, M6- = GND\nAdd TVS, reverse protect, fuse,\nVBATT sense -> IN_VIGN"
+	(text "Power entry:\nM6+ = VBAT, M6- = GND (bolt-through bobbins)\nAdd TVS, reverse protect, fuse,\nVBATT sense -> IN_VIGN"
 		(at 20 105 0)
 		(effects
 			(font

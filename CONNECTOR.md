@@ -8,12 +8,12 @@ Sources: Link PDM Quick Start Guide; Link KB inputs/outputs.
 
 | Terminal | Function | Notes |
 |----------|----------|-------|
-| M6 + | Battery positive | 25 mm² / 4 AWG recommended; torque 4 Nm |
-| M6 − | Battery negative / power ground | Same |
+| M6 + | Battery positive | 25 mm² / 4 AWG recommended; torque 4 Nm. PCB: J2 pin 1, bolt-through bobbin, 6.5 mm drill / 16 mm Cu, 25 mm pitch to M6−. |
+| M6 − | Battery negative / power ground | J2 pin 2; same mechanical. |
 
 ## 26-pin AMP SuperSeal 1.0 (Link “Connector C”)
 
-**Board header PN:** TE Connectivity **9-6437287-8** (SuperSeal 1.0, 26-pos, right-angle, Au, keying 1). Footprint `pdmrazora:TE_9-6437287-8_SuperSeal26` (same pattern as TE 6473423-1 / drawing 9-1437287-8).
+**Board header PN:** TE Connectivity **6473418-1** (SuperSeal 1.0, 26-pos, **vertical**, Au, mounting holes). Alternate vertical Au without mounting holes: **6437288-6**. Footprint `pdmrazora:TE_6473418-1_SuperSeal26_Vertical` uses the same 3.0 mm 4-row PCB pattern as TE drawing 9-1437287-8 / obsolete 6473423-1 / previous RA **9-6437287-8**, so loom pin numbers are unchanged.
 
 Viewed looking into wire side of loom connector (or into PDM header).
 
