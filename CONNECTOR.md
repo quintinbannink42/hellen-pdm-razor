@@ -8,8 +8,8 @@ Sources: Link PDM Quick Start Guide; Link KB inputs/outputs.
 
 | Terminal | Function | Notes |
 |----------|----------|-------|
-| M6 + | Battery positive | 25 mm² / 4 AWG recommended; torque 4 Nm. PCB: J2 pin 1, bolt-through bobbin, 6.5 mm drill / 16 mm Cu, 25 mm pitch to M6−. |
-| M6 − | Battery negative / power ground | J2 pin 2; same mechanical. |
+| M6 + | Battery positive | 25 mm² / 4 AWG recommended; torque 4 Nm. PCB: **J2**, single bolt-through bobbin on the **north** power-field edge. Plated 6.5 mm hole / 16 mm Cu. Independent of M6− (no 25 mm dual-bobbin footprint). |
+| M6 − | Battery negative / power ground | PCB: **J3**, same mechanical, **south** power-field edge. HP/ADIO drivers sit between J2 and J3. |
 
 ## 26-pin AMP SuperSeal 1.0 (Link “Connector C”)
 

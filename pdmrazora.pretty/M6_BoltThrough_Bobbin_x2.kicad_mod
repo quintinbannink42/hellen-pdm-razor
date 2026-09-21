@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "8.0")
 	(layer "F.Cu")
-	(descr "Pair of M6 bolt-through power bobbins: pin1 VBAT+ (M6+), pin2 GND (M6−). 25 mm pitch. Plated 6.5 mm hole, 16 mm Cu pad, via stitch ring. Torque 4 Nm / 25 mm² cable per CONNECTOR.md.")
+	(descr "UNUSED on pdmrazora. Superseded by two pdmrazora:M6_BoltThrough_Bobbin instances (J2 VBAT+ / J3 GND) so the terminals can sit on opposite edges. Kept only so old diffs still resolve.")
 	(tags "M6 bobbin power VBAT GND bolt-through PowerCore")
 	(property "Reference" "REF**"
 		(at 4 -12 0)
