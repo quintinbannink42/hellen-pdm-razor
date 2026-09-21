@@ -2,33 +2,44 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — split M6 bobbins onto opposite power-field edges
+## This commit — critical-net copper + zone fill on the split-bobbin floorplan
 
-Quintin: *“Split the Vbat & ground bobbins and place them on opposite sides of the board (not on the same side as the m1000) with the drivers inbetween.”*
+Mechanical placement from PR #9 is **unchanged** (54 footprints, 104×93 mm, J2 north / J3 south, vertical SuperSeal EMI wall, M1000 west). Old 150×130 / paired-M6 copper scripts were **not** reapplied. `scripts/cut_crossings_sexp.py` was **not** replayed.
 
-This is a **placement / floorplan** change. The 25 mm dual-bobbin `J2` footprint is gone from the PCB. VBAT+ and GND are two instances of `pdmrazora:M6_BoltThrough_Bobbin` so they can move independently. East copper that assumed the paired M6 spine was **wiped** (tracks/vias/filled polygons). Zone **outlines** were rewritten for the new entry geometry and are **unfilled**. Signal/power re-route + zone fill is a follow-up — this board is **not DRC-clean**.
-
-[F.Cu floorplan overview](scripts/floorplan_fcu_overview.png)
+[F.Cu / B.Cu zone-fill overview](scripts/copper_fill_overview.png)
 
 | Item | Status |
 |------|--------|
-| Outline | **104 × 93 mm** Razor-class (unchanged; no grow needed) |
-| AUX origin | **(0, 93)** |
-| M1000 | West `(2, 66)` — **unchanged**; still west of vertical SuperSeal |
-| J1 | `(50, 46.5)` rot 90° — **unchanged** EMI wall |
-| J2 | **VBAT+** single M6 @ `(92, 11)` — **north** edge of the power field |
-| J3 | **GND** single M6 @ `(92, 82)` — **south** edge of the power field |
-| M6 pitch | **71 mm** north–south (not 25 mm co-located) |
-| Drivers | HP 2×2 east alley @ y=40/53; ADIO 2×4 south of J1 @ y=69.5/77.5 — **between** the bobbins |
-| Power entry | F1 ATO placeholder + C1/C2 in the north pocket on the VBAT path; D1 east of F1 |
-| Tracks / vias | **0 / 0** (old paired-spine copper stripped; stitch vias live in each bobbin footprint) |
-| Zones | **7 unfilled outlines** — GND B full-board, VBAT F north/HP/ADIO, VBAT B north, GND F around J3, M1000 keepout. **No SENSOR pour** |
+| Tracks / vias | **406 / 145** (was 0 / 0 after PR #9 wipe) — +11 GND stitch vias, +6 M6 ring, +13 HP-tab thermal |
+| Zones filled | **9** copper pours (GND B full-board, GND F around J3, VBAT F J2 / post-fuse / HP / ADIO, VBAT B J2 / post-fuse / HP alley). Keepout punches M1000. |
+| Pad connect | **solid** on VBAT/GND (not thermal spokes) |
+| HP VBAT F | `(73,32)–(103,64)` covers TO-263 tabs (north-facing). |
+| VBAT B | J2 + post-fuse north islands + east alley `(86,32)–(103,61)` — **stops north of EN** (EN B south-hwys y≥66.7) |
+| Fuse | J2 pour **split** from post-fuse pour (F1.1 is not in the island with F1.2 / J2) |
+| EN/IS | **Track-connected** (union-find 0). EN exclusive B.Cu MCU–J1 gap columns + pin-south / south-of-J1 highways. IS local F (HP) / B-under-package (ADIO) + F.Cu staircase long-haul to S pads |
+| PWR_OUT / ADIO | SuperSeal fanouts east of the pin field except J1 landings; ADIO F-hops the EN B band |
+| GND | B.Cu full-board + F.Cu J3 island; carrier GND islands **11 → 0** after stitch+fill. **No SENSOR_GND bond** |
+| SENSOR pour | **None** (not present; not added) |
 | KiCad format | **20240108 / generator_version 8.0** |
 | HELLCORE | **Not touched** |
-| Footprints | **54** (was 53; J2 split into J2+J3) |
-| F1 | ATO placeholder **moved** with the VBAT path; still a placeholder |
+| F1 | **ATO placeholder left** (Jeoff: do not block) |
+| Footprints | **54** — placements not moved |
 
-`kicad-cli pcb drc` is **not claimed**. Unconnected count will be high until the copper follow-up. Do **not** replay `scripts/cut_crossings_sexp.py` or other 150×130 longhaul scripts.
+`kicad-cli pcb drc` **8.0.9**. See [scripts/drc_zonefill.json](scripts/drc_zonefill.json) and [scripts/unconnected_leftover.txt](scripts/unconnected_leftover.txt). **Not DRC-clean** — packed-east shorts/crossings remain for human polish.
+
+## Previous commit — split M6 bobbins onto opposite power-field edges
+
+Quintin: *“Split the Vbat & ground bobbins and place them on opposite sides of the board (not on the same side as the m1000) with the drivers inbetween.”*
+
+Placement-only. Dual-bobbin `J2` replaced by `J2` VBAT+ `(92, 11)` and `J3` GND `(92, 82)`. Carrier tracks/vias/filled polygons wiped. That copper is **this** follow-up.
+
+| Item | Status |
+|------|--------|
+| Outline | **104 × 93 mm** |
+| J2 / J3 | North VBAT+ / south GND, 71 mm N–S |
+| Tracks / vias | **0 / 0** (intentionally stripped) |
+| Zones | **7 unfilled outlines** |
+| Footprints | **54** |
 
 ## Previous commit — zone fill + M6/HP stitch (104×93 EMI split)
 
@@ -114,35 +125,43 @@ x=0                    x=45                 x=74                 x=104
 
 Bobbins are **not** paired on the east edge and **not** on the M1000 west side.
 
-## Copper strategy (follow-up)
+## Copper strategy (split-bobbin EMI split)
 
-This floorplan commit **strips** carrier tracks/vias/filled pours. Zone **outlines** are in place for the new geometry; they still need a pcbnew ZONE_FILLER pass after merge.
+Prefer **zone fills for power/GND**; signal long-haul uses exclusive lanes around the SuperSeal (not through MCU west copper except EN/IS/CAN/SENSOR at the connector spine / north corridor).
 
-1. **VBAT** — F.Cu islands: north entry `(58,1)–(103,24)` (J2+F1/C), HP tabs `(74,32)–(103,64)`, ADIO `(48,66)–(82,81)`; B.Cu north entry island
-2. **GND** — B.Cu near-full board (module keepout punches M1000) + F.Cu island around J3 `(82,72)–(103,92)`
+1. **VBAT** — F.Cu J2 island `(83.5,1)–(103,22)` (pre-fuse) + post-fuse north `(66.5,1)–(82.5,24)` + HP tabs `(73,32)–(103,64)` + ADIO `(48,66)–(82,81)`; tracks J2→F1.1, F1.2→HP spine x=88; B.Cu matching north islands + east alley stopping at y=61
+2. **GND** — B.Cu near-full board (module keepout punches M1000) + F.Cu island around J3 `(82,72)–(103,92)`; stitch vias at M6/HP/SMD
 3. **SENSOR_GND** — stays off chassis; **no SENSOR pour**
-4. **EN / IS / PWR_OUT / ADIO / CAN** — open; re-route on this nest. Do **not** replay 150×130 `cut_crossings_sexp.py` / longhaul scripts
+4. **EN** — exclusive B.Cu MCU–J1 gap columns x=45.15…49.55 + HP pin-south band y≈56.6–63 + ADIO south-of-J1 Y
+5. **IS** — local F HP / B-under-ADIO; F.Cu staircase south of ADIO (west of J3) to M1000 S pads
+6. **PWR_OUT / ADIO** — stay east of the pin field except J1 landings; F-hop the EN B band
 
 FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 
 ## Unconnected / routing status
 
-| Metric | This floorplan | Previous fill (invalidated) |
-|--------|----------------|-----------------------------|
-| DRC shorts / crossings | **not claimed** (copper stripped) | 199 shorts / 178 crossings (paired-M6 nest) |
-| Unconnected | **Up** — all carrier nets open | 100 |
-| EN/IS unconnected | **Open** | 0 |
-| Tracks / vias | **0 / 0** | 385 / 158 |
-| Footprints / outline | **54** / 104×93 | 53 / 104×93 |
+| Metric | Floorplan PR #9 | This copper + fill |
+|--------|-----------------|-------------------|
+| DRC shorts | not claimed (0 tracks) | **177** (packed east: PWR_OUT3/4, IN_AUX vs PWR_OUT, 10× GND↔VBAT). Old 25 mm M6 GND-vs-VBAT-spine short is **gone** |
+| DRC crossings | ~0 (no tracks) | **131** kicad-cli / **387** geometric H–V |
+| DRC unconnected | Up (copper stripped) | **87**. VBAT **3** (fuse gap + ADIO island). GND **40** (mostly M1000 keepout). EN/IS union-find **0**; kicad-cli still lists 1-island leftovers on OUT_PWM1–4 / IN_AUX / ADIO |
+| EN/IS unconnected | Open | **0** (track-connected) |
+| Tracks / vias | 0 / 0 | **406 / 145** |
+| Zones filled | 7 unfilled outlines | **9** filled + M1000 keepout |
+| Footprints / outline | 54 / 104×93 | 54 / 104×93 |
 
 ## DRC notes
 
-`kicad-cli pcb drc` is **not run / not claimed** on this placement-only board.
+`kicad-cli pcb drc` **8.0.9** on the filled board (`scripts/drc_zonefill.json`):
 
 | Issue | Notes |
 |-------|-------|
+| shorting_items | **177**. Dominant: packed HP/ADIO east (PWR_OUT3↔4, IN_AUX↔PWR_OUT, GND↔VBAT near tabs). Not a 25 mm dual-bobbin pad clash. Human polish. |
+| tracks_crossing | **131** kicad-cli / **387** geometric H–V. Human polish in HP/ADIO south. Do **not** replay `cut_crossings_sexp.py`. |
+| unconnected_items | **87**. Carrier GND union-find **0** after pour. kicad-cli GND 40 ≈ M1000 keepout + a few SMD via misses. SENSOR_GND ×3 is the dedicated island. |
+| solder_mask_bridge | **199**. M6 16 mm pads / module padstack. |
 | J1 courtyard | Closed `fp_rect`. **Width 39 mm** (TE). **Length 29 mm** (catalog vertical D). Product-page **36.5 mm** shroud is Cmts.User only. |
-| M1000 padstack | Module artifact (`padstack_invalid`); ignore for carrier DRC. Keepout outline matches silk `(0.1,0)…(42.2,−40)`. |
+| M1000 padstack | Module artifact (`padstack_invalid` 22); ignore for carrier DRC. Keepout outline matches silk `(0.1,0)…(42.2,−40)`. |
 | M6 pads | 16 mm Cu on opposite edges — old “GND pad vs VBAT spine” short from the 25 mm pair is gone by construction |
 
 ## Schematic sheets
@@ -162,27 +181,31 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 | 2 | Final PROFET PNs + sense networks | **Done** |
 | 3 | Power entry + IGN_SW divider | **Done** |
 | 4 | Place HP/ADIO footprints on PCB | **Done** (re-nested between split M6 bobbins on 104×93) |
-| 5 | create-board / copper finish | **Open** — tracks wiped; zone outlines unfilled; re-route + fill is follow-up |
+| 5 | create-board / copper finish | **Partial** — critical nets routed + pours filled + kicad-cli DRC; packed-east shorts/crossings still human |
 
 ## Remaining polish (human)
 
-- **Follow-up:** re-route EN/IS/PWR_OUT/ADIO/CAN/SENSOR and fill the new VBAT/GND zone outlines. Do **not** claim DRC-clean until that lands
-- Do **not** replay `scripts/cut_crossings_sexp.py` or other 150×130 longhaul scripts
-- Confirm SENSOR_GND stays off chassis GND (no SENSOR pour)
+- Clear remaining packed-east shorts (PWR_OUT3↔4, IN_AUX↔PWR_OUT on the TO-263 pin row, 10× GND↔VBAT near tabs) and H–V crossings in the HP/ADIO south field. Do **not** replay `scripts/cut_crossings_sexp.py` (150×130)
+- kicad-cli still lists 1-island leftovers on ADIO/CAN/IGN_SW/IN_AUX/OUT_PWM plus PWR_OUT ×5 — east packing, not missing EN/IS trunks
+- Confirm SENSOR_GND stays off chassis GND (no SENSOR pour was added)
 - TE **6473418-1**: courtyard is 39×29 mm (fits the EMI wall). Product-page 39×36.5 mm shroud **does not fit** without nudging HP/M1000 — verify against the TE drawing before fab
 - M6 hardware: two independent copper bobbins + M6×8 button-head, 4 N·m, 25 mm² cable (CONNECTOR.md) — north VBAT / south GND
 - ADIO/HP packing between the bobbins is still tight — nudge before fab
-- F1 remains the ATO blade placeholder (now on the north VBAT path)
+- F1 remains the ATO blade placeholder (now on the north VBAT path; J2 pour split so the fuse is not poured around)
 - Ideal-diode / reverse-protect controller
 - Discrete FET for ADIO PU hard-enable (`OUT_IO9–13`, `IO1–3`)
 - ADIO V-sense divider values (`IN_TPS` / `IN_PPS` / …)
 
 ## Scripts
 
-- `scripts/split_bobbins_floorplan.py` — **this commit**: split J2/J3 single M6 footprints, opposite-edge placement, wipe paired-spine copper, rewrite zone outlines
+- `scripts/route_split_bobbins.py` — **this commit**: sexp critical-net router for the J2-north / J3-south nest
+- `scripts/fill_zones_split.py` — **this commit**: pcbnew 8 ZONE_FILLER, solid VBAT/GND pours, M6/HP via stitch, kicad-cli DRC
+- `scripts/drc_zonefill.json` — compact DRC counts from kicad-cli 8.0.9
+- `scripts/unconnected_leftover.txt` — pad-island leftover list
+- `scripts/copper_fill_overview.png` — F/B pour overview
+- `scripts/split_bobbins_floorplan.py` — PR #9 placement (do not re-run blindly; wipes copper)
 - `scripts/layout_positions.txt` — current footprint XY
-- `scripts/floorplan_fcu_overview.png` — F.Cu pad/outline overview of the new nest
-- `scripts/fill_zones_104x93.py` — previous fill (paired-M6 nest; do not re-run blindly)
-- `scripts/route_critical_nets.py` — previous 104×93 sexp router (paired-M6 nest; do not re-run blindly)
+- `scripts/floorplan_fcu_overview.png` — F.Cu pad/outline overview of the nest
+- `scripts/fill_zones_104x93.py` / `scripts/route_critical_nets.py` — paired-M6 104×93 copper; do not re-run on this nest
 - `scripts/layout_redesign.py` — original 104×93 shrink + dual-bobbin J2
 - Older copper scripts (`cut_crossings_sexp.py`, `route_is_longhaul_thin_en.py`, …) target the **old** 150×130 nest and must not be re-applied blindly
