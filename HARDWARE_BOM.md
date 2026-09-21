@@ -1,6 +1,6 @@
-# Hardware BOM / sense assumptions — pdmrazora rev a
+# Hardware BOM / sense assumptions — PowerCore (`pdmrazora` rev a)
 
-Production-intent parts chosen for Razor-class ratings. Firmware must still calibrate `AmpsPerVolt`.
+Production-intent parts chosen for Link Razor-compatible ratings. Firmware must still calibrate `AmpsPerVolt`.
 
 ## Connector
 

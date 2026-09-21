@@ -9,7 +9,7 @@
 		(date "2026-09-15")
 		(rev "a")
 		(company "quintinbannink42")
-		(comment 1 "PINMAP edge nets for Razor PDM")
+		(comment 1 "PINMAP edge nets for PowerCore (Razor-compatible loom)")
 	)
 	(lib_symbols
 		(symbol "mega-mcu144-0.7:Module-mega-mcu144-0.7"

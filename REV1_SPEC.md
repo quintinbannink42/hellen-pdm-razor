@@ -1,13 +1,16 @@
-# Hellen Razor-class PDM — Rev 1
+# PowerCore — Rev 1
 
 **Status:** Rev 1 design baseline  
+**Product:** PowerCore (standalone PDM; Link Razor-compatible SuperSeal loom)  
 **MCU module:** Hellen mega-mcu144 (STM32F767)  
-**Firmware base:** RusEFI custom board (fork of `rusefi/fw-custom-example`)  
-**Product target:** Link ECU Razor PDM I/O + protection parity  
+**Firmware base:** [fw-powercore](https://github.com/quintinbannink42/fw-powercore) (rusEFI custom board)  
+**I/O target:** Link ECU Razor PDM I/O + protection parity  
+
+Former working names (docs/history only): `hellen-pdm-razor`, Hellen Razor-class PDM. KiCad stem stays **`pdmrazora`**.
 
 ## Goals (rev 1)
 
-Ship a first Hellen-One carrier + firmware that can:
+Ship a first PowerCore Hellen-One carrier + firmware that can:
 
 1. Drive **4× high-power** channels at **25 A continuous / 80 A peak**, HS (DIR/H-bridge optional if pins allow).
 2. Provide **8× ADIO** at **8 A** high-side, with analog/digital input modes and software pull-ups.
@@ -103,12 +106,12 @@ Provisional function map — STM32 / MM144 edge names filled from module docs in
 ## Firmware repo layout (planned)
 
 ```
-fw-pdm-razor/
+fw-powercore/
   meta-info.env
   board.mk
   board_configuration.cpp   # pin map + defaults
   prepend.txt
-  pdm/                      # electronic fuse + channel state machine
+  firmware/                 # electronic fuse + channel state machine
   README.md
 ```
 

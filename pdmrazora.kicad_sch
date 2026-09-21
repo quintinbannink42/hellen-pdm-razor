@@ -5,12 +5,12 @@
 	(uuid "fc0d7704-91e6-4104-a81b-dbcda565d3af")
 	(paper "A3")
 	(title_block
-		(title "pdmrazora - Hellen-One Razor PDM frame")
+		(title "pdmrazora - PowerCore PDM")
 		(date "2026-09-15")
 		(rev "a")
 		(company "quintinbannink42")
 		(comment 1 "https://github.com/quintinbannink42/hellen-pdm-razor")
-		(comment 2 "NOT HELLCORE - Hellen-One PDM matching Link Razor SuperSeal")
+		(comment 2 "PowerCore PDM; Link Razor SuperSeal loom - NOT HELLCORE")
 		(comment 3 "MCU: mega-mcu144 >= 0.7")
 	)
 	(lib_symbols

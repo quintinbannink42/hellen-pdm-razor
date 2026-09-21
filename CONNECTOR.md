@@ -1,4 +1,6 @@
-# Link Razor PDM — connector pinout (match exactly)
+# PowerCore — Link Razor-compatible connector pinout (match exactly)
+
+PowerCore uses the same AMP SuperSeal 1.0 26-pin (Link “Connector C”) and M6 main-power arrangement as the Link ECU **Razor PDM**, so existing Razor looms plug in.
 
 Sources: Link PDM Quick Start Guide; Link KB inputs/outputs.
 
@@ -46,10 +48,10 @@ Viewed looking into wire side of loom connector (or into PDM header).
 
 Also on enclosure (not SuperSeal): **USB-C** for config.
 
-## Hellen carrier mapping intent
+## PowerCore carrier mapping intent
 
-| Razor | Board nets |
-|-------|------------|
+| Razor loom | PowerCore nets |
+|------------|----------------|
 | M6 + / − | VBAT / GND power entry (fusing, TVS) |
 | PWR OUT 1..4 (paired pins) | HP1..HP4 dual SuperSeal feeds from PROFET outs |
 | ADIO 1..8 | ADIO front-end I/O |
