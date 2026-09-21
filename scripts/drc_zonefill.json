@@ -1,0 +1,113 @@
+{
+  "counts": {
+    "solder_mask_bridge": 199,
+    "via_diameter": 105,
+    "drill_out_of_range": 105,
+    "hole_near_hole": 19,
+    "padstack_invalid": 22,
+    "courtyards_overlap": 42,
+    "tracks_crossing": 178,
+    "shorting_items": 199,
+    "clearance": 172,
+    "hole_clearance": 39,
+    "unconnected_items": 100
+  },
+  "unconnected_nets": {
+    "VBAT": 2,
+    "GND": 54,
+    "PWR_OUT1": 5,
+    "PWR_OUT2": 5,
+    "PWR_OUT3": 5,
+    "PWR_OUT4": 5,
+    "CANH": 1,
+    "CANL": 1,
+    "IGN_SW": 1,
+    "SENSOR_5V": 2,
+    "SENSOR_GND": 3,
+    "ADIO1": 1,
+    "ADIO2": 1,
+    "ADIO3": 1,
+    "ADIO4": 1,
+    "ADIO5": 1,
+    "ADIO6": 1,
+    "ADIO7": 1,
+    "ADIO8": 1,
+    "IN_AUX1": 1,
+    "IN_AUX2": 1,
+    "IN_AUX3": 1,
+    "IN_AUX4": 1,
+    "OUT_PWM1": 1,
+    "OUT_PWM2": 1,
+    "OUT_PWM3": 1,
+    "OUT_PWM4": 1
+  },
+  "short_samples": [
+    {
+      "description": "Items shorting two nets (nets PWR_OUT3 and IN_AUX3)",
+      "items": [
+        "Track [PWR_OUT3] on F.Cu, length 9.5900 mm",
+        "Track [IN_AUX3] on F.Cu, length 14.2000 mm"
+      ]
+    },
+    {
+      "description": "Items shorting two nets (nets VBAT and GND)",
+      "items": [
+        "Track [VBAT] on F.Cu, length 18.0000 mm",
+        "PTH pad 2 [GND] of J2"
+      ]
+    },
+    {
+      "description": "Items shorting two nets (nets VBAT and GND)",
+      "items": [
+        "Track [VBAT] on F.Cu, length 27.0000 mm",
+        "Pad 2 [GND] of C2 on F.Cu"
+      ]
+    }
+  ],
+  "crossing_samples": [
+    {
+      "description": "Tracks crossing",
+      "items": [
+        "Track [VBAT] on F.Cu, length 5.1000 mm",
+        "Track [PWR_OUT2] on F.Cu, length 26.8400 mm"
+      ]
+    },
+    {
+      "description": "Tracks crossing",
+      "items": [
+        "Track [PWR_OUT3] on F.Cu, length 0.7500 mm",
+        "Track [PWR_OUT4] on F.Cu, length 14.9000 mm"
+      ]
+    },
+    {
+      "description": "Tracks crossing",
+      "items": [
+        "Track [PWR_OUT3] on F.Cu, length 6.0500 mm",
+        "Track [ADIO2] on F.Cu, length 2.0250 mm"
+      ]
+    }
+  ],
+  "unconnected_samples": [
+    {
+      "description": "Missing connection between items",
+      "items": [
+        "Track [VBAT] on F.Cu, length 1.8000 mm",
+        "Track [VBAT] on F.Cu, length 4.6500 mm"
+      ]
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
+      ]
+    },
+    {
+      "description": "Missing connection between items",
+      "items": [
+        "Pad G [GND] of M1000 on B.Cu",
+        "Pad G [GND] of M1000 on F.Cu"
+      ]
+    }
+  ]
+}

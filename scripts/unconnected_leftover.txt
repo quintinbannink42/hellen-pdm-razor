@@ -1,21 +1,32 @@
-# Leftover unconnected nets (pad islands after track/via/zone-outline snap)
+# Leftover unconnected nets after zone fill + M6/HP stitch
 
 ## GND
-- GND: 37 pad islands before zone fill; carrier pads are via-stitched to the B.Cu pour (M1000 G pads are module-internal).
+- Copper PR noted **~37** pad islands before pour. This pass: B.Cu GND pour is filled (solid pad connect); kicad-cli **unconnected_items 131 → 100**.
+- Of the 100: **24 M1000 G** (module keepout punches the pour — not a carrier leftover), **1 J2** stitch-ring vs 16 mm pad, rest are **carrier F.Cu stubs** that never got vias in the packed east/south field.
+- Union-find still sees **13** SMD pads without a nearby GND via (U11–U13/U15–U18 pad1, U2–U4 pad1, C101/C107, D1.2). East packing rejects extra vias (would sit on EN/ADIO/IS). Human via placement.
+- SENSOR_GND was **not** bonded to chassis GND.
 
 ## Critical signal nets
-- none
+- EN/IS were already track-connected. This pass does not re-route them.
+- kicad-cli still lists the same class of 1-island leftovers as unfilled main for ADIO1–8, CAN, IGN_SW, IN_AUX, OUT_PWM, plus PWR_OUT1–4 ×5 — east/south packing.
+- SENSOR_GND ×3 is a dedicated island (must stay off chassis).
+- VBAT **9 → 2**: remaining are F1 fuse gap (ATO placeholder) and two F.Cu VBAT islands that join through the B.Cu alley / tracks.
 
-## Other (DIR, PU FET, V-sense, USB-on-module, unused MM144)
-- none
+## DRC (kicad-cli 8.0.9 on the saved board)
 
-USBID/USBM/USBP live only on M1000 (USB-C is on the module).
-OUT_IO9–13 / IO1–3 PU FET not stuffed (BOARD.md TODO).
-IN_TPS/PPS/CLT/IAT/AT* ADIO V-sense dividers not stuffed.
-OUT_IO1–4 HP DIR not stuffed.
-F1 ATO fuse placeholder not replaced (Jeoff: do not block).
+| Type | Unfilled main (sanitized) | This fill |
+|------|---------------------------|-----------|
+| shorting_items | 199 | **199** (unchanged — packed east + M6 16 mm pad vs VBAT spine) |
+| tracks_crossing | 149 | **178** (pre-existing east/south; do **not** replay `cut_crossings_sexp.py`) |
+| unconnected_items | 131 | **100** |
+| clearance | 193 | **172** |
+| solder_mask_bridge | 207 | **199** |
 
-## Jeoff caveats
-- East via packs: signal vias 0.45 mm, ADIO columns 0.80 mm, EN 0.15/0.38 mm, PWR_OUT U1/U2 skip the EN hop. Remaining via pairs closer than size+clearance: 0.
-- TE 6473418-1: courtyard now 39.5×29.5 mm (TE width 39 × catalog vertical D 29, west-aligned in the M1000–HP gap). Product-page 39×36.5 mm shroud is drawn on Cmts.User and overlaps U1 — it does not fit this EMI-wall nest without moving HP.
-- Old 150×130 south-ring / cut_crossings_sexp.py scripts were not replayed.
+Via diameter 0.45 / drill 0.20 (105) and courtyard overlaps (42) are copper-PR / floorplan leftovers. M1000 padstack_invalid (22) is a module artifact.
+
+## Honest leftovers for human east/south crossing polish
+- Geometric H–V scan (not KiCad DRC): **585** same-layer crossings in the packed field.
+- Do **not** replay `scripts/cut_crossings_sexp.py` (150×130).
+- F1 ATO placeholder left. KiCad stem `pdmrazora`. EMI split unchanged.
+- TE 6473418-1 36.5 mm shroud still Cmts.User-only; courtyard 39.5×29.5.
+- 13 ADIO/HP/TVS GND pads still need vias that fit between EN/IS/ADIO columns.

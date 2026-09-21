@@ -2,7 +2,27 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — critical-net re-route on the 104×93 floorplan
+## This commit — zone fill + M6/HP stitch (104×93 EMI split)
+
+Critical-net copper from the previous commit is **unchanged in plan** (no footprint moves, no 150×130 scripts, F1 ATO left). Pours are now **filled** in pcbnew 8.0.9. No SENSOR pour was added (none existed; SENSOR_GND stays off chassis).
+
+[F.Cu / B.Cu zone-fill overview](https://cursor.com/agents/bc-56c5d6eb-2ed9-5dd9-a950-2d9575ea6b39/artifacts?path=%2Fopt%2Fcursor%2Fartifacts%2Fcopper_fill_fb_overview.png)
+
+| Item | Status |
+|------|--------|
+| Tracks / vias | **385 / 158** (was 385 / 136) — +10 M6 bobbin vias, +12 HP-tab thermal vias |
+| Zones filled | **7** copper pours (GND B full-board, GND F M6−, VBAT F entry/HP/ADIO, VBAT B entry + U1/U2 tab island). Keepout punches M1000. |
+| Pad connect | **solid** on VBAT/GND (not thermal spokes) |
+| HP VBAT F | Expanded to `(73,48)–(103,77.2)` so TO-263 tabs sit in the pour. U3/U4 tabs still avoid EN B vias (alley at y=64.4). |
+| EN/IS / outline / J1 / F1 | **Unchanged** |
+| SENSOR pour | **None** (not present; not added) |
+| KiCad format | **20240108 / generator_version 8.0** |
+| HELLCORE | **Not touched** |
+| Footprints | **53** |
+
+`kicad-cli pcb drc` **8.0.9** (this VM). See [scripts/drc_zonefill.json](scripts/drc_zonefill.json) and [scripts/unconnected_leftover.txt](scripts/unconnected_leftover.txt).
+
+## Previous commit — critical-net re-route on the 104×93 floorplan
 
 Mechanical placement from the previous commit is **unchanged** (53 footprints, 104×93 mm, M6 bobbins, vertical SuperSeal EMI wall, M1000 keepout). Old 150×130 copper scripts were **not** reapplied.
 
@@ -22,7 +42,7 @@ Mechanical placement from the previous commit is **unchanged** (53 footprints, 1
 | F1 | **ATO placeholder left** (Jeoff: do not block) |
 | Footprints | **53** |
 
-`kicad-cli pcb drc` is **still unavailable** here. Geometric H–V scan (not KiCad DRC) still sees same-layer crossings in the packed east/south field. **Fill zones in pcbnew** then run DRC. Via-to-via shorts from the first copper pass were cleared (0.32 mm ADIO packs are gone).
+`kicad-cli pcb drc` was **not available** in that agent VM. Geometric H–V scan (not KiCad DRC) still saw same-layer crossings in the packed east/south field. Zone fill + DRC is this follow-up.
 
 See [scripts/unconnected_leftover.txt](scripts/unconnected_leftover.txt).
 
@@ -69,8 +89,8 @@ x=0                    x=45                 x=68                 x=104
 
 Prefer **zone fills for power/GND**; signal long-haul uses exclusive lanes around the SuperSeal (not through MCU west copper except EN/IS/CAN/SENSOR at the connector spine / north corridor).
 
-1. **VBAT** — F.Cu pour islands (entry y≤30, HP tabs, ADIO south) + tracks M6+→F1→bulk; B.Cu east alley x=88 to HP tabs (stops north of EN highways)
-2. **GND** — B.Cu near-full board (module keepout punches M1000) + F.Cu M6− island only; stitch vias at every carrier GND pad
+1. **VBAT** — F.Cu pour islands (entry y≤30, HP tabs, ADIO south) + tracks M6+→F1→bulk; B.Cu entry island + U1/U2 tab island (stops north of EN y≈66.9) plus alley x=88
+2. **GND** — B.Cu near-full board (module keepout punches M1000) + F.Cu M6− island only; stitch vias at every carrier GND pad that fits
 3. **EN** — exclusive B.Cu south-of-J1 Y + MCU–J1 gap columns (6 B + 6 F); land on M1000 E pads
 4. **IS** — local F.Cu U–R–C; B.Cu unique highways y=73.15–78.1 to M1000 S pads
 5. **PWR_OUT / ADIO** — stay east of the pin field except J1 landings; F-hop the EN B band
@@ -79,28 +99,27 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 
 ## Unconnected / routing status
 
-| Metric | 150×130 nest (`main`) | Floorplan-only | This copper |
-|--------|----------------------|----------------|-------------|
-| DRC shorts | **1** (J2 header) | J2 short **gone**; DRC not run | **Not run** (`kicad-cli` missing). Via-pack scan **0** (was overcrowded 0.32 mm ADIO vias) |
-| DRC crossings | **89** | ~0 (no tracks) | **Human DRC required** — geometric H–V scan is not KiCad DRC; east/south packing is tight |
-| DRC unconnected | **116** | Up (copper stripped) | EN/IS/ADIO/PWR/CAN/SENSOR **track-connected**; GND completes on B pour fill |
-| EN/IS unconnected | **0** | Open | **0** (pad-island check) |
-| Tracks | 346 | **0** | **385** |
-| Vias | 142 | **0** (M6 stitches in footprint) | **136** + M6 footprint stitches |
-| Footprints | 53 | **53** | **53** |
-| Board outline | 150 × 130 | **104 × 93** | **104 × 93** |
+| Metric | Floorplan-only | Critical-net copper | This fill |
+|--------|----------------|---------------------|-----------|
+| DRC shorts | J2 short **gone** | not run | **199** (delta **0** vs unfilled copper; packed east + M6 16 mm vs VBAT spine) |
+| DRC crossings | ~0 (no tracks) | geometric H–V only | **178** (kicad-cli); geom H–V **585** |
+| DRC unconnected | Up (copper stripped) | GND open pre-pour | **100** (was 131 unfilled). VBAT **9→2** |
+| EN/IS unconnected | Open | **0** | **0** (not re-opened) |
+| Tracks / vias | 0 / 0 | **385 / 136** | **385 / 158** |
+| Footprints / outline | 53 / 104×93 | 53 / 104×93 | 53 / 104×93 |
 
 ## DRC notes
 
-`kicad-cli pcb drc` was **not available** in the agent VM (no KiCad package). Mechanical intent:
+`kicad-cli pcb drc` **8.0.9** on the filled board (`scripts/drc_zonefill.json`):
 
 | Issue | Notes |
 |-------|-------|
-| shorting_items | Previous unique short was J2 pin-header VBAT↔GND @ 2.54 mm. M6 pads are 25 mm apart with 16 mm Cu — will not short each other. Remaining shorts = zone-to-pad after a fill, for a human to check. |
-| tracks_crossing | Geometric H–V scan ≈480 in the packed east/south field (not KiCad DRC). Human polish after zone fill. |
-| solder_mask_bridge | M6 16 mm pads / module padstack — inspect after pour. |
-| J1 courtyard | Closed `fp_rect`. **Width 39 mm** (TE). **Length 29 mm** (catalog vertical D), west-aligned in the M1000–U1 gap (~29.6 mm available). Product-page **36.5 mm** shroud is Cmts.User only — it overlaps U1 courtyard (x≈74.3) and was **not** forced into F.CrtYd. |
-| M1000 padstack | Module artifact; ignore for carrier DRC. Keepout now matches silk `(0.1,0)…(42.2,−40)`. |
+| shorting_items | **199**, unchanged vs unfilled copper. Dominant: M6 16 mm GND pad vs VBAT F/B spine; ADIO/IS via-on-track in the east/south field. Not new from this fill. |
+| tracks_crossing | **178** kicad-cli / **585** geometric H–V. Human polish in HP/ADIO south. Do **not** replay `cut_crossings_sexp.py`. |
+| unconnected_items | **100** (131 unfilled). VBAT 9→2. Remaining GND: M1000 keepout + 13 SMD pads whose via sites collide with EN/ADIO. |
+| solder_mask_bridge | **199**. M6 16 mm pads / module padstack. |
+| J1 courtyard | Closed `fp_rect`. **Width 39 mm** (TE). **Length 29 mm** (catalog vertical D). Product-page **36.5 mm** shroud is Cmts.User only. |
+| M1000 padstack | Module artifact (`padstack_invalid` 22); ignore for carrier DRC. Keepout outline matches silk `(0.1,0)…(42.2,−40)`. |
 
 ## Schematic sheets
 
@@ -119,13 +138,13 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 | 2 | Final PROFET PNs + sense networks | **Done** |
 | 3 | Power entry + IGN_SW divider | **Done** |
 | 4 | Place HP/ADIO footprints on PCB | **Done** (re-nested on 104×93) |
-| 5 | create-board / copper finish | **Partial** — critical nets tracked on 104×93; fill + human DRC still required |
+| 5 | create-board / copper finish | **Partial** — pours filled + kicad-cli DRC; east/south crossings + 13 GND vias still human |
 
 ## Remaining polish (human)
 
-- **Fill VBAT/GND zones in pcbnew** and run `kicad-cli pcb drc` — this VM has no KiCad package
 - Clear remaining H–V crossings in the HP/ADIO south field (PWR_OUT vs IS locals, ADIO vs sense). Do **not** replay `scripts/cut_crossings_sexp.py` (150×130)
-- Confirm no zone-to-zone shorts at the SuperSeal wall after fill; SENSOR_GND must stay off chassis GND
+- Place GND vias on the 13 leftover SMD pads (ADIO U11–18 / HP U2–U4 / C101 / C107 / D1) without landing on EN/IS columns
+- Confirm SENSOR_GND stays off chassis GND (no SENSOR pour was added)
 - TE **6473418-1**: courtyard is 39×29 mm (fits the EMI wall). Product-page 39×36.5 mm shroud **does not fit** without nudging HP/M1000 — verify against the TE drawing before fab
 - M6 hardware: copper bobbin + M6×8 button-head, 4 N·m, 25 mm² cable (CONNECTOR.md)
 - ADIO/HP courtyard packing on the east half is tight — nudge before fab
@@ -136,8 +155,11 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 
 ## Scripts
 
-- `scripts/route_critical_nets.py` — **this commit**: sexp router for VBAT/GND/EN/IS/PWR/ADIO/CAN/SENSOR on 104×93
+- `scripts/fill_zones_104x93.py` — **this commit**: pcbnew 8 ZONE_FILLER, solid VBAT/GND pours, M6/HP via stitch, kicad-cli DRC
+- `scripts/drc_zonefill.json` — compact DRC counts from kicad-cli 8.0.9
 - `scripts/unconnected_leftover.txt` — pad-island leftover list
+- `scripts/copper_fill_overview.png` — F/B pour overview
+- `scripts/route_critical_nets.py` — previous commit: sexp router for VBAT/GND/EN/IS/PWR/ADIO/CAN/SENSOR on 104×93
 - `scripts/layout_redesign.py` — 104×93 Edge.Cuts, M6 bobbins, vertical SuperSeal EMI wall, M1000 keepout/value
 - `scripts/layout_positions.txt` — current footprint XY
 - Older copper scripts (`cut_crossings_sexp.py`, `route_is_longhaul_thin_en.py`, …) target the **old** 150×130 nest and must not be re-applied blindly
