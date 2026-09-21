@@ -6,7 +6,7 @@ Production-intent parts chosen for Link Razor-compatible ratings. Firmware must 
 
 | Ref | PN | Notes |
 |-----|-----|-------|
-| J1 | **TE Connectivity 9-6437287-8** | AMP SuperSeal 1.0, 26-way, right-angle, Au, **keying 1**. Mating loom: SuperSeal 1.0 26S keying 1 (Link “Connector C”). Footprint: `pdmrazora:TE_9-6437287-8_SuperSeal26` (same PCB pattern as obsolete 6473423-1 / TE drawing 9-1437287-8; pitch 3.0 mm, 4 rows). Pin numbers = TE / [CONNECTOR.md](CONNECTOR.md). |
+| J1 | **TE Connectivity 6473418-1** | AMP SuperSeal 1.0, 26-way, **vertical**, Au. Mating loom: SuperSeal 1.0 26S keying 1 (Link “Connector C”). Alternate: **6437288-6** (vertical Au, no mounting holes). Footprint: `pdmrazora:TE_6473418-1_SuperSeal26_Vertical` (same 3 mm / 4-row pattern as 9-6437287-8 / 9-1437287-8; pin numbers = TE / [CONNECTOR.md](CONNECTOR.md)). Previous RA 9-6437287-8 leftover in `pdmrazora.pretty` is unused. |
 
 ## High-power (HP1–4)
 
@@ -64,7 +64,7 @@ Voltage sense dividers to `IN_TPS` / `IN_PPS` / … are labeled on the ADIO shee
 
 | Ref | PN / value | Role |
 |-----|------------|------|
-| J2 | M6 stud stubs | VBAT+ / GND |
+| J2 | **M6 bolt-through bobbins** | Pair, 25 mm pitch. Pin 1 = VBAT+ (M6+), pin 2 = GND (M6−). Footprint `pdmrazora:M6_BoltThrough_Bobbin_x2`: plated **6.5 mm** hole, **16 mm** Cu pad, 8× 0.8 mm stitch vias per pad. Hardware: copper bobbin + M6×8 button-head, **4 N·m**, 25 mm² / 4 AWG (Link Razor). Replaces the 2.54 mm pin-header stub. |
 | F1 | **150 A Mega / fusible-link TBD** | Input fuse placeholder |
 | — | Ideal-diode / P-FET note | Reverse-polarity strategy (not a placed controller yet) |
 | D1 | **SMBJ33CA** (24–40 V automotive TVS class) | VBAT ↔ GND |
