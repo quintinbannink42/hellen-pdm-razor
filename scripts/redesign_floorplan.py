@@ -504,9 +504,9 @@ def expand_layout() -> dict[str, tuple[float, float, float]]:
         lay[rp] = (ux + 6.0, uy - 3.2, 0.0)
     for unum, (rr, cc) in HP_PASSIVES.items():
         ux, uy, rot = lay[f"U{unum}"]
-        # TO-263 rot 270: sit sense parts west of tab
-        lay[rr] = (ux - 11.0, uy - 4.0, 0.0)
-        lay[cc] = (ux - 11.0, uy, 0.0)
+        # TO-263 rot 270: sit sense parts in the ADIO–HP gap, east of J1 housing
+        lay[rr] = (ux + 4.0, uy - 8.0, 0.0)
+        lay[cc] = (ux + 8.0, uy - 8.0, 0.0)
     return lay
 
 

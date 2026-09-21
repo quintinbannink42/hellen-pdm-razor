@@ -3,10 +3,10 @@ before_board_mm=150.0x130.0
 j1=vertical_6437288-6_rot90_emi_split
 j2=M6_Bolt_Bobbin_Dual_22mm
 m1000=hellen-one mega-mcu144 0.7 keepout_aligned Value=Module:mega-mcu144/0.7
-tracks=371
+tracks=395
 vias=26
 footprints=53
-geom_crossings=1011
+geom_crossings=1107
 geom_unconnected=15
 en_is_open=0
 aux_axis_origin=0,106.0

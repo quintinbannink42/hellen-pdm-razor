@@ -8,20 +8,20 @@
 	(property "Reference" "REF**"
 		(at 0 10.5 0)
 		(layer "F.SilkS")
-		(uuid "84e4ad25-3c9d-4e5e-bc8e-0ecb0218da15")
+		(uuid "598b30e7-de39-46c4-a981-655203f9ec5b")
 		(effects (font (size 1 1) (thickness 0.15)))
 	)
 	(property "Value" "6437288-6"
 		(at 0 -31 0)
 		(layer "F.Fab")
-		(uuid "2c742b75-e32b-4add-b18e-b60785546d5a")
+		(uuid "fdc76c1a-7f00-47e3-8c19-c8cc9c60d740")
 		(effects (font (size 1 1) (thickness 0.15)))
 	)
 	(property "Datasheet" "https://www.te.com/en/product-6437288-6.html"
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "cd2f2ebd-2b92-49fd-be6e-cfec6fb2e676")
+		(uuid "ec0994c8-3415-4a29-b046-8a0f5e80ba12")
 		(effects (font (size 1.27 1.27)))
 	)
 	(attr through_hole)
@@ -33,7 +33,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "5b546ecd-e643-422b-86bd-060b249286f1")
+		(uuid "f3c46ebf-808b-4691-a434-b13ae1d37b79")
 	)
 	(fp_line
 		(start 19.5 -28.75)
@@ -43,7 +43,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "cff00bdc-d090-49f1-97ef-6a891886851b")
+		(uuid "298cd76e-eba1-4c07-8a0e-65bf25858bf6")
 	)
 	(fp_line
 		(start 19.5 7.75)
@@ -53,7 +53,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "2be8ecc6-d5c3-4bee-bd4f-f51784d9fa49")
+		(uuid "dc6827e2-43fd-4d4f-a381-321fcba12dde")
 	)
 	(fp_line
 		(start -19.5 7.75)
@@ -63,7 +63,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "8318e4da-92fa-49a6-863a-7d08a8b43fbe")
+		(uuid "85b871ee-2d0d-428e-9bf5-b9765b5694a6")
 	)
 	(fp_line
 		(start -19.25 -28.5)
@@ -73,7 +73,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "a6a26ef1-0b83-4676-bc85-d3f72ada7ac2")
+		(uuid "5466024d-e416-4399-9aa1-3b1ca37fd840")
 	)
 	(fp_line
 		(start 19.25 -28.5)
@@ -83,7 +83,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "f1e30145-54ad-4357-8ea9-9f2b0b22773b")
+		(uuid "af611038-b928-4bf8-8668-233917d77c76")
 	)
 	(fp_line
 		(start 19.25 7.5)
@@ -93,7 +93,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "5ed20e3b-45ea-4d96-a81b-a05f056147cb")
+		(uuid "a89382b9-488d-4653-9a6e-7b90db6aa3ab")
 	)
 	(fp_line
 		(start -19.25 7.5)
@@ -103,7 +103,7 @@
 			(type solid)
 		)
 		(layer "F.Fab")
-		(uuid "0c6def7e-d57c-49b5-a75d-5e3fe28c69b7")
+		(uuid "d1b43c0c-6b25-40cd-b8fa-305b741d67cb")
 	)
 	(fp_rect
 		(start -20 -29.25)
@@ -114,7 +114,7 @@
 		)
 		(fill no)
 		(layer "F.CrtYd")
-		(uuid "56caaaba-5844-4cbe-8de2-825d6831fe6a")
+		(uuid "f78125d3-fec2-4f28-9681-6f6bc37c0a76")
 	)
 	(fp_circle
 		(center -9 -16.5)
@@ -122,7 +122,7 @@
 		(stroke (width 0.15) (type solid))
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "c859076c-4a0c-44eb-ad7f-f175894603e3")
+		(uuid "5d49de52-e2b7-40b4-9d25-3b288bea2d7a")
 	)
 	(pad "1" thru_hole circle
 		(at -9 -14.5 270)

@@ -12,7 +12,7 @@ Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCa
 | M1000 | Refreshed from `hellen-one/modules/mega-mcu144/0.7`; keepout polygon = silk (0.1,−40)…(42.2,−0.1); Value **`Module:mega-mcu144/0.7`**; rot 0°; origin bottom-left |
 | Geom EN/IS unconnected | **0** (all 12 EN + all 12 IS long-haul still closed) |
 | Geom unconnected (tracks) | **15** (was DRC 116) — remaining mostly GND pour islands until zone fill |
-| Geom track crossings | **~1011** (was DRC 89) — expected after full re-nest; EN=B.Cu / IS=F.Cu exclusive south corridor + spine at x≈88.8. Needs Pcbnew DRC + interactive cleanup. |
+| Geom track crossings | **~1107** (was DRC 89) — expected after full re-nest; EN=B.Cu / IS=F.Cu exclusive south corridor + spine at x≈88.8. Needs Pcbnew DRC + interactive cleanup. |
 | J2 VBAT↔GND stub short | **Gone** (22 mm M6 pitch vs old 2.54 mm header with 3 mm pads) |
 | KiCad format | **20240108 / generator_version 8.0** |
 | HELLCORE | **Not touched** |
@@ -53,7 +53,7 @@ FreeRouting / aggressive track meshes were skipped (mega-mcu144 padstacks + prio
 | Metric | Previous (150×130, RA J1, pin-header J2) | This commit |
 |--------|------------------------------------------|-------------|
 | DRC shorts | **1** (J2 stub) | **0 expected** for that stub (M6) — confirm in Pcbnew |
-| DRC crossings | **89** | geom proxy **~1011** (re-nest; not a KiCad DRC run) |
+| DRC crossings | **89** | geom proxy **~1107** (re-nest; not a KiCad DRC run) |
 | DRC unconnected | **116** | geom proxy **15** |
 | EN/IS unconnected | **0** | **0** |
 | Board outline | 150 × 130 | **124 × 106** |
@@ -73,7 +73,7 @@ Geometry proxy after this commit (no `kicad-cli` in the agent VM):
 | Issue | Notes |
 |-------|-------|
 | shorting_items | Old J2 2.54 mm VBAT↔GND short **removed**. M6 pads 22 mm C-C, 14 mm copper (8 mm gap). |
-| tracks_crossing | Geom ~1011 after re-nest. EN/IS on opposite layers. Interactive: hop remaining same-layer H without reopening EN/IS. |
+| tracks_crossing | Geom ~1107 after re-nest. EN/IS on opposite layers. Interactive: hop remaining same-layer H without reopening EN/IS. |
 | solder_mask_bridge | Module / via density — non-blocking for this stage |
 | J1 courtyard | Vertical FP uses a **closed** `F.CrtYd` rectangle (old RA courtyard was open) |
 | M1000 padstack | Module artifact; ignore for carrier DRC |
