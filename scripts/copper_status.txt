@@ -5,6 +5,9 @@ fuse_bridged False
 sensor_pours 0
 keepout_hits 0
 pwr_connected PWR_OUT1 PWR_OUT2 PWR_OUT3 PWR_OUT4
-drc shorts 0 crossings 0 clearance 0 padstack 0 courtyard 0 unconnected 129
+pwr_mask_drawings 358
+footprints_moved 0
+drc shorts 0 crossings 0 clearance 0 hole_near_hole 0 padstack 0 courtyard 0 unconnected 64
+tracks 1232 vias 190
 kicad 20240108 generator 8.0
 drc_tool kicad-cli 8.0.9
