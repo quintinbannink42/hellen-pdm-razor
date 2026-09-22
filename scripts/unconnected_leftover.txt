@@ -1,28 +1,28 @@
-# Leftover after 109×98 connectivity closeout
+# Leftover after corridor and pour-stitch pass
 
-kicad-cli 8.0.9, severity-error, units mm. Unconnected 129 → 64.
-Shorts, crossings, clearance, hole-to-hole, courtyards, padstack: 0.
+kicad-cli 8.0.9, severity-error, units mm. Unconnected 64 → 53.
+Shorts, crossings, clearance, hole-to-hole, solder-mask bridge, courtyards, padstack: 0.
 F1 not bridged. SENSOR_GND pours 0. Keepout pour vertices 0.
 F.Mask openings on PWR_OUT stayed at 358. No footprint moves.
+Tracks / vias 1232 / 190 → 1268 / 199.
 
-## Closed
+## Closed or moved
 
-- OUT_PWM1–7 and OUT_IO5–8 layer mismatches (via at the pad)
-- IN_AUX1–3, IN_MAP1–3, IN_O2S, IN_O2S2, IN_RES1, IN_RES3
-- ADIO1–8 driver-side islands (J1 pins still open)
-- GND: 53 → 38 (17 pour stitches). 13 of the 38 are M1000 keepout pairs.
-- VBAT: C1.1 to the pre-fuse pour. Two post-fuse slivers.
-- One SENSOR_5V tie
+- SENSOR_GND spine x=38.40 y=43.20–55.60 deleted. Bypass is B.Cu (36.60, 41.60)→(12.00, 41.60)→(12.00, 63.60), via onto the F.Cu bus. No SENSOR_GND pour.
+- SENSOR_5V F.Cu spine at x=38.40 replaced by a B.Cu drop at x=10.00, y=43.60–62.40.
+- ADIO2/4/6/8 have B.Cu exits through the opened slot to y=73. ADIO6 bus ends (66.0, 81.4), ADIO8 bus ends (72.0, 82.0). Driver hop across the y≈76–78 GND neck was left off.
+- GND 38 → 28. Stitches: R104.1 (B track + via), C107.2, C101.2, C103.2, U11.1. Pour vias: R2.2, C104.2, C1.2, D1.2, R20.1, C20.2, and C10.2's south edge (joins an island; the pad stays open).
+- SENSOR_5V 4 → 3. Via at R202.1 (69.175, 56.20) plus B.Cu to (73.60, 56.30).
 
-## Still open
+## Still open — 53
 
-- GND 25 carrier stubs (sense RC row, R10/C10, R20/C20, R2/C1/C2/D1). Not the keepout pairs.
-- VBAT 10: fuse gap (zone 68.5,1.0 vs 54.5,27.5) + M1000.N27 (18.50,26.20) + post-fuse islands
-- ADIO1–8 J1 pins. SENSOR_GND spine x=38.40 y=43.20–55.60 blocks the west exit.
-- SENSOR_5V pull-ups at y=56.20, 4.00 mm pitch (R201/R202/R204/R205 pin 1)
-- IGN_SW J1.4 (34.30,46.50) to R1.1 (55.175,18.50)
-- IN_AUX4 C40.1 (96.83,32.20) to M1000.S10 (32.70,65.70), 72.35 mm
-- IN_RES2 C107.1 (89.22,54.30), neighborhood exhausts in 325 expansions
-- OUT_PWM8 (90.00,47.80) to M1000.E28 (44.00,49.60), 46.04 mm
+- GND 28. 13 are M1000 keepout F/B pairs. 15 are carrier: pads C10.2, C101.2, C102.2, C105.2, C106.2, C108.2, C2.2, R10.1, R101.1, U15.1, U16.1, U18.1, plus three track-to-track islands. No pour via sits inside those pads.
+- VBAT 10. Fuse gap (68.5, 1.0) vs (54.5, 27.5), M1000.N27 (18.50, 26.20), and eight post-fuse islands. Not bridged.
+- ADIO1–8, one line each. West exits exist; the driver field is past the pour neck.
+- SENSOR_5V 3 (R201.1, R205.1, R206.1).
+- IGN_SW J1.4 (34.30, 46.50) ↔ R1.1 (55.175, 18.50).
+- IN_AUX4 M1000.S10 (32.70, 65.70) ↔ C40.1 (96.825, 32.20).
+- IN_RES2 B.Cu (88.00, 53.20) ↔ C107.1 (89.225, 54.30).
+- OUT_PWM8 M1000.E28 (44.00, 49.60) ↔ B.Cu (90.05, 47.85).
 
 No gerbers. Leftover is more than the fuse gap plus the M1000 keepout.
