@@ -53,7 +53,7 @@ Also on enclosure (not SuperSeal): **USB-C** for config.
 | Razor loom | PowerCore nets |
 |------------|----------------|
 | M6 + / − | VBAT / GND power entry (fusing, TVS) |
-| PWR OUT 1..4 (paired pins) | HP1..HP4 dual SuperSeal feeds from PROFET outs |
+| PWR OUT 1..4 (paired pins) | HP1..HP4 dual SuperSeal feeds from PROFET outs. On the 109×98 board the four PROFET outputs (`PWR_OUT1–4`) are exposed F.Cu from the BTS50010 pads toward J1, with an F.Mask opening over that copper so solder can be added for current. A short B.Cu neck crosses the mega-mcu144 south pad wall. Pin pairs stay split: 14+20, 1+8, 7+13, 19+26. |
 | ADIO 1..8 | ADIO front-end I/O |
 | CAN H/L | Module CANH/CANL |
 | IGN SW | Key sense → divider → `IN_VIGN` path (and/or digital) |

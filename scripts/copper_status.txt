@@ -1,17 +1,10 @@
-tracks=1219
-vias=231
-footprints=54
-drc_shorts=0
-drc_crossings=0
-drc_unconnected=60
-drc_clearance=0
-drc_courtyards=20
-drc_padstack=22
-strategy=pack_adio_alley_0.35mm
-kicad_cli=8.0.9
-fuse_bridged=False
-sensor_pours=0
-placements_locked=U3/U4/J1/D1/senseRC/J2/J3/M1000/F1
-adio_pitch_dx_mm=0.35
-j1_m1000_gap_mm=0.40
-is_bus_pitch_mm=0.80
+outline 109.0x98.0
+aux_origin 0,98
+centerline x=80.0
+fuse_bridged False
+sensor_pours 0
+keepout_hits 0
+pwr_connected PWR_OUT1 PWR_OUT2 PWR_OUT3 PWR_OUT4
+drc shorts 0 crossings 0 clearance 0 padstack 0 courtyard 0 unconnected 129
+kicad 20240108 generator 8.0
+drc_tool kicad-cli 8.0.9
