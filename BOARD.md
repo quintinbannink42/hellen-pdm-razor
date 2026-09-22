@@ -2,7 +2,65 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — corridors and pour stitches
+## This commit — open the GND neck and land ADIO6
+
+Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png) — gold tracks are `PWR_OUT1–4`, yellow on B.Cu is ADIO. [Neck crop](scripts/neck_adio6.png) — B.Cu on the right, yellow is the ADIO6 spine, the red box is the B.Cu pour keepout, the pale via at (68.6, 79.0) stitches the cut-off GND island into the F.Cu pour around J3. [Exposed HP copper](scripts/hp_mask_openings.png) — gold is F.Cu, red is the F.Mask opening. Mask drawings on those nets stayed at **358**. Openings were not covered.
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`. Report: [scripts/drc_109.txt](scripts/drc_109.txt). Edit: `scripts/open_neck.py`.
+
+| Issue | PR #16 (corridors) | After this pass |
+|-------|-------------------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| hole_near_hole | 0 | **0** |
+| solder_mask_bridge | 0 | **0** |
+| courtyards_overlap | 0 | **0** |
+| padstack_invalid | 0 | **0** |
+| unconnected_items | 51 | **50** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged by pour | no | **no** |
+| Footprints moved | 0 | **0** |
+| Tracks / vias | 1273 / 201 | **1278 / 203** |
+| F.Mask drawings on PWR_OUT | 358 | **358** |
+
+Against main (`6c243d8`, PR #15, 64 unconnected): shorts and the other hard DRC rows stay 0, unconnected is 64 → 50, mask openings stay 358.
+
+### What changed
+
+The hop from the ADIO6 bus at (66.0, 81.4) onto U16 crosses the B.Cu GND neck and would seal the pour between the M1000 keepout (south edge y=65.9) and the y≈81 buses. The column that reaches the driver pad is x=72.4, and OUT_IO7 was using it.
+
+OUT_IO7 B.Cu (79.2, 62.4)–(71.2, 62.4) and (71.2, 62.4)–(71.2, 59.6), both width 0.20, are replaced by (79.2, 62.4)→(73.6, 62.4)→(73.6, 61.4)→(71.2, 61.4)→(71.2, 59.6), still width 0.20. That leaves x=72.4 clear down to the existing F.Cu ADIO6 copper at y=62.0.
+
+ADIO6 then runs B.Cu (66.0, 81.4)→(72.4, 81.4)→(72.4, 62.0), via 0.50/0.30 at (72.4, 62.0), and a 0.15 mm F.Cu tie to (72.8, 62.0). A B.Cu-only pour keepout covers (71, 63)–(75, 81) so the spine does not leave a pour sliver. Tracks, vias, and pads are still allowed there. A GND via 0.50/0.30 at (68.6, 79.0) sits in both the cut-off B pour and the F.Cu pour around J3, so the island ties back through the J3 PTH. The pair diff of the DRC report is one line: the ADIO6 ratsnest is gone. GND stays 26 and VBAT stays 10.
+
+| Net group | PR #16 | After this pass |
+|-----------|-------:|----------------:|
+| GND | 26 | **26** |
+| SENSOR_5V | 3 | **3** |
+| VBAT | 10 | **10** |
+| ADIO1–8 | 8 | **7** (ADIO6 closed) |
+| IGN_SW / IN_AUX4 / IN_RES2 / OUT_PWM8 | 4 | **4** |
+
+### Still open
+
+| Count | What it is |
+|------:|------------|
+| 26 | GND. **13** are M1000 keepout F/B pairs. The other **13** are 10 carrier pads the pour still misses (C10.2, C101.2, C102.2, C105.2, C106.2, R10.1, R101.1, U15.1, U16.1, U18.1) plus three track-to-track islands. A via on the pad does not also land in the pour. C10 has a pour via 1.2 mm south of the pad; the F.Cu tie to it does not join the pad's island to the main pour. |
+| 10 | VBAT. One is the intentional fuse gap: pre-fuse zone anchor (68.5, 1.0) vs post-fuse (54.5, 27.5). One is M1000.N27 (18.50, 26.20). The other eight are post-fuse islands. Not bridged. |
+| 7 | ADIO1, ADIO2, ADIO3, ADIO4, ADIO5, ADIO7, ADIO8. ADIO6 is on the driver. ADIO2 can reach (70.8, 80.6) on B.Cu and has a legal via on its F.Cu copper at (72.3, 52.0), but OUT_IO7's via at (71.2, 59.6), SENSOR_5V at y=56.2, OUT_PWM2 at y=54.8, IN_MAP3 at y=54.0, and IN_O2S at y=52.8 close every column before that via. ADIO8 cannot step east of x=72 at y=82 (J3 pad, then the ADIO6 spine). ADIO4 cannot leave (23.7, 73): IN_RES3 occupies x=23.2. The odd pins are still on J1. |
+| 3 | SENSOR_5V. R201.1, R205.1, R206.1 at y=56.20. R202 is tied. No pour via lands on the other three pads. |
+| 1 | IGN_SW. J1.4 (34.30, 46.50) to R1.1 (55.175, 18.50). The F.Cu SENSOR_5V run at y=43.60 is still the wall north of the pin. |
+| 1 | IN_AUX4. M1000.S10 (32.70, 65.70) to C40.1 (96.825, 32.20). |
+| 1 | IN_RES2. C107.1 (89.225, 54.30) to the B.Cu track at (88.00, 53.20). Notching IN_O2S2 north of the pad runs into that same stub. The channel between IN_O2S2 (y=54.00) and OUT_PWM2 (y=54.80) is still 0.60 mm; a via needs 0.90 mm. |
+| 1 | OUT_PWM8. M1000.E28 (44.00, 49.60) to the B.Cu track at (90.00, 47.80). |
+
+No gerbers. 50 unconnected is more than the fuse gap plus the 13 keepout pairs.
+
+## Previous commit — corridors and pour stitches
 
 Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
 
