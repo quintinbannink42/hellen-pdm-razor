@@ -1,5 +1,5 @@
 ** Drc report for pdmrazora.kicad_pcb **
-** Created on 2026-09-22T10:36:54+0000 **
+** Created on 2026-09-22T11:08:35+0000 **
 
 ** Found 0 DRC violations **
 
@@ -90,8 +90,8 @@
     @(13.8000 mm, 26.0000 mm): Pad G [GND] of M1000 on B.Cu
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(89.6000 mm, 52.2000 mm): Track [GND] on B.Cu, length 0.4472 mm
-    @(89.2000 mm, 52.4000 mm): Track [GND] on F.Cu, length 1.4000 mm
+    @(89.1750 mm, 52.4000 mm): Track [GND] on F.Cu, length 0.0250 mm
+    @(85.9000 mm, 52.4000 mm): Track [GND] on B.Cu, length 3.3000 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(90.0000 mm, 46.5000 mm): Track [GND] on F.Cu, length 1.4000 mm
@@ -126,8 +126,8 @@
     @(78.5500 mm, 62.0500 mm): Pad 1 [GND] of U16 on F.Cu
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(44.2000 mm, 65.0000 mm): Pad G [GND] of M1000 on B.Cu
-    @(44.2000 mm, 59.3500 mm): Pad G [GND] of M1000 on F.Cu
+    @(0.8000 mm, 0.8000 mm): Zone [GND] on B.Cu
+    @(0.8000 mm, 0.8000 mm): Zone [GND] on B.Cu
 [unconnected_items]: Missing connection between items
     Local override; error
     @(69.9500 mm, 62.0500 mm): Pad 1 [GND] of U15 on F.Cu
@@ -155,7 +155,7 @@
 [unconnected_items]: Missing connection between items
     Local override; error
     @(42.3000 mm, 52.5000 mm): PTH pad 21 [ADIO1] of J1
-    @(64.4000 mm, 51.2000 mm): Track [ADIO1] on F.Cu, length 0.7649 mm
+    @(64.4000 mm, 50.0000 mm): Track [ADIO1] on F.Cu, length 0.4743 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(70.8000 mm, 56.0000 mm): Track [ADIO2] on F.Cu, length 0.8000 mm
@@ -175,7 +175,7 @@
 [unconnected_items]: Missing connection between items
     Local override; error
     @(42.3000 mm, 43.5000 mm): PTH pad 24 [ADIO7] of J1
-    @(86.8000 mm, 59.2000 mm): Track [ADIO7] on F.Cu, length 0.4000 mm
+    @(86.8000 mm, 58.8000 mm): Track [ADIO7] on F.Cu, length 0.3500 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(95.6000 mm, 61.6000 mm): Track [ADIO8] on F.Cu, length 0.4000 mm

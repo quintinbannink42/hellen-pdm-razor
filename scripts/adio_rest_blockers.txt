@@ -1,0 +1,89 @@
+# ADIO rest attempt — mm blockers (unconnected stays 46)
+
+kicad-cli 8.0.9, severity-error, units mm. After PR #17 (ADIO6 + IN_RES2 + R10/C105/C106).
+Hard DRC rows stay 0. F.Mask on PWR_OUT stays 358. No footprint moves. No gerbers.
+
+Serious attempt to replicate the ADIO6 pattern (wall jog → B.Cu spine → via on
+driver F.Cu → B.Cu pour keepout → GND stitch of the cut-off island) for
+ADIO1,2,3,4,5,7,8. **No landing was kept**: every candidate that closed an ADIO
+ratsnest also opened at least one GND (and sometimes VBAT) island, so the
+unconnected count did not drop. Stopped per “do not thrash.”
+
+## What worked for ADIO6 (reference)
+
+- OUT_IO7 jog off x=72.4
+- Spine B.Cu (66.0, 81.4)→(72.4, 81.4)→(72.4, 62.0), via 0.50/0.30
+- Keepout (71, 63)–(75, 81)
+- GND stitch (68.6, 79.0) in F+B pour by J3
+
+## Per-net blockers (mm)
+
+### ADIO2 — bus OK to neck; landing wall is dense
+
+- West stub ends at **(24.9, 73.0)**. Bus
+  `(24.9,73)→(26.0,73)→(26.0,80.6)→(70.8,80.6)` is clearance-legal.
+- B.Cu spine **(70.8, 80.6)→(70.8, 62.0)** is also legal (ADIO6-height column).
+- Via at (70.8, 62.0) refused. Legal F landing is near **(71.8, 52.0)** /
+  **(72.3, 52.0)** on U12 copper — **10 mm further north** through the pack.
+- Walls on that hop (B.Cu, column ~71.8):
+  - `IN_O2S` y=52.80, ~0.40 mm off column
+  - `SENSOR_5V` y=56.25, ~0.42 mm off column
+  - `OUT_IO7` via/track at x=71.2 (0.60 mm off)
+  - `OUT_IO6` y=58.80, `OUT_PWM2` y=54.80, `IN_MAP3` y=54.00, `OUT_IO8` y=55.60
+- F.Cu stub from U12 pads down to y=62 is blocked by `ADIO6` F copper,
+  `ADIO5` F run at y=57.20, and GND F stitches at y≈55.
+
+### ADIO4 — 0.025 mm short of the south passage, then no east exit
+
+- Stub ends at **(23.7, 73.0)**.
+- `IN_RES3` via **(23.2, 76.0)** dia 0.50: center distance to column = **0.50 mm**.
+  Need via_r + clr + tw/2 = 0.25+0.20+0.075 = **0.525 mm**. Short by **0.025 mm**.
+- `IN_RES1` via **(24.4, 76.0)** is 0.70 mm off — that one clears.
+- Via copper gap between the pair = 0.70 mm (>0.55 mm track budget), but the
+  column sits on the west via, not in the gap.
+- Nudging `IN_RES3` via to x=23.05 opens `(23.7,73)→(23.7,80.6)` and a bus east
+  to **x≈72**. Past that, `ADIO6` spine/keepout and J3 block; BFS to U14
+  (95.75, 62) exhausts (~100k) with no path. Not kept (would need the via
+  move plus a second neck hop that still isolates GND).
+
+### ADIO8 — path exists; always mints a B-only GND island
+
+- Bus ends at **(72.0, 82.0)**. East at y=82 only clears to **x=73.0** (J3 16 mm pad).
+- No clear horizontal `(73→95.8)` at any y in 70–84.
+- Vertical `x=95.8` is blocked **y=78→70** by `IN_RES3` y=76.4, `OUT_PWM2` y=72.0,
+  `IN_RES1` via (96.8, 75.6).
+- BFS finds a 99-point east-skirt path around x≈107.8 down to the U18 via site;
+  shortcut is 12 bends. Closing ADIO8 works electrically, but the skirt cuts a
+  **B.Cu-only** GND pocket near **(98.2, 54.3)–(103, 62)** with **no F.Cu pour**
+  to stitch (F GND pour stops around J3). Every keepout/stitch/bridge trial
+  left unconnected ≥46 (usually 47). Not kept.
+
+### ADIO5 — pin→driver BFS works; neck hop grows VBAT
+
+- J1.23 **(42.3, 46.5)** reaches existing via **(64.2, 60.8)** (18-bend shortcut
+  via south bus y≈77.5 and spine x≈65.4).
+- With ADIO6-style keepout `(63.5,61)–(66.5,77.5)` + stitch `(68.6,79.0)`:
+  ADIO5 closes, but **VBAT islands 33→34** and unconnected **46→47**.
+  West-of-spine F+B stitch sites other than (68.6,79) are B-only. Not kept.
+
+### ADIO1 / ADIO3 / ADIO7 — no BFS to driver copper
+
+- Pins can step west of J1 on B.Cu; ADIO1/3 reach S-row passages (~26/22).
+- BFS pin→driver via (limits 350–400k) finds **no** path for ADIO1, ADIO3, ADIO7.
+- ADIO7 also fails the south-passage goal at (19.5, 73).
+
+## Secondary (room check)
+
+- GND vias on C101/C102/R101/U15/U16/U18: no candidate with pad∩B-pour that
+  drops unconnected without growing VBAT islands.
+- IGN_SW / IN_AUX4 / OUT_PWM8 / SENSOR_5V R201/R205: not opened this pass
+  (ADIOs consumed the attempt).
+
+## Scripts
+
+- `scripts/land_adio_rest.py` — trial harness (kept nothing)
+- `scripts/plot_adio_blockers.py` — neck crop annotation
+- `scripts/adio_rest_blockers.png` — visual of open ends vs ADIO6 spine
+
+Unconnected remains **46**. Leftover is still more than the fuse gap plus the
+M1000 keepout. No gerbers.
