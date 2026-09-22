@@ -33,9 +33,9 @@
     "IN_RES1": 1,
     "IN_RES2": 1
   },
-  "tracks": 1205,
+  "tracks": 1219,
   "vias": 231,
   "fuse_bridged": false,
   "sensor_pours": 0,
-  "note": "R1 +0.37 mm courtyard nudge reverted; it shorted IN_VIGN. Counts are after that revert."
+  "note": "ADIO columns spread 0.35 mm per gap. Shorts, crossings, and clearance stayed 0. Unconnected stayed 60: the new 1.340 mm gap fits a via in X, and the 0.80 mm bus pitch still blocks the layer change."
 }
