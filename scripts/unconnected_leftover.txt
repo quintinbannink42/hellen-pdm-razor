@@ -1,21 +1,70 @@
-# Leftover unconnected nets after split-bobbin copper + zone fill
+# Leftover after surgical east DRC polish
 
-## GND
-- Pre-pour union-find carrier islands: **11**; after stitch+fill: **0**.
-- M1000 G pads are module-internal (keepout punches the B.Cu pour) and are not leftovers.
-- SENSOR_GND was not bonded to chassis GND. No SENSOR pour.
-- kicad-cli unconnected_items: **87**. By net (top): GND 40 (mostly M1000 keepout), PWR_OUT1–4 ×5, VBAT 3, SENSOR_GND 3, SENSOR_5V 2, then 1-island ADIO/CAN/IGN_SW/IN_AUX/OUT_PWM.
-- EN/IS trunks are track-connected (union-find 0). kicad-cli 1-island leftovers on OUT_PWM1–4 / IN_AUX are packed-east snap, not open trunks.
+## Placement nudges (required to clear pad copper)
 
-## DRC (kicad-cli 8.0.9)
-- shorting_items: 177
-- tracks_crossing: 131
-- unconnected_items: 87
-- other: {'solder_mask_bridge': 199, 'via_diameter': 73, 'drill_out_of_range': 73, 'hole_near_hole': 17, 'padstack_invalid': 22, 'courtyards_overlap': 23, 'clearance': 110, 'hole_clearance': 18}
+- U3: rot -90 → 90, anchor (80.0,53.0) unchanged
+- U4: rot -90 → 90, anchor (96.0,53.0) unchanged
+- R10: (76.00,32.00) → (76.00,35.70)
+- C10: (80.00,32.00) → (80.00,35.70)
+- R20: (92.00,32.00) → (92.00,35.70)
+- C20: (96.00,32.00) → (96.00,35.70)
+- D1: (80.00,28.00) → (88.00,24.00)
+- J1: (50.00,46.50) → (48.80,46.50)
 
-## Honest leftovers for human east/south polish
-- Geometric H–V scan (not KiCad DRC): 387 same-layer crossings in the packed field.
-- Do **not** replay `scripts/cut_crossings_sexp.py` (150×130).
-- F1 ATO placeholder left; J2 pour is split from the post-fuse pour (no fuse bypass).
-- KiCad stem `pdmrazora`. EMI split unchanged. J2 north / J3 south.
-- SENSOR pours filled: 0 (must be 0).
+## Route report
+
+- IN_MAP2: open:U12.4
+- IN_MAP3: open:U13.4
+- IN_O2S: open:U14.4
+- IN_O2S2: open:U15.4
+- IN_RES1: open:U16.4
+- IN_RES2: open:U17.4
+- IN_RES3: open:U18.4
+- SENSOR_5V: open:R202.1,R205.1,R204.1,R207.1,R203.1,R206.1,M1000.E38,R208.1,R201.1
+- ADIO1: open:R201.2,J1.21
+- ADIO2: open:J1.15
+- ADIO3: open:U13.12,U13.13,U13.14,J1.22
+- ADIO4: open:J1.16
+- ADIO5: open:R205.2,J1.23
+- ADIO6: open:R206.2,J1.17
+- ADIO7: open:J1.24
+
+## DRC counts
+
+- unconnected_items: 75
+- padstack_invalid: 22
+- courtyards_overlap: 20
+
+## Unconnected by net
+
+- GND: 31
+- VBAT: 11
+- SENSOR_5V: 9
+- ADIO1: 2
+- ADIO3: 2
+- ADIO5: 2
+- ADIO6: 2
+- PWR_OUT1: 1
+- PWR_OUT2: 1
+- PWR_OUT3: 1
+- PWR_OUT4: 1
+- IGN_SW: 1
+- ADIO2: 1
+- ADIO4: 1
+- ADIO7: 1
+- ADIO8: 1
+- IN_MAP2: 1
+- IN_MAP3: 1
+- IN_O2S: 1
+- IN_O2S2: 1
+- IN_RES1: 1
+- IN_RES2: 1
+- IN_RES3: 1
+
+## Still shorting (sample)
+
+
+SENSOR pours: 0 (not added). F1 ATO placeholder left in place.
+
+Fuse segment bridges both F1 pads: False
+

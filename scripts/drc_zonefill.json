@@ -1,303 +1,150 @@
 {
   "cli_rc": 0,
+  "kicad": "8.0.9",
   "counts": {
-    "solder_mask_bridge": 199,
-    "via_diameter": 73,
-    "drill_out_of_range": 73,
-    "hole_near_hole": 17,
     "padstack_invalid": 22,
-    "courtyards_overlap": 23,
-    "tracks_crossing": 131,
-    "shorting_items": 177,
-    "clearance": 110,
-    "hole_clearance": 18,
-    "unconnected_items": 87
+    "courtyards_overlap": 20,
+    "unconnected_items": 75
   },
   "unconnected_nets": {
-    "VBAT": 3,
-    "GND": 40,
-    "PWR_OUT1": 5,
-    "PWR_OUT2": 5,
-    "PWR_OUT3": 5,
-    "PWR_OUT4": 5,
-    "CANH": 1,
-    "CANL": 1,
+    "VBAT": 11,
+    "GND": 31,
+    "PWR_OUT1": 1,
+    "PWR_OUT2": 1,
+    "PWR_OUT3": 1,
+    "PWR_OUT4": 1,
     "IGN_SW": 1,
-    "SENSOR_5V": 2,
-    "SENSOR_GND": 3,
-    "ADIO1": 1,
+    "SENSOR_5V": 9,
+    "ADIO1": 2,
     "ADIO2": 1,
-    "ADIO3": 1,
+    "ADIO3": 2,
     "ADIO4": 1,
-    "ADIO5": 1,
-    "ADIO6": 1,
+    "ADIO5": 2,
+    "ADIO6": 2,
     "ADIO7": 1,
     "ADIO8": 1,
-    "IN_AUX1": 1,
-    "IN_AUX2": 1,
-    "IN_AUX3": 1,
-    "IN_AUX4": 1,
-    "OUT_PWM1": 1,
-    "OUT_PWM2": 1,
-    "OUT_PWM3": 1,
-    "OUT_PWM4": 1
+    "IN_MAP2": 1,
+    "IN_MAP3": 1,
+    "IN_O2S": 1,
+    "IN_O2S2": 1,
+    "IN_RES1": 1,
+    "IN_RES2": 1,
+    "IN_RES3": 1
   },
-  "short_samples": [
-    {
-      "description": "Items shorting two nets (nets GND and VBAT)",
-      "items": [
-        {
-          "type": null,
-          "net": "Via [GND] on F.Cu - B.Cu",
-          "pos": {
-            "x": 92.19,
-            "y": 50.45
-          }
-        },
-        {
-          "type": null,
-          "net": "Pad 4 [VBAT] of U4 on F.Cu",
-          "pos": {
-            "x": 96.0,
-            "y": 54.5
-          }
-        }
-      ]
-    },
-    {
-      "description": "Items shorting two nets (nets GND and OUT_PWM2)",
-      "items": [
-        {
-          "type": null,
-          "net": "Via [GND] on F.Cu - B.Cu",
-          "pos": {
-            "x": 92.19,
-            "y": 50.45
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [OUT_PWM2] on B.Cu, length 9.4000 mm",
-          "pos": {
-            "x": 91.91,
-            "y": 47.65
-          }
-        }
-      ]
-    },
-    {
-      "description": "Items shorting two nets (nets IN_MAP3 and IN_RES2)",
-      "items": [
-        {
-          "type": null,
-          "net": "Via [IN_MAP3] on F.Cu - B.Cu",
-          "pos": {
-            "x": 66.025,
-            "y": 82.2
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [IN_RES2] on B.Cu, length 9.0000 mm",
-          "pos": {
-            "x": 66.025,
-            "y": 77.5
-          }
-        }
-      ]
-    },
-    {
-      "description": "Items shorting two nets (nets GND and OUT_PWM1)",
-      "items": [
-        {
-          "type": null,
-          "net": "Via [GND] on F.Cu - B.Cu",
-          "pos": {
-            "x": 82.0,
-            "y": 30.15
-          }
-        },
-        {
-          "type": null,
-          "net": "Pad 2 [OUT_PWM1] of U1 on F.Cu",
-          "pos": {
-            "x": 82.54,
-            "y": 32.35
-          }
-        }
-      ]
-    }
-  ],
-  "crossing_samples": [
-    {
-      "description": "Tracks crossing",
-      "items": [
-        {
-          "type": null,
-          "net": "Track [VBAT] on F.Cu, length 1.8500 mm",
-          "pos": {
-            "x": 67.2,
-            "y": 18.0
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [CANH] on F.Cu, length 38.3000 mm",
-          "pos": {
-            "x": 67.5,
-            "y": 5.2
-          }
-        }
-      ]
-    },
-    {
-      "description": "Tracks crossing",
-      "items": [
-        {
-          "type": null,
-          "net": "Track [ADIO2] on F.Cu, length 4.5500 mm",
-          "pos": {
-            "x": 62.85,
-            "y": 73.5
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [ADIO1] on F.Cu, length 10.5500 mm",
-          "pos": {
-            "x": 54.85,
-            "y": 70.05
-          }
-        }
-      ]
-    },
-    {
-      "description": "Tracks crossing",
-      "items": [
-        {
-          "type": null,
-          "net": "Track [ADIO2] on F.Cu, length 3.9000 mm",
-          "pos": {
-            "x": 62.85,
-            "y": 67.55
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [ADIO1] on F.Cu, length 10.5500 mm",
-          "pos": {
-            "x": 54.85,
-            "y": 70.05
-          }
-        }
-      ]
-    },
-    {
-      "description": "Tracks crossing",
-      "items": [
-        {
-          "type": null,
-          "net": "Track [VBAT] on F.Cu, length 12.8000 mm",
-          "pos": {
-            "x": 67.2,
-            "y": 18.0
-          }
-        },
-        {
-          "type": null,
-          "net": "Track [CANH] on F.Cu, length 38.3000 mm",
-          "pos": {
-            "x": 67.5,
-            "y": 5.2
-          }
-        }
-      ]
-    }
-  ],
+  "short_samples": [],
+  "crossing_samples": [],
   "unconnected_samples": [
     {
-      "description": "Missing connection between items",
+      "description": "unconnected",
       "items": [
-        {
-          "type": null,
-          "net": "Pad 15 [VBAT] of U13 on F.Cu",
-          "pos": {
-            "x": 68.0,
-            "y": 69.5
-          }
-        },
-        {
-          "type": null,
-          "net": "Zone [VBAT] on F.Cu",
-          "pos": {
-            "x": 48.0,
-            "y": 66.0
-          }
-        }
+        "Track [VBAT] on F.Cu, length 8.0000 mm",
+        "Track [VBAT] on B.Cu, length 33.5000 mm"
       ]
     },
     {
-      "description": "Missing connection between items",
+      "description": "unconnected",
       "items": [
-        {
-          "type": null,
-          "net": "Zone [VBAT] on F.Cu",
-          "pos": {
-            "x": 48.0,
-            "y": 66.0
-          }
-        },
-        {
-          "type": null,
-          "net": "Pad 15 [VBAT] of U13 on F.Cu",
-          "pos": {
-            "x": 68.0,
-            "y": 69.5
-          }
-        }
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
       ]
     },
     {
-      "description": "Missing connection between items",
+      "description": "unconnected",
       "items": [
-        {
-          "type": null,
-          "net": "Zone [VBAT] on F.Cu",
-          "pos": {
-            "x": 48.0,
-            "y": 66.0
-          }
-        },
-        {
-          "type": null,
-          "net": "Pad 15 [VBAT] of U17 on F.Cu",
-          "pos": {
-            "x": 68.0,
-            "y": 77.5
-          }
-        }
+        "Zone [VBAT] on B.Cu",
+        "Zone [VBAT] on F.Cu"
       ]
     },
     {
-      "description": "Missing connection between items",
+      "description": "unconnected",
       "items": [
-        {
-          "type": null,
-          "net": "Pad G [GND] of M1000 on B.Cu",
-          "pos": {
-            "x": 2.099999,
-            "y": 52.799996
-          }
-        },
-        {
-          "type": null,
-          "net": "Pad G [GND] of M1000 on F.Cu",
-          "pos": {
-            "x": 2.099999,
-            "y": 52.799996
-          }
-        }
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
+      ]
+    },
+    {
+      "description": "unconnected",
+      "items": [
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
+      ]
+    },
+    {
+      "description": "unconnected",
+      "items": [
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
+      ]
+    },
+    {
+      "description": "unconnected",
+      "items": [
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
+      ]
+    },
+    {
+      "description": "unconnected",
+      "items": [
+        "Zone [VBAT] on F.Cu",
+        "Zone [VBAT] on F.Cu"
       ]
     }
-  ]
+  ],
+  "placement": {
+    "U3": "rot -90 \u2192 90, anchor (80.0,53.0) unchanged",
+    "U4": "rot -90 \u2192 90, anchor (96.0,53.0) unchanged",
+    "R10": "(76.00,32.00) \u2192 (76.00,35.70)",
+    "C10": "(80.00,32.00) \u2192 (80.00,35.70)",
+    "R20": "(92.00,32.00) \u2192 (92.00,35.70)",
+    "C20": "(96.00,32.00) \u2192 (96.00,35.70)",
+    "D1": "(80.00,28.00) \u2192 (88.00,24.00)",
+    "J1": "(50.00,46.50) \u2192 (48.80,46.50)"
+  },
+  "route_report": {
+    "OUT_IO5": "ok",
+    "OUT_IO6": "ok",
+    "OUT_IO7": "ok",
+    "OUT_IO8": "ok",
+    "OUT_PWM1": "ok",
+    "OUT_PWM2": "ok",
+    "OUT_PWM3": "ok",
+    "OUT_PWM4": "ok",
+    "OUT_PWM5": "ok",
+    "OUT_PWM6": "ok",
+    "OUT_PWM7": "ok",
+    "OUT_PWM8": "ok",
+    "IN_AUX1": "ok",
+    "IN_AUX2": "ok",
+    "IN_AUX3": "ok",
+    "IN_AUX4": "ok",
+    "IN_MAP1": "ok",
+    "IN_MAP2": "open:U12.4",
+    "IN_MAP3": "open:U13.4",
+    "IN_O2S": "open:U14.4",
+    "IN_O2S2": "open:U15.4",
+    "IN_RES1": "open:U16.4",
+    "IN_RES2": "open:U17.4",
+    "IN_RES3": "open:U18.4",
+    "IN_VIGN": "ok",
+    "CANH": "ok",
+    "CANL": "ok",
+    "IGN_SW": "ok",
+    "SENSOR_5V": "open:R202.1,R205.1,R204.1,R207.1,R203.1,R206.1,M1000.E38,R208.1,R201.1",
+    "SENSOR_GND": "ok",
+    "ADIO1": "open:R201.2,J1.21",
+    "ADIO2": "open:J1.15",
+    "ADIO3": "open:U13.12,U13.13,U13.14,J1.22",
+    "ADIO4": "open:J1.16",
+    "ADIO5": "open:R205.2,J1.23",
+    "ADIO6": "open:R206.2,J1.17",
+    "ADIO7": "open:J1.24",
+    "ADIO8": "ok",
+    "PWR_OUT1": "ok",
+    "PWR_OUT2": "ok",
+    "PWR_OUT3": "ok",
+    "PWR_OUT4": "ok"
+  },
+  "sensor_pours": 0,
+  "fuse_segment_bridges_both_pads": false
 }
