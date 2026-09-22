@@ -2,7 +2,66 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — carrier ratsnest close (stacked on the DRC polish)
+## This commit — ADIO column spread (IS alley in X)
+
+Packing pass on the carrier-close tip. Does not move J1, M1000, J2, J3, F1, U3, or U4. Board stays 104×93. J2 north / J3 south. No SENSOR_GND pour. F1 is not bridged. `scripts/cut_crossings_sexp.py` and the 150×130 routers were not replayed. No gerbers.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png)
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`.
+
+| Issue | Carrier close | After this pack |
+|-------|-------------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| unconnected_items | 60 | **60** |
+| courtyards_overlap | 20 | **20** |
+| padstack_invalid | 22 | **22** (M1000, left alone) |
+| Tracks / vias | 1205 / 231 | **1219 / 231** |
+
+SENSOR_GND pours: **0**. Fuse still open. The spread does not change the ratsnest count. It widens the copper gap between ADIO packages from 0.990 mm to 1.340 mm so a 0.60 mm via fits in X. The south run is still walled in Y. Stopped there instead of searching another 0.20 mm grid.
+
+### Footprint moves
+
+Column pitch grows by **0.35 mm per gap**. Column 0 (U11, U15, and its R/C) stays. Y and rotation are unchanged. 0.50 mm per gap would push C104's courtyard (right edge 80.325 + 1.50 = 81.825) through J3's courtyard (left 81.455). At 0.35 mm, C104's courtyard right is 81.375, 0.08 mm clear of J3.
+
+| Refs | Before x | After x | dx |
+|------|----------|---------|----|
+| U12, U16, R202, R206 | 60.000 | 60.350 | +0.35 |
+| R102, R106 | 57.200 | 57.550 | +0.35 |
+| C102, C106 | 62.800 | 63.150 | +0.35 |
+| U13, U17, R203, R207 | 68.000 | 68.700 | +0.70 |
+| R103, R107 | 65.200 | 65.900 | +0.70 |
+| C103, C107 | 70.800 | 71.500 | +0.70 |
+| U14, U18, R204, R208 | 76.000 | 77.050 | +1.05 |
+| R104, R108 | 73.200 | 74.250 | +1.05 |
+| C104, C108 | 78.800 | 79.850 | +1.05 |
+
+Copper that already lived inside a column moves with that column. Seven vertical fanouts that cross y=67.05 are split, with the jog at y=66.52 or y=66.98 (above the C30/R30 pads, below the driver pads). The IN_AUX1 spine at x=72.00 jogs to x=72.70 south of that line, into the new U13/U14 gap. The IN_AUX2/IN_AUX4 spines at x=80.00, 80.80, and 81.60 shift **+1.00 mm** (endpoints with y≥63.5) so U14's new east pad edge at x=80.555 stays 0.34 mm off the spine copper.
+
+### Why the IS pins are still open
+
+U12.4 can enter the new gap: `seg_ok` accepts a 0.20 mm track and a via at (56.10, 71.40), (56.10, 74.20), and (56.10, 79.20). South of the via the run meets horizontal buses on a **0.80 mm** pitch:
+
+| Y | Net | Layer |
+|---|-----|-------|
+| 74.80 | OUT_IO8 | B |
+| 75.60 | OUT_IO7 | B |
+| 76.40 | OUT_IO6 | B |
+| 76.80 / 78.40 | ADIO5 | F |
+| 77.20 | IN_AUX3 | B |
+| 80.00 | IN_AUX4 and IN_O2S | F and B, same Y |
+
+0.80 mm center pitch with 0.20 mm tracks leaves 0.60 mm between copper edges: one track, no room to change layers. A 0.60/0.30 via needs 1.20 mm between foreign track centers. Shifting one of those buses by the 0.40 mm that would open a via lands it on the next bus. That is the stop.
+
+### Why J1 did not move
+
+SuperSeal column D copper ends at x=43.30. M1000's east pads start at x=43.70. The gap is **0.40 mm**; one 0.20 mm track needs **0.60 mm**. The pin columns are west of that wall, so moving J1 east or M1000 west makes the gap smaller. Moving J1 west is limited by the mounting-hole copper (origin x − 1.65) meeting the OUT_IO5 fanout at x=44.8; about 2.0 mm west opens a 2.40 mm alley (five tracks) and leaves the hole 0.25 mm from that track. Eight ADIO nets in one alley need about 3.4 mm. The south exit is the S-pad row at y=65.70 (0.60 mm pads, 1.20 mm pitch, **0.60 mm** gaps — one track, and the gap is inside the footprint, so sliding J1 does not widen it). SENSOR_5V crosses that alley near y=62. The north pad wall is 0.60 mm pads on a 0.80 mm pitch (**0.20 mm** cracks) from x=2 to x=44.3, closed at the east corner by the GND finger. Those cracks are inside M1000 and do not open when the module is translated. The west-edge channel is about 1.3 mm (two tracks). J1 and M1000 stay put.
+
+VBAT is still 1 fuse gap + 10 zone islands. No strap was added.
+
+## Previous commit — carrier ratsnest close (stacked on the DRC polish)
 
 Does not undo the polish anchors (U3/U4 at +90°, J1 at x=48.8, D1 at (88, 24), sense RC at y=35.70). Board stays 104×93, J2 north / J3 south, M1000 west. No SENSOR_GND pour. F1 is not bridged. `scripts/cut_crossings_sexp.py` was not replayed. No gerbers.
 
