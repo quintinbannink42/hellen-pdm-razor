@@ -1,36 +1,30 @@
-# Leftover after the neck, IN_RES2, and carrier stitches
+# Leftover after ADIO-rest attempt (still 46)
 
-kicad-cli 8.0.9, severity-error, units mm. Unconnected 51 → 46.
+kicad-cli 8.0.9, severity-error, units mm. Unconnected **46** (unchanged from PR #17).
 Shorts, crossings, clearance, hole-to-hole, solder-mask bridge, courtyards, padstack: 0.
 F1 not bridged. SENSOR_GND pours 0. Keepout pour vertices 0.
 F.Mask openings on PWR_OUT stayed at 358. No footprint moves.
-Tracks / vias 1273 / 201 → 1297 / 207. VBAT filled islands stay 33.
+Tracks / vias 1297 / 207. VBAT filled islands stay 33.
 
-Against pre-#16 main (6c243d8): 64 → 46 unconnected. Hard DRC rows stay 0. Mask stays 358.
-
-## Closed
-
-- ADIO6. OUT_IO7 B.Cu wall jogged off x=72.4. Spine (66.0, 81.4)→(72.4, 81.4)→(72.4, 62.0),
-  via 0.50/0.30 at (72.4, 62.0), F.Cu tie to (72.8, 62.0). B.Cu pour keepout (71, 63)–(75, 81).
-  GND via (68.6, 79.0) stitches the cut-off island into the F.Cu pour around J3.
-- IN_RES2. OUT_PWM2 and IN_O2S2 jog south of C107. Via (89.22, 54.05), B.Cu tie to y=53.20.
-- C105.2 and C106.2. The same south jog now starts at x=81.40 / x=82.15. Vias at
-  (82.775, 54.05) and (86.775, 54.05), each tied on B.Cu to y=52.40.
-- R10.1. IN_O2S moves to y=75.90 and IN_RES2 to y=77.10 around the pad. Via
-  (57.375, 76.48), B.Cu tie to the C10 via at (63.175, 76.20).
+Serious attempt to land ADIO1/2/3/4/5/7/8 with the ADIO6 pour-keepout pattern.
+No copper kept: every close of an ADIO ratsnest opened ≥1 GND (sometimes VBAT) island.
+See `scripts/adio_rest_blockers.txt` for mm measurements.
 
 ## Still open — 46
 
 - GND 23. 11 are M1000 keepout F/B pairs. One is the keepout pair between
   (44.20, 65.00) and (44.20, 59.35). One is a B.Cu zone fragment anchored at
-  (0.8, 0.8); it shows up only when the R10 jog and the C105/C106 jog are
-  both present. Still open on pads: C101.2, C102.2, R101.1, U15.1, U16.1, U18.1.
+  (0.8, 0.8). Still open on pads: C101.2, C102.2, R101.1, U15.1, U16.1, U18.1.
 - VBAT 10. Fuse gap (68.5, 1.0) vs (54.5, 27.5), M1000.N27 (18.50, 26.20),
   and eight post-fuse islands. Not bridged.
-- ADIO 7. ADIO1, ADIO2, ADIO3, ADIO4, ADIO5, ADIO7, ADIO8. ADIO6 is on the driver.
-- SENSOR_5V 3. R201.1 and R205.1 (R205 is in two edges). R202 and R206 are tied.
-- IGN_SW J1.4 (34.30, 46.50) ↔ R1.1 (55.175, 18.50). The west board-edge
-  column is clear, but the M1000 west pad row blocks the entrance.
+- ADIO 7. ADIO1, ADIO2, ADIO3, ADIO4, ADIO5, ADIO7, ADIO8. ADIO6 only.
+  - ADIO2: bus to (70.8, 80.6) and spine to y=62 clear; F landing needs y≈52 through SENSOR_5V/OUT_IO*/IN_* walls.
+  - ADIO4: IN_RES3 via (23.2, 76.0) is 0.025 mm too close to column x=23.7; after a trial via nudge, bus dies at x≈72 on the ADIO6/J3 wall.
+  - ADIO8: east-skirt BFS reaches U18 but cuts a B-only GND pocket (~98,54)–(103,62) with no F pour to stitch.
+  - ADIO5: pin→(64.2, 60.8) path exists; keepout+stitch closes ADIO5 but VBAT islands 33→34.
+  - ADIO1/3/7: no BFS to driver copper within 400k expansions.
+- SENSOR_5V 3. R201.1 and R205.1 (R205 is in two edges).
+- IGN_SW J1.4 (34.30, 46.50) ↔ R1.1 (55.175, 18.50).
 - IN_AUX4 M1000.S10 (32.70, 65.70) ↔ C40.1 (96.825, 32.20).
 - OUT_PWM8 M1000.E28 (44.00, 49.60) ↔ B.Cu (90.00, 47.80).
 

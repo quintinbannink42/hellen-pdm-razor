@@ -2,7 +2,55 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — open the GND neck and land ADIO6
+## This commit — ADIO rest attempt (no copper kept)
+
+Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: unconnected stays **46**, still more than the fuse gap plus the M1000 keepout.
+
+One serious attempt to replicate the ADIO6 pattern (local wall jog → B.Cu spine → via on driver F.Cu → B.Cu pour keepout → GND stitch) for ADIO1,2,3,4,5,7,8. Candidates that closed an ADIO ratsnest always opened at least one GND island (ADIO5 also grew VBAT 33→34), so nothing was kept. Stopped; see mm blockers below.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png). [Neck crop with open ADIO ends](scripts/adio_rest_blockers.png) — yellow ADIO, red keepout boxes, ADIO6 spine annotated. [ADIO6 reference](scripts/neck_adio6.png). Report: [scripts/drc_109.txt](scripts/drc_109.txt). Notes: [scripts/adio_rest_blockers.txt](scripts/adio_rest_blockers.txt). Harness: `scripts/land_adio_rest.py`.
+
+| Issue | PR #17 / main `045cf4b` | After this pass |
+|-------|------------------------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| hole_near_hole | 0 | **0** |
+| solder_mask_bridge | 0 | **0** |
+| courtyards_overlap | 0 | **0** |
+| padstack_invalid | 0 | **0** |
+| unconnected_items | 46 | **46** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged by pour | no | **no** |
+| Footprints moved | 0 | **0** |
+| Tracks / vias | 1297 / 207 | **1297 / 207** |
+| F.Mask drawings on PWR_OUT | 358 | **358** |
+
+| Net group | PR #17 | After this pass |
+|-----------|-------:|----------------:|
+| GND | 23 | **23** |
+| SENSOR_5V | 3 | **3** |
+| VBAT | 10 | **10** |
+| ADIO1–8 | 7 | **7** (ADIO6 only) |
+| IGN_SW / IN_AUX4 / OUT_PWM8 | 3 | **3** |
+
+### mm blockers (why ADIO6 did not generalize)
+
+| Net | Geometry | Blocker |
+|-----|----------|---------|
+| ADIO2 | Bus to (70.8, 80.6) and B spine to y=62 clear. F landing ~**(71.8, 52.0)** | `SENSOR_5V` y=56.25 (~0.42 mm off col), `OUT_IO7` at x=71.2, `OUT_IO6`/`OUT_PWM2`/`IN_MAP3`/`IN_O2S`/`OUT_IO8`. F stub to y=62 hits ADIO6/ADIO5 F copper. |
+| ADIO4 | Column x=23.7 at (23.7, 73) | `IN_RES3` via **(23.2, 76.0)**: center dist **0.50 mm**, need **0.525 mm** (short **0.025 mm**). Trial via nudge to 23.05 opens south bus to x≈72; ADIO6 keepout/J3 then block U14. |
+| ADIO8 | Bus (72.0, 82.0); east at y=82 only to x=73 (J3) | No clear `(73→95.8)` row in y=70–84. Vertical x=95.8 blocked y=78–70 (`IN_RES3`/`OUT_PWM2`/`IN_RES1`). East-skirt BFS reaches U18 but cuts B-only GND ~**(98,54)–(103,62)** with no F pour to stitch → unconnected does not drop. |
+| ADIO5 | BFS pin (42.3, 46.5)→via (64.2, 60.8) exists | Keepout+stitch closes ADIO5 but **VBAT islands 33→34**, unconnected 46→47. |
+| ADIO1/3/7 | Odd J1 pins | No BFS to driver copper within 400k expansions. |
+| Secondary | C101/C102/R101/U15/U16/U18 GND; IGN_SW; IN_AUX4; OUT_PWM8; SENSOR_5V R201/R205 | No pad∩B-pour via that drops count; long-haul nets not opened this pass. |
+
+### Still open
+
+Same 46 as PR #17. No gerbers.
+
+## Previous commit — open the GND neck and land ADIO6
 
 Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
 
