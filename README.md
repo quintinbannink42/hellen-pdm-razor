@@ -36,7 +36,7 @@ Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCa
 - `pdmrazora.kicad_pro` / `.kicad_sch` / `.kicad_pcb` (no dashes/underscores — hellen-one requirement)
 - `revision.txt` → `BOARD_PREFIX=pdm` `BOARD_SUFFIX=razor` `BOARD_REVISION=a`
 
-Schematic: SuperSeal **TE 6473418-1** vertical (Link Razor-compatible nets; same pin numbers as former RA 9-6437287-8), **split** M6 bolt-through bobbins (J2 VBAT+ north / J3 GND south, drivers between) + power entry/IGN_SW divider, sheets **MM144** / **HP** (**BTS50010-1TAD** ×4) / **ADIO** (**BTS7004-1EPP** ×8 + sense/PU). PCB: 104×93 mm frame, mega-mcu144 0.7 west of a vertical SuperSeal EMI wall, power/PROFET east with M6 terminals on opposite power-field edges. Critical nets routed and VBAT/GND pours filled. Packed-east shorts/crossings are cleared; DRC is not fab-clean (see [BOARD.md](BOARD.md)). Parts/kILIS: [HARDWARE_BOM.md](HARDWARE_BOM.md).
+Schematic: SuperSeal **TE 6473418-1** vertical (Link Razor-compatible nets; same pin numbers as former RA 9-6437287-8), **split** M6 bolt-through bobbins (J2 VBAT+ north / J3 GND south, drivers between) + power entry/IGN_SW divider, sheets **MM144** / **HP** (**BTS50010-1TAD** ×4) / **ADIO** (**BTS7004-1EPP** ×8 + sense/PU). PCB: **109×98 mm** frame (was 104×93), mega-mcu144 0.7 west of a vertical SuperSeal EMI wall, power/PROFET east. J2 VBAT+ and J3 GND stay on opposite edges of the power field; HP×4 and ADIO×8 are mirrored about x=80. `PWR_OUT1–4` run on exposed F.Cu (F.Mask opened over the copper) with short B.Cu hops only at the module pad wall. DRC shorts/crossings/clearance are 0; the board is not fab-clean (see [BOARD.md](BOARD.md)). Parts/kILIS: [HARDWARE_BOM.md](HARDWARE_BOM.md).
 
 ## How to build (Hellen-One)
 

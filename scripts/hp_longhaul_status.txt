@@ -1,0 +1,6 @@
+trunks [["PWR_OUT1", 34.2, 72.4], ["PWR_OUT4", 107.2, 73.6]]
+route {"PWR_OUT1": "F 23.0 mm / B 8.4 mm", "PWR_OUT2": "F 144.7 mm / B 16.8 mm", "PWR_OUT3": "F 168.4 mm / B 12.5 mm", "PWR_OUT4": "F 186.7 mm / B 11.1 mm"}
+stitch ["C1.1 strap blocked", "D1.1 F.Cu strap into post-fuse y=28.4"]
+mask_new 132
+drc {"tracks_crossing": 2, "unconnected_items": 129}
+keepout 0 fuse False sensor 0

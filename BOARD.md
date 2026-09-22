@@ -1,10 +1,92 @@
 # Board status — PowerCore (`pdmrazora` rev a)
 
-Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
+Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — carrier ratsnest close (stacked on the DRC polish)
+## This commit — 109×98 symmetric drivers
 
-Does not undo the polish anchors (U3/U4 at +90°, J1 at x=48.8, D1 at (88, 24), sense RC at y=35.70). Board stays 104×93, J2 north / J3 south, M1000 west. No SENSOR_GND pour. F1 is not bridged. `scripts/cut_crossings_sexp.py` was not replayed. No gerbers.
+Edge.Cuts grew **5 mm on each axis**: **104×93 → 109×98 mm**. AUX origin is `(0, 98)` (bottom-left). This stays Razor-class. It does not return to 150×130. `scripts/cut_crossings_sexp.py` and the old 150×130 long-haul routers were not replayed. No SENSOR_GND pour. F1 is not bridged by a pour. No gerbers: the leftover ratsnest is more than the fuse gap plus the M1000 keepout.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png) — gold tracks are `PWR_OUT1–4`. [Exposed HP copper](scripts/hp_mask_openings.png) — gold is F.Cu, red is the F.Mask opening over that copper.
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`. Report: [scripts/drc_109.txt](scripts/drc_109.txt).
+
+| Issue | 104×93 main | After 109×98 |
+|-------|------------:|-------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| solder_mask_bridge | 0 | **0** |
+| courtyards_overlap | 20 | **0** |
+| padstack_invalid | 22 | **0** |
+| unconnected_items | 60 | **129** |
+| Outline | 104×93 | **109×98** |
+| Pour verts inside M1000 keepout | — | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged by pour | no | **no** |
+
+### Outline and EMI split
+
+| Item | Value |
+|------|--------|
+| Edge.Cuts | **109 × 98 mm**, origin top-left, Y down |
+| AUX origin | **(0, 98)** |
+| Power-field centerline | vertical **x = 80** (drivers mirror about this line) |
+| EMI wall | J1 vertical SuperSeal stays at **(48.8, 46.5) rot 90** |
+| MCU | M1000 stays at **(2, 66) rot 0**, west of the wall |
+| Bobbins | J2 VBAT+ **(80, 12)** north edge, J3 GND **(80, 86.5)** south edge. Not re-paired. Not on the M1000 side. |
+
+### Symmetric driver map
+
+Mirrored about x=80. West parts are rot 0 (OUT faces west, toward the connector). East parts are rot 180 (OUT faces east). North HP row feeds the north-end SuperSeal pins; south HP row feeds the south-end pins, so the same-layer paths do not have to cross.
+
+| Ref | Net | Before (104×93) | After (109×98) |
+|-----|-----|-----------------|----------------|
+| J2 | VBAT | (92, 11) rot 0 | **(80, 12) rot 0** |
+| J3 | GND | (92, 82) rot 0 | **(80, 86.5) rot 0** |
+| F1 | fuse | (58, 18) rot 0 | **(100, 15) rot −90** |
+| U3 | PWR_OUT3 | (80, 53) rot 90 | **(66, 39.2) rot 0** |
+| U4 | PWR_OUT4 | (96, 53) rot 90 | **(94, 39.2) rot 180** |
+| U1 | PWR_OUT1 | (80, 40) rot −90 | **(66, 69.4) rot 0** |
+| U2 | PWR_OUT2 | (96, 40) rot −90 | **(94, 69.4) rot 180** |
+| U11–U14 | ADIO1–4 | y=69.5, x=52/60/68/76 rot 0 | **y=48.5**, x=67.1/75.7 rot **180**, x=84.3/92.9 rot **0** |
+| U15–U18 | ADIO5–8 | y=77.5, same x, rot 0 | **y=60.1**, same x and rot rule |
+
+Full before/after list (52 moved footprints): [scripts/layout_109_moves.txt](scripts/layout_109_moves.txt). J1 and M1000 did not move. Courtyard overlaps after the move: **0**.
+
+### M1000 keepout
+
+Hellen mega-mcu144 **0.7** (`hellen-one/modules/mega-mcu144/0.7`). Official keepout in the footprint is local `(0.1, −40) … (42.2, −0.1)`. On this board, with the anchor at (2, 66), that is **(2.1, 26.0)–(44.2, 65.9)**.
+
+The embedded footprint had 22 inner pads (`In1.Cu` / `In2.Cu` stacked pairs, pad number `G`) saved with an empty layer set. Those are restored to the official inner layers, which clears the 22 `padstack_invalid` hits. A board-level rule area on F.Cu and B.Cu disallows copper pour and allows tracks, vias, and pads. After fill, **0 pour vertices** sit inside the keepout. Silk on the footprint already matched the 0.7 outline; it was not redrawn.
+
+### Exposed HP output copper
+
+Nets **PWR_OUT1, PWR_OUT2, PWR_OUT3, PWR_OUT4**. The solder-add copper is **F.Cu**. Every F.Cu segment on those nets has an **F.Mask** opening 0.08 mm narrower than the copper, so the mask does not reach the next net and the current path itself is bare. B.Cu hops are only where the module south-pad wall (0.6 mm gaps) or an existing signal track leaves no 0.20 mm F.Cu corridor; those hops are not mask-opened because there is no top copper there.
+
+| Net | SuperSeal pins | F.Cu (exposed) | B.Cu hop |
+|-----|----------------|----------------|----------|
+| PWR_OUT1 | J1.14 + J1.20 | 1.2 mm south trunk (55.6, 72.4)–(34.2, 72.4), plus 0.9 mm inside the field; pin fanout up to 2.4 mm | ~8 mm |
+| PWR_OUT2 | J1.1 + J1.8 | pin/tab fanout to 2.4 mm and a 1.2 mm piece; the long perimeter run is 0.20–0.70 mm | ~17 mm |
+| PWR_OUT3 | J1.7 + J1.13 | pin fanout to 2.4 mm; field run 0.50–0.70 mm, with ~120 mm still at 0.20 mm | ~13 mm |
+| PWR_OUT4 | J1.19 + J1.26 | 0.9 mm east trunk along x=107.2 from the OUT pins to y=73.6; pin fanout to 2.4 mm; ~162 mm of the return path stays 0.20 mm | ~11 mm |
+
+All four nets are connected (no `PWR_OUT*` ratsnest). The 0.20 mm lengths are the corridors that will not take a wider track at 0.20 mm clearance. Assemblers can load solder on the exposed F.Cu; the wide sections are the ones that add real copper area.
+
+### Still open (no gerber zip)
+
+| Count | What it is |
+|------:|------------|
+| 53 | GND. About 14 are M1000 keepout pad pairs the pour is not allowed to fill. The rest are carrier stubs and module pads outside the punched pour. |
+| 11 | VBAT. Ten are islands inside the post-fuse pour. One is C1.1, west of the pre-fuse finger. The pre-fuse / post-fuse split at F1 is intentional and is not bridged. D1.1 is strapped into the post-fuse pour only. |
+| 25 | ADIO1–8. SuperSeal pins are still open; the 2.0 mm pads on a 2.5 mm pitch do not leave a 0.20 mm exit toward the drivers. |
+| 21 | OUT_PWM / OUT_IO. M1000 east pads versus a track on the other copper layer. |
+| 13 | IN_* sense and module pins, including C107.1 (`IN_RES2`). The old B.Cu stub from that F-only pad crossed `IN_O2S2` and did not actually connect the pad. It was removed. A same-layer exit does not clear SENSOR_5V and the neighboring 0603. |
+| 5 | SENSOR_5V |
+| 1 | IGN_SW |
+
+## Previous commit — carrier ratsnest close (stacked on the DRC polish)
+
+Does not undo the polish anchors (U3/U4 at +90°, J1 at x=48.8, D1 at (88, 24), sense RC at y=35.70). That pass held 104×93, J2 north / J3 south, M1000 west. No SENSOR_GND pour. F1 is not bridged. `scripts/cut_crossings_sexp.py` was not replayed. No gerbers.
 
 [F.Cu / B.Cu overview](scripts/copper_fill_overview.png)
 

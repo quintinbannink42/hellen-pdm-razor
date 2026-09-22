@@ -65,7 +65,7 @@ Voltage sense dividers to `IN_TPS` / `IN_PPS` / … are labeled on the ADIO shee
 | Ref | PN / value | Role |
 |-----|------------|------|
 | J2 | **M6 bolt-through bobbin** | VBAT+ (M6+), **north** power-field edge. Footprint `pdmrazora:M6_BoltThrough_Bobbin`: plated **6.5 mm** hole, **16 mm** Cu pad, 8× 0.8 mm stitch vias. Hardware: copper bobbin + M6×8 button-head, **4 N·m**, 25 mm² / 4 AWG (Link Razor). |
-| J3 | **M6 bolt-through bobbin** | GND (M6−), **south** power-field edge. Same footprint as J2, placed independently (71 mm N–S span on the 104×93 nest). The unused `M6_BoltThrough_Bobbin_x2` 25 mm pair is not on the PCB. |
+| J3 | **M6 bolt-through bobbin** | GND (M6−), **south** power-field edge. Same footprint as J2, placed independently (74.5 mm N–S span on the **109×98** nest, both on the x=80 centerline). The unused `M6_BoltThrough_Bobbin_x2` 25 mm pair is not on the PCB. |
 | F1 | **150 A Mega / fusible-link TBD** | Input fuse placeholder |
 | — | Ideal-diode / P-FET note | Reverse-polarity strategy (not a placed controller yet) |
 | D1 | **SMBJ33CA** (24–40 V automotive TVS class) | VBAT ↔ GND |
