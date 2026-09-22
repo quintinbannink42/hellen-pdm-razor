@@ -2,7 +2,61 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — critical-net copper + zone fill on the split-bobbin floorplan
+## This commit — surgical DRC polish (still not fab-clean)
+
+Floorplan is the split-bobbin nest from PR #10. EMI split was not moved and the bobbins were not re-paired. `scripts/cut_crossings_sexp.py` and the other 150×130 routers were not replayed. Copper for the rotated HP/ADIO/SuperSeal nets was rebuilt in pcbnew from real pad coordinates (`scripts/drc_polish_east.py`).
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png)
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`. Counts in [scripts/drc_zonefill.json](scripts/drc_zonefill.json) and [scripts/copper_status.txt](scripts/copper_status.txt).
+
+| Issue | Main (PR #10 fill) | This polish |
+|-------|-------------------:|------------:|
+| shorting_items | 177 | **0** |
+| tracks_crossing | 131 | **0** |
+| clearance | 110 | **0** |
+| unconnected_items | 87 | **75** |
+| solder_mask_bridge | 199 | **0** |
+| via_diameter | 73 | **0** |
+| drill_out_of_range | 73 | **0** |
+| hole_near_hole | 17 | **0** |
+| hole_clearance | 18 | **0** |
+| courtyards_overlap | 23 | **20** |
+| padstack_invalid | 22 | **22** (M1000, left alone) |
+| Tracks / vias | 406 / 145 | **931 / 210** |
+
+Pad-pad overlaps after the nudges below: **0**. SENSOR_GND pours: **0**. No VBAT segment touches both F1 pad coppers. A connectivity flood keeps J2 (pre-fuse) on a different island from F1.2 / the post-fuse, HP, and ADIO pours. The one VBAT ratsnest that remains is that fuse gap (F strap into D1 vs the B.Cu hop from J2 to F1.1).
+
+### Placement nudges
+
+Required to separate pad copper. J2, J3, M1000, U1, U2, and the ADIO anchors (U11–U18) did not move.
+
+| Ref | Change |
+|-----|--------|
+| U3, U4 | Rotation **−90° → +90°**. Anchors `(80, 53)` and `(96, 53)` unchanged. Tabs stay between the bobbins; pins face south so they no longer sit under the U1/U2 tabs. |
+| R10, C10, R20, C20 | Y only, `32.00 → 35.70`. X unchanged. Sits in the gap between the north pin row and the tab. |
+| D1 | `(80, 28) → (88, 24)`, rotation still 90°. |
+| J1 | `(50.00, 46.50) → (48.80, 46.50)`, rotation still 90°. **1.2 mm west** so the SuperSeal PTH columns clear the M1000 east pad wall. |
+
+### Leftovers (do not treat this as fab-clean)
+
+| Count | What it is |
+|------:|------------|
+| 22 | M1000 `padstack_invalid`. Module artifact. Not edited. |
+| 22 | M1000 GND pad, front copper vs back copper. The module keepout punches the pour. |
+| 20 | Courtyard overlaps (was 23). U3/U4 now face south; courtyards still meet the sense parts. |
+| 10 | VBAT zone-to-zone. Split fill inside the HP zone (including one F island vs the B alley) and inside the ADIO zone. The ADIO pour is cut into per-driver islands by the pin-row tracks. U14's island is tied to the HP pour; the other ADIO tabs are local islands. |
+| 1 | VBAT track-to-track. This is the fuse gap: the B.Cu hop from J2 to F1.1 versus the F.Cu strap from the post-fuse pour into D1. Do not connect them. |
+| 9 | GND stitch stubs (track-track or track-via) that do not quite meet. |
+| 9 | SENSOR_5V. Router joined 4 of 13 pads. Still open: R201–R208 pin 1 and M1000 E38. |
+| 12 | ADIO1–8 landings. Mostly a SuperSeal pin (J1.15–17, J1.21–24) or a pull-up (R201.2, R205.2, R206.2) left 0.07–0.5 mm short, plus U13 pins 12–14. |
+| 4 | PWR_OUT1–4, one ratsnest each, after the second pass deleted a shorting stub. |
+| 1 | IGN_SW, via vs track. |
+| 7 | IS pins U12.4–U18.4 (IN_MAP2/3, IN_O2S, IN_O2S2, IN_RES1–3) not tied to the local sense part. |
+
+EN columns stay in the gap west of the M1000 east pads. No new via was dropped on those columns to chase the islands above.
+
+## Previous commit — critical-net copper + zone fill on the split-bobbin floorplan
 
 Mechanical placement from PR #9 is **unchanged** (54 footprints, 104×93 mm, J2 north / J3 south, vertical SuperSeal EMI wall, M1000 west). Old 150×130 / paired-M6 copper scripts were **not** reapplied. `scripts/cut_crossings_sexp.py` was **not** replayed.
 
@@ -181,13 +235,13 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 | 2 | Final PROFET PNs + sense networks | **Done** |
 | 3 | Power entry + IGN_SW divider | **Done** |
 | 4 | Place HP/ADIO footprints on PCB | **Done** (re-nested between split M6 bobbins on 104×93) |
-| 5 | create-board / copper finish | **Partial** — critical nets routed + pours filled + kicad-cli DRC; packed-east shorts/crossings still human |
+| 5 | create-board / copper finish | **Partial** — shorts and crossings are 0; unconnected 75, courtyards 20, M1000 padstack 22. Not fab-clean. No gerbers. |
 
 ## Remaining polish (human)
 
-- Clear remaining packed-east shorts (PWR_OUT3↔4, IN_AUX↔PWR_OUT on the TO-263 pin row, 10× GND↔VBAT near tabs) and H–V crossings in the HP/ADIO south field. Do **not** replay `scripts/cut_crossings_sexp.py` (150×130)
-- kicad-cli still lists 1-island leftovers on ADIO/CAN/IGN_SW/IN_AUX/OUT_PWM plus PWR_OUT ×5 — east packing, not missing EN/IS trunks
-- Confirm SENSOR_GND stays off chassis GND (no SENSOR pour was added)
+- Not fab-clean. Shorts and crossings are 0. What remains is the leftover table at the top: SENSOR_5V, ADIO SuperSeal landings, IS pins U12–U18 pin 4, split ADIO/HP VBAT pour islands, GND stitch stubs, courtyards, M1000 padstack.
+- Do **not** replay `scripts/cut_crossings_sexp.py` (150×130) and do **not** bridge F1.1 to F1.2.
+- SENSOR_GND stays off chassis GND (no SENSOR pour).
 - TE **6473418-1**: courtyard is 39×29 mm (fits the EMI wall). Product-page 39×36.5 mm shroud **does not fit** without nudging HP/M1000 — verify against the TE drawing before fab
 - M6 hardware: two independent copper bobbins + M6×8 button-head, 4 N·m, 25 mm² cable (CONNECTOR.md) — north VBAT / south GND
 - ADIO/HP packing between the bobbins is still tight — nudge before fab
@@ -198,7 +252,8 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 
 ## Scripts
 
-- `scripts/route_split_bobbins.py` — **this commit**: sexp critical-net router for the J2-north / J3-south nest
+- `scripts/drc_polish_east.py` — **this commit**: placement nudges, fuse-safe VBAT straps, grid re-route, kicad-cli 8 DRC. Do not point it at a 150×130 board.
+- `scripts/route_split_bobbins.py` — sexp critical-net router for the J2-north / J3-south nest (rotation used there does not match KiCad; do not re-run on this copper)
 - `scripts/fill_zones_split.py` — **this commit**: pcbnew 8 ZONE_FILLER, solid VBAT/GND pours, M6/HP via stitch, kicad-cli DRC
 - `scripts/drc_zonefill.json` — compact DRC counts from kicad-cli 8.0.9
 - `scripts/unconnected_leftover.txt` — pad-island leftover list
