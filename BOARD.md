@@ -2,7 +2,61 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — 109×98 symmetric drivers
+## This commit — carrier ratsnest on the 109×98 board
+
+Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png) — gold tracks are `PWR_OUT1–4`. [Exposed HP copper](scripts/hp_mask_openings.png) — gold is F.Cu, red is the F.Mask opening. Mask drawings on those nets stayed at **358**. Openings were not covered.
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`. Report: [scripts/drc_109.txt](scripts/drc_109.txt).
+
+| Issue | PR #14 (109×98) | After this pass |
+|-------|----------------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| hole_near_hole | 0 | **0** |
+| solder_mask_bridge | 0 | **0** |
+| courtyards_overlap | 0 | **0** |
+| padstack_invalid | 0 | **0** |
+| unconnected_items | 129 | **64** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged by pour | no | **no** |
+| Footprints moved | — | **0** |
+| Tracks / vias | 1008 / 121 | **1232 / 190** |
+| F.Mask drawings on PWR_OUT | 358 | **358** |
+
+### What closed
+
+Local layer fixes (a via at the pad, 0.50/0.30) plus short ties inside 3 mm. GND carrier pads got one stitch each onto the B.Cu pour. C1.1 was strapped to the pre-fuse pour. Two post-fuse VBAT slivers were tied. PWR_OUT1–4 were already connected and were not retouched.
+
+| Net group | Before | After |
+|-----------|-------:|------:|
+| OUT_PWM / OUT_IO | 21 | **1** (OUT_PWM8 ↔ M1000.E28) |
+| IN_* | 13 | **2** (IN_AUX4, IN_RES2) |
+| ADIO1–8 | 25 | **8** (J1 pins only; driver side is tied) |
+| GND | 53 | **38** |
+| VBAT | 11 | **10** |
+| SENSOR_5V | 5 | **4** |
+| IGN_SW | 1 | **1** |
+
+### Still open — geometry, not a search limit
+
+| Count | What it is |
+|------:|------------|
+| 38 | GND. **13** are M1000 keepout pad pairs (F.Cu vs B.Cu); the pour is not allowed in the keepout. The other **25** are carrier pads the B pour does not reach: the sense RC row (C101–C108, R101–R104, U11/U15/U16/U18 pin 1), R10/C10, R20/C20/U2.1, and the north stubs R2.2 / C1.2 / C2.2 / D1.2. Router notes: C105.2 (82.78, 54.30) is 3.08 mm from the pour cell (85.20, 52.40); R104.1 (77.17, 52.40) is 2.28 mm from (78.80, 50.80). A second pass was not run. |
+| 10 | VBAT. One is the intentional fuse gap: pre-fuse zone anchor (68.5, 1.0) vs post-fuse (54.5, 27.5). One is M1000.N27 (18.50, 26.20), 36.33 mm from the post pour at (54.80, 27.60); the commit check rejected that path so it does not cross the fuse band (y=23.15–26.05). The other eight are post-fuse zone islands. DRC reports them all at the zone anchor (54.5, 27.5). C1.1 is connected. |
+| 8 | ADIO1–8, the J1 pins only. Columns x=39.80 and x=42.30 sit east of the SENSOR_GND spine (B.Cu x=38.40, y=43.20–55.60, width 0.20). That spine blocks a west exit until y≈56. The band south of it (y=56.8–59.9, x=32–41) is 3.1 mm tall, but the pad maze east of the spine has one southbound opening. Routing ADIO1 through it (x=40.6–42.3, y=52.5–59.1) leaves ADIO2–7 with no path. All eight J1 pins were left open so that opening stays unused. |
+| 4 | SENSOR_5V. The pull-up row is y=56.20, x=65.175 / 69.175 / 77.175 / 81.175 (R201, R202, R204, R205 pin 1), pitch 4.00 mm. Search stopped at 700k expansions on R201.1→R202.1 and on the track at (77.20, 56.20)→R205.1. |
+| 1 | IGN_SW. J1.4 (34.30, 46.50) has no free B.Cu cell within 0.8 mm. A* does not reach the north shelf (42.0, 24.8) or the east alley (44.8, 32.0). R1.1 is (55.175, 18.50), on the far side of the same spine. |
+| 1 | IN_AUX4. C40.1 (96.83, 32.20) to M1000.S10 (32.70, 65.70), 72.35 mm. Search stopped at 700k. |
+| 1 | IN_RES2. C107.1 (89.22, 54.30) to the B.Cu tracks at y=53.20 (x=88.00 / 90.80). The neighborhood exhausts in 325 expansions: a same-layer exit does not clear SENSOR_5V and the neighboring 0603. |
+| 1 | OUT_PWM8. Track end (90.00, 47.80) to M1000.E28 (44.00, 49.60), 46.04 mm. Search stopped at 700k. The east pad row is a 0.60 mm wall; the south slots are the long way around and were left for the ADIO pins. |
+
+M1000 S-row passages that do reach y=76 on B.Cu, if a later pass needs them: x=18.9, 20.1, 21.3, 22.5, 23.7, 24.9, 26.1. Each waist is one 0.10 mm cell in a 0.60 mm copper gap, so one 0.15 mm track. x=45.6 is east of that wall and is not reachable from the pin field. J3 at (80, 86.5), radius 8 mm, pinches a south bus at x=82 down to y=73.0–74.2 (1.2 mm) plus a 0.4 mm sliver at y=78.0–78.4.
+
+## Previous commit — 109×98 symmetric drivers
 
 Edge.Cuts grew **5 mm on each axis**: **104×93 → 109×98 mm**. AUX origin is `(0, 98)` (bottom-left). This stays Razor-class. It does not return to 150×130. `scripts/cut_crossings_sexp.py` and the old 150×130 long-haul routers were not replayed. No SENSOR_GND pour. F1 is not bridged by a pour. No gerbers: the leftover ratsnest is more than the fuse gap plus the M1000 keepout.
 
