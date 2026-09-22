@@ -1,26 +1,29 @@
 {
-  "cli_rc": 0,
-  "kicad": "8.0.9",
+  "kicad_cli": "8.0.9",
+  "severity": "error",
   "counts": {
+    "unconnected_items": 60,
     "padstack_invalid": 22,
     "courtyards_overlap": 20,
-    "unconnected_items": 75
+    "shorting_items": 0,
+    "tracks_crossing": 0,
+    "clearance": 0
   },
   "unconnected_nets": {
     "VBAT": 11,
-    "GND": 31,
+    "GND": 24,
+    "SENSOR_5V": 4,
+    "ADIO5": 2,
+    "ADIO6": 2,
     "PWR_OUT1": 1,
     "PWR_OUT2": 1,
     "PWR_OUT3": 1,
     "PWR_OUT4": 1,
     "IGN_SW": 1,
-    "SENSOR_5V": 9,
-    "ADIO1": 2,
+    "ADIO1": 1,
     "ADIO2": 1,
-    "ADIO3": 2,
+    "ADIO3": 1,
     "ADIO4": 1,
-    "ADIO5": 2,
-    "ADIO6": 2,
     "ADIO7": 1,
     "ADIO8": 1,
     "IN_MAP2": 1,
@@ -28,123 +31,11 @@
     "IN_O2S": 1,
     "IN_O2S2": 1,
     "IN_RES1": 1,
-    "IN_RES2": 1,
-    "IN_RES3": 1
+    "IN_RES2": 1
   },
-  "short_samples": [],
-  "crossing_samples": [],
-  "unconnected_samples": [
-    {
-      "description": "unconnected",
-      "items": [
-        "Track [VBAT] on F.Cu, length 8.0000 mm",
-        "Track [VBAT] on B.Cu, length 33.5000 mm"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on B.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    },
-    {
-      "description": "unconnected",
-      "items": [
-        "Zone [VBAT] on F.Cu",
-        "Zone [VBAT] on F.Cu"
-      ]
-    }
-  ],
-  "placement": {
-    "U3": "rot -90 \u2192 90, anchor (80.0,53.0) unchanged",
-    "U4": "rot -90 \u2192 90, anchor (96.0,53.0) unchanged",
-    "R10": "(76.00,32.00) \u2192 (76.00,35.70)",
-    "C10": "(80.00,32.00) \u2192 (80.00,35.70)",
-    "R20": "(92.00,32.00) \u2192 (92.00,35.70)",
-    "C20": "(96.00,32.00) \u2192 (96.00,35.70)",
-    "D1": "(80.00,28.00) \u2192 (88.00,24.00)",
-    "J1": "(50.00,46.50) \u2192 (48.80,46.50)"
-  },
-  "route_report": {
-    "OUT_IO5": "ok",
-    "OUT_IO6": "ok",
-    "OUT_IO7": "ok",
-    "OUT_IO8": "ok",
-    "OUT_PWM1": "ok",
-    "OUT_PWM2": "ok",
-    "OUT_PWM3": "ok",
-    "OUT_PWM4": "ok",
-    "OUT_PWM5": "ok",
-    "OUT_PWM6": "ok",
-    "OUT_PWM7": "ok",
-    "OUT_PWM8": "ok",
-    "IN_AUX1": "ok",
-    "IN_AUX2": "ok",
-    "IN_AUX3": "ok",
-    "IN_AUX4": "ok",
-    "IN_MAP1": "ok",
-    "IN_MAP2": "open:U12.4",
-    "IN_MAP3": "open:U13.4",
-    "IN_O2S": "open:U14.4",
-    "IN_O2S2": "open:U15.4",
-    "IN_RES1": "open:U16.4",
-    "IN_RES2": "open:U17.4",
-    "IN_RES3": "open:U18.4",
-    "IN_VIGN": "ok",
-    "CANH": "ok",
-    "CANL": "ok",
-    "IGN_SW": "ok",
-    "SENSOR_5V": "open:R202.1,R205.1,R204.1,R207.1,R203.1,R206.1,M1000.E38,R208.1,R201.1",
-    "SENSOR_GND": "ok",
-    "ADIO1": "open:R201.2,J1.21",
-    "ADIO2": "open:J1.15",
-    "ADIO3": "open:U13.12,U13.13,U13.14,J1.22",
-    "ADIO4": "open:J1.16",
-    "ADIO5": "open:R205.2,J1.23",
-    "ADIO6": "open:R206.2,J1.17",
-    "ADIO7": "open:J1.24",
-    "ADIO8": "ok",
-    "PWR_OUT1": "ok",
-    "PWR_OUT2": "ok",
-    "PWR_OUT3": "ok",
-    "PWR_OUT4": "ok"
-  },
+  "tracks": 1205,
+  "vias": 231,
+  "fuse_bridged": false,
   "sensor_pours": 0,
-  "fuse_segment_bridges_both_pads": false
+  "note": "R1 +0.37 mm courtyard nudge reverted; it shorted IN_VIGN. Counts are after that revert."
 }
