@@ -877,6 +877,18 @@ def main() -> int:
             router.w.commit_via(x, y, "GND")
         print(f"pour via {ref} {ok}", flush=True)
 
+    # C2.2 sits on a clear F.Cu run to a via that the B pour already covers.
+    c2 = commit_pts(router, "GND", "F", [(94.15, 6.2), (103.9, 6.2)]) and put_via(board, 103.9, 6.2, "GND")
+    if c2:
+        router.w.commit_via(103.9, 6.2, "GND")
+    print(f"C2 {c2}", flush=True)
+    # C108.2 accepts a via in the pad. The B.Cu run ends in the pour.
+    c108 = [(94.775, 54.3), (98.2, 54.3), (98.2, 52.1), (97.9, 51.8), (91.9, 51.8)]
+    c108_ok = router.via_ok(94.775, 54.3, "GND") and put_via(board, 94.775, 54.3, "GND") and commit_pts(router, "GND", "B", c108)
+    if c108_ok:
+        router.w.commit_via(94.775, 54.3, "GND")
+    print(f"C108 {c108_ok}", flush=True)
+
     print("fill", flush=True)
     L.ZONE_FILLER(board).Fill(board.Zones())
     board.BuildConnectivity()

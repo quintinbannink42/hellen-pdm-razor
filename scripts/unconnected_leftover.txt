@@ -1,22 +1,22 @@
 # Leftover after corridor and pour-stitch pass
 
-kicad-cli 8.0.9, severity-error, units mm. Unconnected 64 → 53.
+kicad-cli 8.0.9, severity-error, units mm. Unconnected 64 → 51.
 Shorts, crossings, clearance, hole-to-hole, solder-mask bridge, courtyards, padstack: 0.
 F1 not bridged. SENSOR_GND pours 0. Keepout pour vertices 0.
 F.Mask openings on PWR_OUT stayed at 358. No footprint moves.
-Tracks / vias 1232 / 190 → 1268 / 199.
+Tracks / vias 1232 / 190 → 1273 / 201.
 
 ## Closed or moved
 
 - SENSOR_GND spine x=38.40 y=43.20–55.60 deleted. Bypass is B.Cu (36.60, 41.60)→(12.00, 41.60)→(12.00, 63.60), via onto the F.Cu bus. No SENSOR_GND pour.
 - SENSOR_5V F.Cu spine at x=38.40 replaced by a B.Cu drop at x=10.00, y=43.60–62.40.
 - ADIO2/4/6/8 have B.Cu exits through the opened slot to y=73. ADIO6 bus ends (66.0, 81.4), ADIO8 bus ends (72.0, 82.0). Driver hop across the y≈76–78 GND neck was left off.
-- GND 38 → 28. Stitches: R104.1 (B track + via), C107.2, C101.2, C103.2, U11.1. Pour vias: R2.2, C104.2, C1.2, D1.2, R20.1, C20.2, and C10.2's south edge (joins an island; the pad stays open).
+- GND 38 → 26. Stitches: R104.1 (B track + via), C107.2, C101.2, C103.2, U11.1. Pour vias: R2.2, C104.2, C1.2, D1.2, R20.1, C20.2, and C10.2's south edge (joins an island; the pad stays open). C2.2 is an F.Cu run to a via in the pour. C108.2 is a via in the pad plus a B.Cu run into the pour.
 - SENSOR_5V 4 → 3. Via at R202.1 (69.175, 56.20) plus B.Cu to (73.60, 56.30).
 
-## Still open — 53
+## Still open — 51
 
-- GND 28. 13 are M1000 keepout F/B pairs. 15 are carrier: pads C10.2, C101.2, C102.2, C105.2, C106.2, C108.2, C2.2, R10.1, R101.1, U15.1, U16.1, U18.1, plus three track-to-track islands. No pour via sits inside those pads.
+- GND 26. 13 are M1000 keepout F/B pairs. 13 are carrier: pads C10.2, C101.2, C102.2, C105.2, C106.2, R10.1, R101.1, U15.1, U16.1, U18.1, plus three track-to-track islands. No pour via sits inside those pads. An R101 path through y≈46 reaches a pour via and opens two VBAT islands, so it is left out.
 - VBAT 10. Fuse gap (68.5, 1.0) vs (54.5, 27.5), M1000.N27 (18.50, 26.20), and eight post-fuse islands. Not bridged.
 - ADIO1–8, one line each. West exits exist; the driver field is past the pour neck.
 - SENSOR_5V 3 (R201.1, R205.1, R206.1).

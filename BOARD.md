@@ -19,12 +19,12 @@ Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `sc
 | solder_mask_bridge | 0 | **0** |
 | courtyards_overlap | 0 | **0** |
 | padstack_invalid | 0 | **0** |
-| unconnected_items | 64 | **53** |
+| unconnected_items | 64 | **51** |
 | Pour verts inside M1000 keepout | 0 | **0** |
 | SENSOR_GND pours | 0 | **0** |
 | F1 bridged by pour | no | **no** |
 | Footprints moved | 0 | **0** |
-| Tracks / vias | 1232 / 190 | **1268 / 199** |
+| Tracks / vias | 1232 / 190 | **1273 / 201** |
 | F.Mask drawings on PWR_OUT | 358 | **358** |
 
 ### What changed
@@ -46,6 +46,8 @@ GND stitches, all clearance-checked, no footprint moves:
 | F.Cu (69.90, 50.40)→(69.90, 52.20) | U11.1 |
 | Via in pad, ring already in the B pour | R2.2 (56.00, 20.675), C104.2 (78.775, 54.225), C1.2 (63.50, 6.55), D1.2 (106.00, 19.85), R20.1 (100.975, 77.00), C20.2 (98.375, 77.00) |
 | Via on the south edge of the pad | C10.2 (63.175, 76.20). Joins a pour island. The pad itself stays on the ratsnest. |
+| F.Cu (94.15, 6.20)→(103.90, 6.20) plus via (103.90, 6.20) | C2.2, via ring already in the B pour |
+| Via (94.775, 54.30) plus B.Cu (94.775, 54.30)→(98.20, 54.30)→(98.20, 52.10)→(97.90, 51.80)→(91.90, 51.80) | C108.2 onto the B pour |
 
 A longer F.Cu stitch from R102 down to y≈46 closed two more GND pads and opened a VBAT island. It is not in this board. VBAT stays at 10.
 
@@ -53,7 +55,7 @@ SENSOR_5V: via at R202.1 (69.175, 56.20) and a B.Cu track to (73.60, 56.30). The
 
 | Net group | PR #15 | After this pass |
 |-----------|-------:|----------------:|
-| GND | 38 | **28** |
+| GND | 38 | **26** |
 | SENSOR_5V | 4 | **3** |
 | VBAT | 10 | **10** |
 | ADIO1–8 | 8 | **8** |
@@ -63,7 +65,7 @@ SENSOR_5V: via at R202.1 (69.175, 56.20) and a B.Cu track to (73.60, 56.30). The
 
 | Count | What it is |
 |------:|------------|
-| 28 | GND. **13** are M1000 keepout F/B pairs. The other **15** are 12 carrier pads the pour still misses (C10.2, C101.2, C102.2, C105.2, C106.2, C108.2, C2.2, R10.1, R101.1, U15.1, U16.1, U18.1) plus three track-to-track islands. No via inside those pads lands in the pour. |
+| 26 | GND. **13** are M1000 keepout F/B pairs. The other **13** are 10 carrier pads the pour still misses (C10.2, C101.2, C102.2, C105.2, C106.2, R10.1, R101.1, U15.1, U16.1, U18.1) plus three track-to-track islands. No via inside those pads lands in the pour. R101 has an F.Cu path through y≈46 that reaches a pour via and drops GND by one, and it opens two VBAT islands, so it is not routed. |
 | 10 | VBAT. One is the intentional fuse gap: pre-fuse zone anchor (68.5, 1.0) vs post-fuse (54.5, 27.5). One is M1000.N27 (18.50, 26.20). The other eight are post-fuse islands. |
 | 8 | ADIO1–8. West pins have a B.Cu exit to y=73 and, for ADIO6/ADIO8, a bus at y≥80. The driver copper is north of the pour neck at y≈76–78. A track across that neck isolates GND, so the eight J1-to-driver lines stay open. |
 | 3 | SENSOR_5V. R201.1, R205.1, R206.1 at y=56.20. R202 is tied. Pad centers other than R202 are not a legal via. |
@@ -72,7 +74,9 @@ SENSOR_5V: via at R202.1 (69.175, 56.20) and a B.Cu track to (73.60, 56.30). The
 | 1 | IN_RES2. C107.1 (89.225, 54.30) to the B.Cu track at (88.00, 53.20). The 0603 neighborhood has no same-layer exit. |
 | 1 | OUT_PWM8. M1000.E28 (44.00, 49.60) to the B.Cu track at (90.05, 47.85). |
 
-No gerbers. 53 unconnected is more than the fuse gap plus the 13 keepout pairs.
+No gerbers. 51 unconnected is more than the fuse gap plus the 13 keepout pairs.
+
+IGN_SW still cannot leave J1.4. On F.Cu the pin stops at the SENSOR_5V run y=43.60, and the pocket north of that run stops on the PWR_OUT3/PWR_OUT4 copper at y≈37. On B.Cu the north row of M1000 (y≈26.4) and the driver wall at x≈44 close the other way around. IN_RES2 is a 0.60 mm channel between IN_O2S2 (y=54.00) and OUT_PWM2 (y=54.80); a via needs 0.90 mm, and a jog of either track does not both clear and still reach the B.Cu stub at y=53.20. IN_AUX4 on B.Cu reaches about x=58 after 80k cells and has not found the copper at (96.8, 32.2). OUT_PWM8 on F.Cu is a slot along the keepout edge, x=43.6–45.2, y=49.3–64.4, and the B.Cu side of that slot drains in a few hundred cells.
 
 ## Previous commit — carrier ratsnest on the 109×98 board
 

@@ -7,8 +7,8 @@ keepout_hits 0
 pwr_connected PWR_OUT1 PWR_OUT2 PWR_OUT3 PWR_OUT4
 pwr_mask_drawings 358
 footprints_moved 0
-drc shorts 0 crossings 0 clearance 0 hole_near_hole 0 padstack 0 courtyard 0 unconnected 53
-tracks 1268 vias 199
+drc shorts 0 crossings 0 clearance 0 hole_near_hole 0 padstack 0 courtyard 0 unconnected 51
+tracks 1273 vias 201
 kicad 20240108 generator 8.0
 drc_tool kicad-cli 8.0.9
 sensor_gnd_spine moved to B.Cu x=12.00 bypass, no pour
