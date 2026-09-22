@@ -2,7 +2,53 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module.
 
-## This commit — surgical DRC polish (still not fab-clean)
+## This commit — carrier ratsnest close (stacked on the DRC polish)
+
+Does not undo the polish anchors (U3/U4 at +90°, J1 at x=48.8, D1 at (88, 24), sense RC at y=35.70). Board stays 104×93, J2 north / J3 south, M1000 west. No SENSOR_GND pour. F1 is not bridged. `scripts/cut_crossings_sexp.py` was not replayed. No gerbers.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png)
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`. Counts below are from that run after the R1 courtyard experiment was reverted (it shorted IN_VIGN).
+
+| Issue | Polish start | After this pass |
+|-------|-------------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| unconnected_items | 75 | **60** |
+| courtyards_overlap | 20 | **20** |
+| padstack_invalid | 22 | **22** (M1000, left alone) |
+| Tracks / vias | 931 / 210 | **1205 / 231** |
+
+SENSOR_GND pours: **0**. Fuse still open (no VBAT segment touches both F1 pads). Placements of U3, U4, J1, D1, R10/C10/R20/C20, J2, J3, M1000, and F1 are unchanged. R1 was trial-nudged +0.37 mm in X to clear the F1 courtyard and moved back: the pad landed on the IN_VIGN track at y=23.2.
+
+One via moved: SENSOR_GND at `(38.4, 55.6)` → `(38.4, 56.4)`, with the back-side spine extended to meet it. That via was the copper that sealed the only 0.20 mm corner out of J1 pin 21. The corner opens; the west corridor it feeds is still walled off from the ADIO driver copper (SENSOR_5V at y=61.7, IGN_SW at y=46.4, M1000 east pads 0.40 mm from the SuperSeal).
+
+### What actually closed
+
+| Net | Change |
+|-----|--------|
+| IN_RES3 | U18.4 tied to the sense copper. |
+| GND | Five carrier stubs joined (U2.1/C20.2, R20.1, R2.2, C2.2, one track stub). DRC GND count 25 → 24 after the earlier stitch had already taken 31 → 25; two carrier stubs remain. |
+| SENSOR_5V | M1000 E38 and the R203/R204 pin-1 pair were already on the ratsnest that DRC reports; the new segments did not remove a DRC item. R206.1, R207.1, R208.1 and the x=2.0/2.6 stub are still open. |
+
+### Still open (do not treat as fab-clean)
+
+| Count | What it is |
+|------:|------------|
+| 22 | M1000 `padstack_invalid`. Not edited. |
+| 22 | M1000 GND front/back keepout openings. Not edited. |
+| 20 | Courtyard overlaps. The only pair a ≤0.5 mm nudge can separate is F1/R1, and that nudge shorts IN_VIGN. U1/U2 vs the locked sense RC, and J2 vs D1, need more than 0.5 mm. |
+| 10 | VBAT zone islands (HP slivers, B alley, ADIO tabs). A 0.22 mm local search from each island does not reach the post-fuse pour without entering the fuse keepout. |
+| 1 | VBAT fuse gap. F.Cu strap into D1 vs the B.Cu hop from J2 to F1.1. Left open on purpose. |
+| 2 | GND carrier stubs: F track `(57.15, 75.55)` vs via `(55.575, 80.8)`, and B `(79.2, 36.7)` vs F `(76.19, 60.65)`. |
+| 4 | SENSOR_5V: R206.1, R207.1, R208.1, and the stub at x≈2 beside M1000. |
+| 10 | ADIO1–8. J1 pins 15–17 and 21–24 are still open, plus R205.2 and R206.2. SuperSeal pads are 2.0 mm on a 2.5 mm column pitch (0.5 mm copper gap). A 0.20/0.20 rule cannot leave those pockets toward the drivers. |
+| 4 | PWR_OUT1–4, one ratsnest each, across the M1000 north pad wall (0.2 mm gaps from x=2 to x=44.3). |
+| 1 | IGN_SW, via `(43.6, 27.6)` vs track `(45.2, 27.6)`, same wall. |
+| 6 | IS pins U12.4–U17.4. The inter-package slots are already full of OUT_PWM / ADIO / IN_AUX. IN_RES3 was the one slot with a clearance-legal 0.20 mm path. |
+
+## Previous commit — surgical DRC polish (still not fab-clean)
 
 Floorplan is the split-bobbin nest from PR #10. EMI split was not moved and the bobbins were not re-paired. `scripts/cut_crossings_sexp.py` and the other 150×130 routers were not replayed. Copper for the rotated HP/ADIO/SuperSeal nets was rebuilt in pcbnew from real pad coordinates (`scripts/drc_polish_east.py`).
 
