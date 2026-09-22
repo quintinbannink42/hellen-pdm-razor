@@ -2,7 +2,83 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — carrier ratsnest on the 109×98 board
+## This commit — corridors and pour stitches
+
+Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
+
+[F.Cu / B.Cu overview](scripts/copper_fill_overview.png) — gold tracks are `PWR_OUT1–4`, yellow on B.Cu is the ADIO west exit. [Exposed HP copper](scripts/hp_mask_openings.png) — gold is F.Cu, red is the F.Mask opening. Mask drawings on those nets stayed at **358**. Openings were not covered.
+
+`kicad-cli pcb drc` **8.0.9**, `--severity-error`, `--units mm`. Report: [scripts/drc_109.txt](scripts/drc_109.txt). Router: `scripts/open_corridors.py`.
+
+| Issue | PR #15 | After this pass |
+|-------|-------:|----------------:|
+| shorting_items | 0 | **0** |
+| tracks_crossing | 0 | **0** |
+| clearance | 0 | **0** |
+| hole_near_hole | 0 | **0** |
+| solder_mask_bridge | 0 | **0** |
+| courtyards_overlap | 0 | **0** |
+| padstack_invalid | 0 | **0** |
+| unconnected_items | 64 | **51** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged by pour | no | **no** |
+| Footprints moved | 0 | **0** |
+| Tracks / vias | 1232 / 190 | **1273 / 201** |
+| F.Mask drawings on PWR_OUT | 358 | **358** |
+
+### What changed
+
+The SENSOR_GND B.Cu spine at x=38.40 (y=43.20–55.60, width 0.20) is gone, along with the three vias that tied it (38.00, 43.20), (39.20, 55.60), (43.20, 61.20). Replacement is a 0.15 mm B.Cu bypass from J1.12 at (36.60, 41.60) west to x=12.00, south to (12.00, 63.60), and a 0.50/0.30 via onto the existing F.Cu SENSOR_GND bus at y=63.60. The F.Cu J1.6↔J1.12 ties stay. SENSOR_GND is still tracks and vias only.
+
+The F.Cu SENSOR_5V spine at x=38.40 (y=46.40–62.00) moved with it. Replacement is a B.Cu drop at x=10.00 from the existing F.Cu run at y=43.60 onto the F.Cu bus at y=62.40, with a via at each end.
+
+That opens the 1.00 mm slot between the middle SuperSeal column (x=36.80) and the west ADIO column (x=39.80). ADIO2, ADIO4, ADIO6, and ADIO8 each leave their pin on B.Cu through their own column gap, then a private lane and a private S-row passage down to y=73. ADIO8 continues to (72.0, 82.0) and ADIO6 to (66.0, 81.4). Those buses stay at y≥80 so they do not cross the GND pour neck at y≈76–78. The last hop from that bus onto the driver copper does cross the neck (or the east board edge) and isolates a GND island, so it is not in this board. ADIO1/3/5/7 are still on their J1 pins. All eight ADIO ratsnest lines remain; the west pins now have a legal exit.
+
+GND stitches, all clearance-checked, no footprint moves:
+
+| Copper | What it ties |
+|--------|----------------|
+| B.Cu (77.20, 52.40)→(78.90, 51.00) plus via (77.175, 52.40) | R104.1 onto the B pour |
+| F.Cu (90.80, 54.30)→(92.60, 53.60)→(92.60, 52.40) | C107.2 |
+| F.Cu (66.80, 54.30)→(69.20, 52.40) | C101.2 |
+| F.Cu (74.80, 54.30)→(73.90, 55.10)→(72.40, 55.10)→(72.50, 53.60)→(72.90, 51.70) | C103.2 |
+| F.Cu (69.90, 50.40)→(69.90, 52.20) | U11.1 |
+| Via in pad, ring already in the B pour | R2.2 (56.00, 20.675), C104.2 (78.775, 54.225), C1.2 (63.50, 6.55), D1.2 (106.00, 19.85), R20.1 (100.975, 77.00), C20.2 (98.375, 77.00) |
+| Via on the south edge of the pad | C10.2 (63.175, 76.20). Joins a pour island. The pad itself stays on the ratsnest. |
+| F.Cu (94.15, 6.20)→(103.90, 6.20) plus via (103.90, 6.20) | C2.2, via ring already in the B pour |
+| Via (94.775, 54.30) plus B.Cu (94.775, 54.30)→(98.20, 54.30)→(98.20, 52.10)→(97.90, 51.80)→(91.90, 51.80) | C108.2 onto the B pour |
+
+A longer F.Cu stitch from R102 down to y≈46 closed two more GND pads and opened a VBAT island. It is not in this board. VBAT stays at 10.
+
+SENSOR_5V: via at R202.1 (69.175, 56.20) and a B.Cu track to (73.60, 56.30). The other pull-up pads in that row do not accept a via.
+
+| Net group | PR #15 | After this pass |
+|-----------|-------:|----------------:|
+| GND | 38 | **26** |
+| SENSOR_5V | 4 | **3** |
+| VBAT | 10 | **10** |
+| ADIO1–8 | 8 | **8** |
+| IGN_SW / IN_AUX4 / IN_RES2 / OUT_PWM8 | 4 | **4** |
+
+### Still open
+
+| Count | What it is |
+|------:|------------|
+| 26 | GND. **13** are M1000 keepout F/B pairs. The other **13** are 10 carrier pads the pour still misses (C10.2, C101.2, C102.2, C105.2, C106.2, R10.1, R101.1, U15.1, U16.1, U18.1) plus three track-to-track islands. No via inside those pads lands in the pour. R101 has an F.Cu path through y≈46 that reaches a pour via and drops GND by one, and it opens two VBAT islands, so it is not routed. |
+| 10 | VBAT. One is the intentional fuse gap: pre-fuse zone anchor (68.5, 1.0) vs post-fuse (54.5, 27.5). One is M1000.N27 (18.50, 26.20). The other eight are post-fuse islands. |
+| 8 | ADIO1–8. West pins have a B.Cu exit to y=73 and, for ADIO6/ADIO8, a bus at y≥80. The driver copper is north of the pour neck at y≈76–78. A track across that neck isolates GND, so the eight J1-to-driver lines stay open. |
+| 3 | SENSOR_5V. R201.1, R205.1, R206.1 at y=56.20. R202 is tied. Pad centers other than R202 are not a legal via. |
+| 1 | IGN_SW. J1.4 (34.30, 46.50) to R1.1 (55.175, 18.50). |
+| 1 | IN_AUX4. M1000.S10 (32.70, 65.70) to C40.1 (96.825, 32.20). |
+| 1 | IN_RES2. C107.1 (89.225, 54.30) to the B.Cu track at (88.00, 53.20). The 0603 neighborhood has no same-layer exit. |
+| 1 | OUT_PWM8. M1000.E28 (44.00, 49.60) to the B.Cu track at (90.05, 47.85). |
+
+No gerbers. 51 unconnected is more than the fuse gap plus the 13 keepout pairs.
+
+IGN_SW still cannot leave J1.4. On F.Cu the pin stops at the SENSOR_5V run y=43.60, and the pocket north of that run stops on the PWR_OUT3/PWR_OUT4 copper at y≈37. On B.Cu the north row of M1000 (y≈26.4) and the driver wall at x≈44 close the other way around. IN_RES2 is a 0.60 mm channel between IN_O2S2 (y=54.00) and OUT_PWM2 (y=54.80); a via needs 0.90 mm, and a jog of either track does not both clear and still reach the B.Cu stub at y=53.20. IN_AUX4 on B.Cu reaches about x=58 after 80k cells and has not found the copper at (96.8, 32.2). OUT_PWM8 on F.Cu is a slot along the keepout edge, x=43.6–45.2, y=49.3–64.4, and the B.Cu side of that slot drains in a few hundred cells.
+
+## Previous commit — carrier ratsnest on the 109×98 board
 
 Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: the leftover is still more than the fuse gap plus the M1000 keepout.
 
