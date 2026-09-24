@@ -1,0 +1,137 @@
+Track-width audit — PowerCore PDM (pdmrazora), board 109×98 mm
+KiCad 8 / format 20240108. kicad-cli 8.0.9 DRC: violations 0, unconnected 46
+(same unconnected count as before this pass). Keepout pour verts 0.
+SENSOR_GND pours 0. F1 not bridged.
+
+Standard
+--------
+The board file sets only (thickness 1.6). There is no copper-weight stackup,
+so this audit uses external 1 oz (35 µm), the usual 2-layer fab default.
+IPC-2221A external:
+
+    I = 0.048 * dT^0.44 * A^0.725
+    A in mil², 1 oz = 1.378 mil, k = 0.048 (outer layer)
+
+Pass line is dT ≤ 20 °C, the top of the requested 10–20 °C band.
+10 °C widths are listed and are not met on the channel copper.
+
+    Current     10 °C width     20 °C width
+    8 A         5.29 mm         3.47 mm
+    25 A        25.46 mm        16.72 mm
+    80 A        (peak)          83.2 mm
+    150 A       (F1 class)      198 mm
+
+The 8–12 mm hypothesis for 25 A is what 2 oz would need at 20 °C (8.4 mm).
+This project does not specify 2 oz, so that number is not the pass line.
+Solder on the F.Mask openings is the peak strategy already drawn on PWR_OUT.
+It is not credited toward the continuous rating: a 0.20 mm neck is still
+~1 A at 20 °C even if the opening is wet with solder.
+
+Via barrels are not in the file. A 0.30 mm drill with 25 µm plating
+(typical minimum) is π*0.30*(0.025/0.035) ≈ 0.67 mm of 1 oz copper, ~2.4 A
+at 20 °C. At a full 35 µm barrel it is ~0.94 mm, ~3.1 A. One via does not
+carry 8 A or 25 A. The B.Cu hops were not stuffed with extra vias: the
+module-wall gaps that forced the hops are already at clearance.
+
+Netclasses (future routes; DRC minimum track width stays 0, so existing
+narrow tracks do not become errors)
+    HP_OUT    PWR_OUT*    16.72 mm    clearance 0.20 mm    via 0.60/0.30
+    ADIO_OUT  ADIO*        3.47 mm    clearance 0.20 mm    via 0.60/0.30
+    VBAT      VBAT        16.72 mm    clearance 0.20 mm    via 0.60/0.30
+Preset track widths: 0.20, 3.47, 16.72 mm.
+
+What changed
+------------
+1. F.Cu zone VBAT_post_fuse_feeder, priority 2, solid pad connection,
+   outline (90.5, 23.4)–(108.0, 29.2). Filled width 17.5 mm from y=23.6
+   to y=29.0. Joins F1.2 to the post-fuse pour (that pour is ~53 mm wide
+   at y=28). North edge is 0.9 mm south of the pre-fuse outline (y=22.5);
+   x=100 has no VBAT fill from y=18.9 to y=23.3, so F1 stays a gap.
+   B.Cu in this rectangle is GND pour (return). It was not converted.
+2. Fifteen PWR_OUT F.Mask openings that were 0.15 mm on 0.50–0.70 mm
+   copper are now copper−0.08 mm (0.42 or 0.62). Drawing count stays 358.
+   Other openings were already within 0.02 mm of copper−0.08.
+
+HP outputs (BTS50010, 25 A continuous / 80 A peak)
+--------------------------------------------------
+No PWR_OUT zone exists. Current is the track. No in-place widen reaches
+16.72 mm: every long run is already within 0.20 mm of foreign copper or
+the 0.50 mm edge clearance. Tracks were not split or shoved.
+
+Net        Before min neck (series)                         After    20 °C need    Result
+PWR_OUT1   0.20 mm B hops (30.90,69.40)–(30.90,64.80) L=4.6  same    16.72 mm      FAIL
+           and (41.10,64.30)–(41.10,60.50) L=3.8.
+           Widest F trunk is 1.20 mm (55.6,72.4)–(34.2,72.4),
+           corridor allows ~1.4 mm (IN_RES2 via at (55.2,73.6)).
+           Four 0.30 mm vias. ~1 A at 20 °C through the hop.
+PWR_OUT2   0.20 mm F, 115 mm of it. Longest (65.2,80.4)–     same    16.72 mm      FAIL
+           (22.4,80.4) L=42.8, copper gap 0.20 mm to PWR_OUT4
+           at x=42.3, y=80.8. ~1 A at 20 °C.
+PWR_OUT3   0.20 mm F, 120 mm of it. Longest (1.20,37.8)–     same    16.72 mm      FAIL
+           (1.20,66.8) L=29. Board edge x=0 leaves 0.70 mm
+           before the 0.50 mm edge rule; south end meets
+           SENSOR_5V (1.60,66.40)–(18.80,66.40) at 0.20 mm.
+PWR_OUT4   0.20 mm F, 162 mm of it. Longest (88.3,94.8)–     same    16.72 mm      FAIL
+           (42.3,94.8) L=46. J3 pad (80, 86.5, 16 mm) reaches
+           y≈94.5, so the y=94.8 track is already at 0.20 mm.
+           East trunk x=107.2 is 0.90 mm and can only go to
+           ~1.0 mm (PWR_OUT2 at x=106.4).
+
+80 A peak is an 83 mm trace at 20 °C. It is not available. Mask openings
+on these nets remain (358 drawings). The openings let solder wet the
+copper that exists; they do not make a 0.20 mm neck an 80 A path.
+
+ADIO outputs (BTS7004, 8 A continuous)
+---------------------------------------
+Need 3.47 mm at 20 °C. Longest existing copper is 0.15 mm (~0.8 A).
+ADIO6 is the only J1-to-driver route that is connected. The others are
+partial (still in the unconnected leftover) but the copper that is there
+is the same width class. None were widened: two spines 0.60 mm apart
+cannot both become 3.47 mm, and the J1 / M1000 gaps are ~0.5 mm.
+
+Net     Routed copper min                         Complete?   After   Result
+ADIO1   0.15 mm local ties, 0.30 mm near U11      no          same    FAIL (no 3.5 mm corridor)
+ADIO2   0.15 mm B (24.9,61.6)–(24.9,73.0) L=11.4  no          same    FAIL
+        gap 0.22 mm to M1000.S17 IN_RES1 (24.3,65.7)
+ADIO3   0.30 mm F near the driver, 0.15 mm ties   no          same    FAIL
+ADIO4   0.15 mm B (23.7,61.0)–(23.7,73.0) L=12    no          same    FAIL
+        F run (80.4,57.2)–(95.6,57.2) is 0.30 mm, room to ~0.60 mm
+ADIO5   0.30 mm F (79.6,57.2)–(64.8,57.2)         no          same    FAIL
+ADIO6   0.15 mm B (20.1,81.4)–(66.0,81.4) L=45.9  yes         same    FAIL
+        0.60 mm south of ADIO8 (centers). Column
+        (72.4,81.4)–(72.4,62.0) L=19.4 stays 0.15 mm
+        at the J3 pad. One 0.30 mm via at (72.4,62.0).
+ADIO7   0.30 mm local, 0.15 mm ties               no          same    FAIL
+ADIO8   0.15 mm B (18.9,82.0)–(72.0,82.0) L=53.1  no          same    FAIL
+        against J3 and 0.60 mm from the ADIO6 spine
+
+VBAT feeder (J2, F1 150 A class, drivers)
+------------------------------------------
+Net    Where                              Before              After                 25 A @ 20 °C    150 A fuse
+VBAT   Pre-fuse pour, x=98.5, y=1–22      F 16.3 + B 17.0 mm  same (~41 A @ 20 °C) PASS one channel FAIL
+       Limited by F1.1 and D1. Outline is already ~35 mm wide.
+VBAT   F1.2 to the post-fuse pour         2.0 mm F at x=100   17.5 mm F zone       PASS             FAIL
+       (100.0,24.2)–(100.0,30.5)          plus 0.6 mm at x=106 (~6.5 A)
+       Zone (90.5,23.4)–(108.0,29.2). 17.5 mm carries 25.8 A at 20 °C
+       (rise ≈ 18.5 °C at 25 A) and 19 A at 10 °C, so 25 A misses a 10 °C rise.
+VBAT   South of the north drivers, y=55   F 7.5 mm (x=99.0–106.25) and B 8.0 mm (x=99.0–106.75)
+       unchanged. Paralleled ~24 A at 20 °C (rise ≈ 23 °C at 25 A). The zone
+       outline already covers x=54.5–107.5; the copper is punched by parts
+       and tracks. Not a track widen. At y=50 the pour is several fingers,
+       widest single F run 9.8 mm (x=96.8–106.3).
+
+GND return (J3)
+---------------
+B.Cu GND pour is ~108 mm wide at y=84–90 (the J3 bobbin). It narrows to
+13.6 mm total at y=66 (widest single run 3.2 mm, x=82.5–85.3) where the
+M1000 keepout and the VBAT pours cut it up. That is a return neck for
+anything like fuse current. It was not reshaped: filling it back in means
+moving the keepout or the power pours. No SENSOR_GND pour was added.
+
+Stopped here
+------------
+HP and ADIO continuous ratings are not met on the copper that exists, and
+the free gap beside each long run is a few tenths of a millimetre, not
+16 mm or 3.5 mm. Pushing those tracks would be a new floorplan (move J3,
+the SuperSeal fanout, or the module wall). Coordinates above are the necks.
+Unconnected count was left at 46.
