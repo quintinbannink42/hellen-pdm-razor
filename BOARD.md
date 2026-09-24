@@ -2,7 +2,29 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — ADIO rest attempt (no copper kept)
+## This commit — track-width audit and post-fuse VBAT feeder
+
+Copper weight is not in the board file (only `(thickness 1.6)`). Widths below use **IPC-2221A external, 1 oz / 35 µm**, pass line **≤20 °C** (top of the 10–20 °C band). 25 A needs **16.72 mm**; 8 A needs **3.47 mm**. The 8–12 mm guess matches 2 oz, which this file does not specify. Full table: [scripts/track_width_audit.txt](scripts/track_width_audit.txt).
+
+HP and ADIO tracks that are already routed stay at 0.15–0.20 mm along the long runs. The corridor beside each of those runs is already at 0.20 mm clearance (J3 pad, the other channel, the board edge, M1000). Widening them to 16.7 mm or 3.5 mm needs a layout change, so those tracks were not moved. 80 A peak needs ~83 mm and is not a continuous width; the 358 F.Mask openings on `PWR_OUT` are still there. Fifteen openings that were 0.15 mm on 0.50–0.70 mm copper are now copper−0.08 mm.
+
+The one neck that was a track inside a wide pour is the post-fuse VBAT entry. F1.2 used to leave on a **2.0 mm** F.Cu strap (~5 A). A priority-2 F.Cu zone `VBAT_post_fuse_feeder` at **(90.5, 23.4)–(108.0, 29.2)** fills **17.5 mm** (~26 A at 20 °C, about 19 °C at 25 A) and joins the existing pour, which is already ~53 mm wide at y=28. It does not touch the pre-fuse pour or F1.1. B.Cu there is the GND return and was left alone. The pre-fuse pour (about 16 mm F + 17 mm B at x=98.5, ~41 A) and the y=55 pour neck (7.5 mm F + 8.0 mm B at x≈99–106) still cannot carry the 150 A fuse.
+
+Netclasses `HP_OUT` / `ADIO_OUT` / `VBAT` now default new routes to 16.72 / 3.47 / 16.72 mm. Existing vias stay 0.6 / 0.3 mm; a 0.30 mm drill is ~0.7 mm of 1 oz and is called out as a neck, not enlarged.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / hole / courtyard / padstack | 0 | **0** |
+| unconnected_items | 46 | **46** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged | no | **no** |
+| F.Mask drawings on PWR_OUT | 358 | **358** |
+| Post-fuse VBAT entry width | 2.0 mm track | **17.5 mm** F.Cu zone |
+
+`kicad-cli` 8.0.9, `--severity-error`. No gerbers. `scripts/cut_crossings_sexp.py` was not replayed. No footprint moves.
+
+## Previous commit — ADIO rest attempt (no copper kept)
 
 Does not move the outline, AUX origin, EMI split, bobbins, or any footprint. `scripts/cut_crossings_sexp.py` was not replayed. No SENSOR_GND pour. F1 is not bridged. No gerbers: unconnected stays **46**, still more than the fuse gap plus the M1000 keepout.
 
