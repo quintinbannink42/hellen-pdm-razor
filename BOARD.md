@@ -2,7 +2,41 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — track-width audit and post-fuse VBAT feeder
+## This commit — ampacity floorplan (174×202)
+
+The 109×98 packing cannot hold a 16.72 mm HP neck or a 3.47 mm ADIO neck. This pass grows the outline and shifts M1000 and the west HP drivers so PWR_OUT1–4 have a continuous pour at the IPC-2221A 1 oz / 20 °C line. J1, J2, J3, and F1 stay put. Netclasses are unchanged (HP_OUT 16.72, ADIO_OUT 3.47, VBAT 16.72). Coordinates and the before/after table: [scripts/floorplan_ampacity.txt](scripts/floorplan_ampacity.txt). Applicator: `scripts/floorplan_ampacity.py` (run only from a clean `pdmrazora.kicad_pcb`).
+
+Outline **(0, 0)–(109, 98)** becomes **(−32, −40)–(142, 162)**: **109×98 → 174×202 mm** (+65 mm wide, +104 mm tall). M1000 moves (−30, 0) to (−28, 66). Its board keepout and the footprint keepout both move with it and are inflated to **(−29.1, 24.8)–(15.4, 67.1)** so edge pads stay inside the pour ban. U1 +10 mm, U3 +12 mm. A handful of passives leave the new corridors (listed in the floorplan note). EMI split is unchanged: the module still ends west of the SuperSeal courtyard.
+
+80 A peak is still not a trace (~83 mm). It stays pour plus F.Mask solder-blob openings on the HP pours (352 strokes, was 358). F1 is not bridged: the post-fuse feeder is now **(84.80, 23.40)–(101.70, 29.20)**, 16.90 mm, with the same Y gap. No SENSOR_GND pour. No gerbers. `scripts/cut_crossings_sexp.py` was not replayed.
+
+Series necks below are filled-zone cross-sections. F and B legs on the same path add. A 0.30 mm via drill is subtracted once per layer it pierces. SuperSeal pads are 2.0 mm and the PROFET OUT clusters are ~3.3 mm tall; those pad interfaces are not the 16.72 mm neck.
+
+| Path | Before (audit) | After, series neck | 20 °C need |
+|------|----------------|--------------------|------------|
+| PWR_OUT1 | 0.20 mm | 8.55 + 8.60 mm hole bypass, then 16.72 mm | 16.72 mm |
+| PWR_OUT2 | 0.20 mm | 16.72 mm column, band, and east drop | 16.72 mm |
+| PWR_OUT3 | 0.20 mm | 18.22 mm gallery − 0.30 drill, 19.80 mm B drop − 0.30, 19.80 mm F landing − 0.60, then 16.72 mm | 16.72 mm |
+| PWR_OUT4 | 0.20 mm | (8.70 − 0.30) mm F+B = 16.80 mm west leg, then 17.80 − 0.30 mm top band and 16.72 mm east | 16.72 mm |
+| ADIO6 | 0.15 mm, complete | removed | 3.47 mm |
+| ADIO1–5, 7, 8 | not routed | still open | 3.47 mm |
+| VBAT post-fuse | 17.5 mm zone | 16.90 mm zone, F1 gap open | 16.72 mm |
+
+ADIO was not re-poured. The SuperSeal pin gaps are 1.0 mm, and J3 sits on the U16 OUT column, so a 3.47 mm ADIO pour cannot leave the connector. The south margin under the PWR_OUT2 band (y=136.72 to the edge at 162) is left clear for that routing later.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / hole / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 46 | **183** |
+| Pour verts inside M1000 keepout | 0 | **0** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged | no | **no** |
+| F.Mask drawings on PWR_OUT | 358 | **352** |
+| In1.Cu count | 181 | **181** |
+
+Unconnected rose because the old 0.15–0.20 mm HP and ADIO tracks were deleted, M1000 wall tracks that left the module were dropped, and the moved passives are no longer on their old copper. By net: GND 46, ADIO1–8 ×7 (56), SENSOR_5V 10, VBAT 6 (the fuse gap is still in there), plus the signal nets that used to ride the deleted copper. `kicad-cli` 8.0.9, `--severity-error`.
+
+## Previous commit — track-width audit and post-fuse VBAT feeder
 
 Copper weight is not in the board file (only `(thickness 1.6)`). Widths below use **IPC-2221A external, 1 oz / 35 µm**, pass line **≤20 °C** (top of the 10–20 °C band). 25 A needs **16.72 mm**; 8 A needs **3.47 mm**. The 8–12 mm guess matches 2 oz, which this file does not specify. Full table: [scripts/track_width_audit.txt](scripts/track_width_audit.txt).
 

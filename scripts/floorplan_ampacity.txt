@@ -1,0 +1,81 @@
+Ampacity floorplan — PowerCore PDM (pdmrazora)
+KiCad 8 / format 20240108. Applicator: scripts/floorplan_ampacity.py
+kicad-cli 8.0.9 DRC: violations 0, unconnected 183.
+Stackup assumed by scripts/track_width_audit.txt: external 1 oz (35 µm),
+IPC-2221A, ≤20 °C. 25 A = 16.72 mm. 8 A = 3.47 mm. 80 A peak ≈ 83 mm
+and is pour + F.Mask solder-blob, not a trace.
+
+Board
+-----
+Before   (0, 0)–(109, 98)     109 × 98 mm
+After    (−32, −40)–(142, 162)  174 × 202 mm
+Delta    +65 mm wide, +104 mm tall. Aux origin (−32, 162).
+
+J1 SuperSeal, J2 VBAT M6, J3 GND M6, F1, U2, and U4 did not move.
+F1 gap stays open. Feeder Y is still 23.40–29.20.
+No SENSOR_GND pour. Netclasses unchanged.
+
+Footprints (mm, anchor)
+-----------------------
+Ref     Before          After           Why
+M1000   (2, 66)         (−28, 66)       keepout off the SuperSeal pin field
+U1      (66, 69.4)      (76, 69.4)      16.72 mm PWR_OUT1 drop west of the tab
+U3      (66, 39.2)      (78, 39.2)      PWR_OUT3 pad stub clears the VBAT pin
+R10     (58.2, 76.6)    (48.8, 88.0)    out of the PWR_OUT1 hole bypass
+C10     (62.4, 76.6)    (48.8, 92.5)
+R20     (101.8, 76.6)   (96.5, 100.0)   out of the PWR_OUT2 east column
+C20     (97.6, 76.6)    (96.5, 104.5)
+R30     (58.2, 32.2)    (72.0, 30.0)
+C30     (62.4, 32.2)    (76.0, 30.0)
+R40     (101.8, 32.2)   (78.0, 100.0)
+C40     (97.6, 32.2)    (84.0, 100.0)
+R1      (56.0, 18.5)    (−20, −28)
+R2      (56.0, 21.5)    (−12, −28)
+C1      (62.0, 7.5)     (100, −28)
+C2      (93.2, 6.2)     (112, −28)
+D1      (106, 22)       (112, 8)
+
+M1000 keepout, board and footprint polygon, both
+  before  (2.1, 26.0)–(44.2, 65.9)
+  after   (−29.1, 24.8)–(15.4, 67.1)
+The footprint polygon is rewritten after Move(); Move() also shifts it.
+
+VBAT_post_fuse_feeder
+  before  (90.5, 23.4)–(108.0, 29.2)   17.5 mm
+  after   (84.80, 23.40)–(101.70, 29.20)  16.90 mm
+East edge moved so the zone does not meet the PWR_OUT4 link at x=102.10.
+
+Series necks (filled mm, then minus via drills on that cut)
+-----------------------------------------------------------
+A 0.30 mm drill / 25 µm barrel ≈ 0.67 mm of 1 oz. F and B on the same
+path add. Diagonals (PWR_OUT3 upper, PWR_OUT4) put one drill on any
+axis-aligned cut. The PWR_OUT3 lower fence is two columns, so that
+vertical leg loses 0.60 mm.
+
+Path        Before     After series neck                              Need
+PWR_OUT1    0.20       8.55 + 8.60 hole bypass, then 16.72 band/drop  16.72
+PWR_OUT2    0.20       16.72 column, band, east                       16.72
+PWR_OUT3    0.20       gallery 18.22−0.30, B drop 19.80−0.30,
+                       F landing 19.80−0.60, column 16.72             16.72
+PWR_OUT4    0.20       west (8.70−0.30) F+B = 16.80, top 17.80−0.30,
+                       east 16.72                                     16.72
+ADIO6       0.15       removed (was the only complete ADIO route)     3.47
+ADIO rest   open       still open                                     3.47
+VBAT feeder 17.5       16.90                                          16.72
+
+Pad interfaces, not the 16.72 mm neck: SuperSeal pins are 2.0 mm.
+PWR_OUT3 driver stub is 3.60 mm tall. PWR_OUT4 pad pour is 3.80 mm tall.
+Both match the PROFET OUT cluster (~3.34 mm), which a 16.72 mm pour
+cannot enter.
+
+80 A peak: pour + F.Mask hatch on the F.Cu HP zones. 352 openings
+(0.45 mm stroke, ~1.98 mm pitch), was 358. Not credited as continuous
+ampacity.
+
+ADIO leftover
+-------------
+1.0 mm between SuperSeal pins, and J3's pad starts at the U16 OUT x.
+A 3.47 mm pour does not thread either. South of the PWR_OUT2 band
+(y ≥ 136.72, edge at 162) is unused and is the reserve for a later ADIO
+pass. Unconnected is 183 (was 46): the deleted necks, stretched module
+tracks, and moved passives. Hard DRC stays 0.
