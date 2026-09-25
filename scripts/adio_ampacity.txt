@@ -1,0 +1,146 @@
+ADIO ampacity — PowerCore PDM (pdmrazora)
+KiCad 8 / format 20240108. Applicator: scripts/adio_ampacity.py
+Run the applicator only from a clean pdmrazora.kicad_pcb (it adds zones).
+kicad-cli 8.0.9 DRC --severity-error: violations 0, unconnected 184.
+Stackup: external 1 oz (35 µm), IPC-2221A, ≤20 °C. 8 A = 3.47 mm.
+25 A = 16.72 mm. 80 A peak stays pour + F.Mask solder-blob.
+
+Board is unchanged: (−32, −40)–(142, 162), 174 × 202 mm.
+Aux origin (−32, 162). F1 gap stays open. Feeder stays
+(84.80, 23.40)–(101.70, 29.20), 16.90 mm. No SENSOR_GND pour.
+PWR_OUT zones were not rewritten. In1.Cu 181. F.Mask layer entries 350,
+same count as the floorplan file.
+
+Series necks (filled mm)
+------------------------
+F and B on the same XY add. A 0.30 mm via drill is subtracted on each
+layer it pierces. SuperSeal pads (2.0 mm) and the BTS7004 OUT clusters
+are pad interfaces, not the 3.47 mm neck. Widths below are filled-zone
+cross-sections (edge found by binary search on the fill).
+
+Path      Before              After series neck                         Need
+ADIO1     open                1.754 F + 1.760 B = 3.51, no via          3.47
+ADIO3     open                3.80 B under PO2_east (east F+B is 4.02)  3.47
+ADIO5     open                3.80 B under PO2_east (east F+B is 4.40)  3.47
+ADIO7     open                3.80 B after F ends at PO3 (pin F+B 4.40) 3.47
+ADIO2     open                blocked, aperture 0.60, F+B 1.20          3.47
+ADIO4     open                blocked, aperture 0.60, F+B 1.20          3.47
+ADIO6     open (0.15 removed) blocked, aperture 0.60, F+B 1.20          3.47
+ADIO8     open                blocked, aperture 0.60, F+B 1.20          3.47
+PWR_OUT1  16.72 class         zones untouched; fill reads 16.70–16.80   16.72
+PWR_OUT2  16.72 class         column 16.80, band 16.70, east 16.70      16.72
+PWR_OUT3  16.72 class         column 16.80, gallery 18.30, B drop 19.90 16.72
+PWR_OUT4  16.72 class         west leg 8.70 F and 8.70 B                16.72
+VBAT feed 16.90              unchanged                                  16.72
+
+The 0.10 mm sampler reads a full 16.72 mm fill as 16.70. Those HP
+numbers match the floorplan pass. PWR_OUT4's 16.72 mm neck is still the
+F+B west leg: (8.70 − 0.30) × 2 = 16.80 mm.
+
+ADIO1 neck detail
+-----------------
+Low corridor outline (44.80, 49.94)–(124.60, 51.70), 1.76 mm on F and
+on B, no via on that leg. Filled F is 1.76 mm except a 0.005 mm top
+notch at x=100 (edge 51.695), so the minimum sum is 3.514 mm.
+ADIO3 copper ends at y=49.73 (gap 0.21 mm). PWR_OUT2 starts at y=51.90
+and the resistor-row pads start at y=51.92 (gap 0.20 mm to this outline).
+
+ADIO3 / ADIO5 / ADIO7
+---------------------
+Odd pins are the open east edge of J1, so each leaves on F+B
+(ADIO7 F is only the pin neck; PO3_col and U3/U4 F pads close F past
+x=50.70, and the rest of ADIO7 is a 3.80 mm B.Cu leg). East of x=104.50
+the F spur stops and a 3.80 mm B.Cu leg runs under PO2_east
+(x=104.50–121.22) with no via on that leg. F resumes at x=121.45.
+Spur vias (0.60 / 0.30) sit at x=91.2, 92.3, 93.4 where F and B are
+both 3.80 mm, so that cut is 7.00 mm after the drills.
+
+Blocked even pins
+-----------------
+Pitch 3.0 mm, pads 2.0 mm round, clearance 0.20 mm. Orthogonal edge gap
+is 1.0 mm, so the usable aperture is 0.60 mm. The pins are PTH, so both
+layers see that aperture: F+B = 1.20 mm. The east and west exits are the
+same 0.60 mm. Those slots are left empty.
+
+ADIO2  J1.15 (39.80, 51.00)
+  East slot at x=42.30, y=50.70–51.30, between J1.21 ADIO1 (42.30, 52.50)
+  and J1.22 ADIO3 (42.30, 49.50).
+  West slot against J1.9 NC (36.80, 51.00).
+ADIO4  J1.16 (39.80, 48.00)
+  East slot at x=42.30, y=47.70–48.30, between ADIO3 and J1.23 ADIO5
+  (42.30, 46.50).
+  West slot against J1.10 CANL (36.80, 48.00).
+ADIO6  J1.17 (39.80, 45.00)
+  East slot at x=42.30, y=44.70–45.30, between ADIO5 and J1.24 ADIO7
+  (42.30, 43.50).
+  West slot against J1.11 SENSOR_5V (36.80, 45.00).
+ADIO8  J1.18 (39.80, 42.00)
+  East slot at x=42.30, y=41.70–42.30, between ADIO7 and J1.25 NC
+  (42.30, 40.50).
+  West slot against J1.12 SENSOR_GND (36.80, 42.00).
+
+South of y=136.72
+------------------
+The reserve is 25 mm tall (edge at 162). Two BTS7004 courtyards fit;
+four 3.47 mm driver rows do not. U12 and U14 are parked there. The four
+odd drivers sit just north of the PWR_OUT2 band, and the 3.47 mm copper
+uses the east margin plus the B.Cu underpass, which is the route that
+clears the 0.60 mm pin slots.
+
+Footprints (mm, anchor)
+-----------------------
+Ref   Before           After            Why
+J3    (80.00, 86.50)   (−14.00, 108.00) off the driver / VBAT column
+C40   (84.00, 100.00)  (−20.00, 90.00)  off the HP F.Mask hatch
+C20   (96.50, 104.50)  (74.00, 88.00)   off the ADIO5 spur
+R20   (96.50, 100.00)  (96.50, 106.50)  off the ADIO5 spur (was 0.075 mm)
+U11   (67.10, 48.50)   (84.80, 82.00)   ADIO1, rot 0, OUT east
+U13   (84.30, 48.50)   (84.80, 91.00)   ADIO3
+U15   (67.10, 60.10)   (84.80, 100.00)  ADIO5
+U17   (84.30, 60.10)   (84.80, 109.00)  ADIO7
+U12   (75.70, 48.50)   (84.80, 146.00)  parked on the south VBAT pad bus
+U14   (92.90, 48.50)   (84.80, 154.00)  parked on the south VBAT pad bus
+U16   (75.70, 60.10)   unchanged, rot 180
+U18   (92.90, 60.10)   unchanged
+
+J1, J2, F1, U1–U4 did not move. Driver pitch is 9 mm (courtyard 5.40 mm).
+
+VBAT driver branch
+-------------------
+(83.00, 74.55)–(86.60, 119.55) on F, (83.00, 137.05)–(86.60, 158.00) on F,
+and (83.00, 74.55)–(86.60, 158.00) on B. Width 3.60 mm, priority 2.
+This is the exposed-pad column for U11–U15, U17, U12, and U14.
+The post-fuse feeder is a separate zone and was not edited.
+Six 0.60/0.30 vias tie the F legs across the B hop under the PWR_OUT2 band.
+
+North OUT pads
+--------------
+BTS7004 pad 11 is unnetted and sits between the south OUT pads (8–10)
+and the north OUT pads (12–14), same X (86.995–88.305). The north bar
+stays above pad 11 and overlaps an east bridge that starts at x=88.55
+(0.245 mm clear of pad 11). All six OUT pads of U11, U13, U15, and U17
+hit the fill.
+
+Still open on the odd nets
+--------------------------
+One sense pad each, on the y=56.20 resistor row, above the ADIO1
+corridor. A 3.47 mm tap does not fit that row. These are not the series
+neck. J1 pins 21–24 are on the pours.
+  R201.2 ADIO1 (66.825, 56.200)
+  R203.2 ADIO3 (74.825, 56.200)
+  R205.2 ADIO5 (82.825, 56.200)
+  R207.2 ADIO7 (90.825, 56.200)
+
+DRC
+---
+kicad-cli 8.0.9, --severity-error, units mm.
+Violations 0 (shorts, crossings, clearance, courtyards, padstack,
+solder_mask_bridge).
+Unconnected 184, was 183. Odd ADIO power paths account for 24 recovered
+pads (7 open items each down to the one sense pad above). GND 46 → 55,
+SENSOR_5V 10 → 11, VBAT 6 → 7, from tracks removed where they crossed
+the new zones (172 items; no PWR_OUT copper was removed) and from the
+moved footprints leaving their old copper. Even ADIO nets are still 7
+open items each.
+No gerbers. scripts/cut_crossings_sexp.py was not replayed. Pins were
+not frozen.
