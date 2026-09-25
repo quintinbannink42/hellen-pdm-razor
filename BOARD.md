@@ -2,7 +2,32 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — ADIO 8 A pours
+## This commit — even ADIO fanout
+
+ADIO2, ADIO4, ADIO6, and ADIO8 still do not have a 3.47 mm neck. A read-only corridor search (`scripts/even_adio_fanout.py`, also `scripts/adio_ampacity.py --even-audit`) may leave each even pin in any direction, on F.Cu and on B.Cu. The widest single neck is **0.60 mm on a layer, F+B 1.20 mm**. The 1 oz ceiling, with copper flush to the 1.3 mm drills and zero clearance (a short to the next plating), is **F+B 3.40 mm**, still under 3.47 mm. Detail: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
+
+Odd ADIO necks and the PWR_OUT pours were not rewritten. The board file was not edited. Outline stays **(−32, −40)–(142, 162)**. F1 stays open. There is still no SENSOR_GND pour.
+
+| Path | Series neck | 20 °C need |
+|------|-------------|------------|
+| ADIO1 | 1.754 + 1.760 mm = 3.51 mm, no via | 3.47 mm |
+| ADIO3 | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO5 | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO7 | 3.80 mm B.Cu (F ends at the PWR_OUT3 column) | 3.47 mm |
+| ADIO2, 4, 6, 8 | 0.60 + 0.60 mm = 1.20 mm after the fanout search | 3.47 mm |
+| PWR_OUT1–4 | unchanged 16.72 mm class pours | 16.72 mm |
+
+Vias do not help: the SuperSeal pads are PTH on both layers. Moving the even drivers, opening a south or east corridor, or growing the board does not widen the door, which is upstream of that copper. Giving NC pins 2 and 9 to one even net, and pin 25 to another, can open ADIO2 or ADIO4 (not both) and ADIO8. ADIO6 stays at 1.20 mm even if it takes every NC pin. That reassignment was not applied; the Razor pin map is unchanged. Parallel 0.60 mm slots were not poured.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 184 | **184** |
+| Board copper edited | — | **no** |
+
+`kicad-cli` 8.0.9 numbers are the odd-pour pass. This pass did not change `pdmrazora.kicad_pcb`. No gerbers. `scripts/cut_crossings_sexp.py` was not replayed.
+
+## Previous commit — ADIO 8 A pours
 
 ADIO1, ADIO3, ADIO5, and ADIO7 now have a continuous J1-to-driver pour at the IPC-2221A 1 oz / 20 °C line for 8 A. ADIO2, ADIO4, ADIO6, and ADIO8 stay open: each SuperSeal exit is a 0.60 mm aperture (F+B = 1.20 mm). Coordinates, the width table, and the footprint moves: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt). Applicator: `scripts/adio_ampacity.py` (run only from a clean `pdmrazora.kicad_pcb`).
 

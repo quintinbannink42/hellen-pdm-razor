@@ -1,5 +1,6 @@
 ADIO ampacity — PowerCore PDM (pdmrazora)
 KiCad 8 / format 20240108. Applicator: scripts/adio_ampacity.py
+Even-pin audit (read-only, does not pour): scripts/even_adio_fanout.py
 Run the applicator only from a clean pdmrazora.kicad_pcb (it adds zones).
 kicad-cli 8.0.9 DRC --severity-error: violations 0, unconnected 184.
 Stackup: external 1 oz (35 µm), IPC-2221A, ≤20 °C. 8 A = 3.47 mm.
@@ -23,10 +24,10 @@ ADIO1     open                1.754 F + 1.760 B = 3.51, no via          3.47
 ADIO3     open                3.80 B under PO2_east (east F+B is 4.02)  3.47
 ADIO5     open                3.80 B under PO2_east (east F+B is 4.40)  3.47
 ADIO7     open                3.80 B after F ends at PO3 (pin F+B 4.40) 3.47
-ADIO2     open                blocked, aperture 0.60, F+B 1.20          3.47
-ADIO4     open                blocked, aperture 0.60, F+B 1.20          3.47
-ADIO6     open (0.15 removed) blocked, aperture 0.60, F+B 1.20          3.47
-ADIO8     open                blocked, aperture 0.60, F+B 1.20          3.47
+ADIO2     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
+ADIO4     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
+ADIO6     open (0.15 removed) blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
+ADIO8     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
 PWR_OUT1  16.72 class         zones untouched; fill reads 16.70–16.80   16.72
 PWR_OUT2  16.72 class         column 16.80, band 16.70, east 16.70      16.72
 PWR_OUT3  16.72 class         column 16.80, gallery 18.30, B drop 19.90 16.72
@@ -78,6 +79,60 @@ ADIO8  J1.18 (39.80, 42.00)
   East slot at x=42.30, y=41.70–42.30, between ADIO7 and J1.25 NC
   (42.30, 40.50).
   West slot against J1.12 SENSOR_GND (36.80, 42.00).
+
+Even fanout attempt
+-------------------
+Applicator: scripts/even_adio_fanout.py
+(also scripts/adio_ampacity.py --even-audit). Read-only, grid 0.025 mm.
+The search may leave each even pin in any direction, including around the
+connector body. F and B on the same XY add, same rule as the odd necks.
+Parallel 0.60 mm slots are not summed and were not poured. No skinny
+copper was added in the slots.
+
+Both layers see the same PTH pads (remove_unused_layers no, stack is
+F.Cu + B.Cu). Widest single neck, as built:
+
+Path    Series neck                          Need
+ADIO2   0.60 F + 0.60 B = 1.20               3.47
+ADIO4   0.60 F + 0.60 B = 1.20               3.47
+ADIO6   0.60 F + 0.60 B = 1.20               3.47
+ADIO8   0.60 F + 0.60 B = 1.20               3.47
+
+Same search, SuperSeal pads only, odd pins: ADIO1/3/5/7 each clear at
+about 3.94 mm on one layer. That is a cage check. It is not the poured
+series neck in the table above, which was left alone.
+
+Tried, and why it does not clear 3.47 mm
+- Via to B.Cu. The pads are on both layers, so the back side is the same door.
+- Moving U12/U14/U16/U18, a south-reserve row, an east corridor, or a
+  board grow. The door is upstream of all of that. East of x=44 a 3.47 mm
+  pour fits (the odd channels already run there) and still cannot be
+  reached from an even pin. Drivers were not moved. Outline stays
+  (−32, −40)–(142, 162).
+- Smaller pads, source pad left at 2.00 mm (that only makes the escape
+  easier). 1.60 mm neighbors (0.15 mm annular on the 1.3 mm drill):
+  F+B 2.00. Neighbors flushed to the drill, clearance 0.20: F+B 2.60.
+  Drill and clearance 0, copper touching the next plating: F+B 3.40.
+  Holes were not moved. The loom pattern stays.
+- 2 oz on the existing door is 2 × 1.20 = 2.40 mm of 1 oz, still short.
+  2 oz plus a 1.60 mm pad would clear (2 × 2.00) and was not applied.
+  This file's ruler is 1 oz geometric width; that neck would still read
+  2.00 mm.
+- NC pins 2, 9, and 25 as same-net bridges. Holes stay. Current still
+  enters on the ADIO pin, so the bridge is part of the neck. The west
+  chain (pin 9, then pin 2 on the west edge) opens one net only: ADIO2
+  at 5.44 mm F+B, or ADIO4 at 3.66 mm F+B on a 0.02 mm grid (3.61 mm at
+  0.025 mm), not both. Pin 25 opens ADIO8 at 5.44 mm F+B. ADIO6 stays
+  1.20 mm even if it is given all three NC pins. Not applied. Razor pin
+  assignment is unchanged.
+
+Summing every slot around one pin is at most about 5.66 mm F+B. That is
+several 0.52–0.60 mm slots, which this pass does not pour.
+
+Copper was not edited. Odd necks, PWR_OUT zones, the F1 gap, and the
+SENSOR_GND ban are unchanged. Hard DRC stays 0, unconnected 184, from
+the odd-pour pass (kicad-cli 8.0.9). No gerbers. Pins were not frozen.
+scripts/cut_crossings_sexp.py was not replayed.
 
 South of y=136.72
 ------------------

@@ -4,9 +4,12 @@
 Odd channels ADIO1, ADIO3, ADIO5, ADIO7 leave the east edge of J1 on F+B
 (or a single 3.80 mm B.Cu leg where F.Cu is the HP pour) and run down the
 east margin into the south of the HP field. Even channels ADIO2, ADIO4,
-ADIO6, ADIO8 stay open: the SuperSeal field closes them with a 0.60 mm
-aperture. Does not bridge F1, does not pour SENSOR_GND, does not export
-gerbers, and does not replay cut_crossings_sexp.py.
+ADIO6, ADIO8 stay open. `scripts/even_adio_fanout.py` (also
+`adio_ampacity.py --even-audit`) measures the widest corridor out of
+those pins; the SuperSeal cage still closes them at 0.60 mm (F+B 1.20 mm).
+This script does not pour the even nets, does not bridge F1, does not pour
+SENSOR_GND, does not export gerbers, and does not replay
+cut_crossings_sexp.py.
 
 HP PWR_OUT zones are not rewritten. 80 A peak stays pour + F.Mask.
 """
@@ -16,18 +19,32 @@ import math
 import re
 from pathlib import Path
 
-import pcbnew
-from pcbnew import (
-    B_Cu,
-    F_Cu,
-    FromMM,
-    PCB_VIA,
-    ToMM,
-    VECTOR2I,
-    ZONE,
-    ZONE_CONNECTION_FULL,
-    ZONE_FILLER,
-)
+# pcbnew is imported by main(). The even-pin audit does not need KiCad.
+pcbnew = None
+B_Cu = F_Cu = FromMM = PCB_VIA = ToMM = VECTOR2I = None
+ZONE = ZONE_CONNECTION_FULL = ZONE_FILLER = None
+
+
+def _load_pcbnew():
+    global pcbnew, B_Cu, F_Cu, FromMM, PCB_VIA, ToMM, VECTOR2I
+    global ZONE, ZONE_CONNECTION_FULL, ZONE_FILLER
+    import pcbnew as _pcbnew
+    from pcbnew import (
+        B_Cu as _B_Cu,
+        F_Cu as _F_Cu,
+        FromMM as _FromMM,
+        PCB_VIA as _PCB_VIA,
+        ToMM as _ToMM,
+        VECTOR2I as _VECTOR2I,
+        ZONE as _ZONE,
+        ZONE_CONNECTION_FULL as _ZONE_CONNECTION_FULL,
+        ZONE_FILLER as _ZONE_FILLER,
+    )
+
+    pcbnew = _pcbnew
+    B_Cu, F_Cu, FromMM, PCB_VIA, ToMM = _B_Cu, _F_Cu, _FromMM, _PCB_VIA, _ToMM
+    VECTOR2I, ZONE = _VECTOR2I, _ZONE
+    ZONE_CONNECTION_FULL, ZONE_FILLER = _ZONE_CONNECTION_FULL, _ZONE_FILLER
 
 PCB = Path("/workspace/pdmrazora.kicad_pcb")
 CLR = 0.20
@@ -481,6 +498,7 @@ def hit_pads(board):
 
 
 def main():
+    _load_pcbnew()
     build_zones()
     before = PCB.read_text()
     in1_before = before.count("In1.Cu")
@@ -527,4 +545,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if "--even-audit" in sys.argv:
+        from even_adio_fanout import main as even_main
+
+        even_main()
+    else:
+        main()
