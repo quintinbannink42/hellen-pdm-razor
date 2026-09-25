@@ -2,7 +2,34 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — ampacity floorplan (174×202)
+## This commit — ADIO 8 A pours
+
+ADIO1, ADIO3, ADIO5, and ADIO7 now have a continuous J1-to-driver pour at the IPC-2221A 1 oz / 20 °C line for 8 A. ADIO2, ADIO4, ADIO6, and ADIO8 stay open: each SuperSeal exit is a 0.60 mm aperture (F+B = 1.20 mm). Coordinates, the width table, and the footprint moves: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt). Applicator: `scripts/adio_ampacity.py` (run only from a clean `pdmrazora.kicad_pcb`).
+
+Outline stays **(−32, −40)–(142, 162)**. HP zones were not rewritten. F1 stays open, the post-fuse feeder stays **(84.80, 23.40)–(101.70, 29.20)**, and there is still no SENSOR_GND pour. 80 A peak on the HP outs stays pour plus the existing F.Mask hatch.
+
+| Path | Before | After, series neck | 20 °C need |
+|------|--------|--------------------|------------|
+| ADIO1 | open | 1.754 + 1.760 mm = 3.51 mm, no via | 3.47 mm |
+| ADIO3 | open | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO5 | open | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO7 | open | 3.80 mm B.Cu (F ends at the PWR_OUT3 column) | 3.47 mm |
+| ADIO2, 4, 6, 8 | open | blocked, 0.60 mm slot, F+B 1.20 mm | 3.47 mm |
+| PWR_OUT1–4 | 16.72 mm class | same pours, same filled cross-sections | 16.72 mm |
+
+J3 moves to **(−14, 108)**. U11, U13, U15, and U17 form a column at x=84.8 (y=82, 91, 100, 109, rotation 0, OUT east). U12 and U14 park in the south reserve at y=146 and y=154. C20, C40, and R20 move off the new spurs. U16 and U18 stay. The south reserve is 25 mm tall, so it holds the two parked drivers; the 3.47 mm copper uses the east margin and a via-free B.Cu underpass of PWR_OUT2.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 183 | **184** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged | no | **no** |
+| In1.Cu count | 181 | **181** |
+
+Unconnected is one higher because 172 foreign tracks were removed where they crossed the new zones (no PWR_OUT copper) and the moved parts left their old GND and signal copper. The four odd power paths themselves dropped from 7 open items to 1: the remaining item on each is a sense pad on the y=56.20 resistor row (R201, R203, R205, R207), which is not the 8 A neck. `kicad-cli` 8.0.9, `--severity-error`.
+
+## Previous commit — ampacity floorplan (174×202)
 
 The 109×98 packing cannot hold a 16.72 mm HP neck or a 3.47 mm ADIO neck. This pass grows the outline and shifts M1000 and the west HP drivers so PWR_OUT1–4 have a continuous pour at the IPC-2221A 1 oz / 20 °C line. J1, J2, J3, and F1 stay put. Netclasses are unchanged (HP_OUT 16.72, ADIO_OUT 3.47, VBAT 16.72). Coordinates and the before/after table: [scripts/floorplan_ampacity.txt](scripts/floorplan_ampacity.txt). Applicator: `scripts/floorplan_ampacity.py` (run only from a clean `pdmrazora.kicad_pcb`).
 
