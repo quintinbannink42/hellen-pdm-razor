@@ -46,6 +46,8 @@ Viewed looking into wire side of loom connector (or into PDM header).
 | 25 | N/C | |
 | 26 | PWR OUT 4 | Parallel with pin 19 |
 
+Pins **2** and **9** stay N/C on the loom: no harness wire is added and the signal column above does not change. On the PCB those unused pads are tied to ADIO2 so the pour can leave between the same-net holes. Pin **25** stays N/C and is not tied.
+
 Also on enclosure (not SuperSeal): **USB-C** for config.
 
 ## PowerCore carrier mapping intent
