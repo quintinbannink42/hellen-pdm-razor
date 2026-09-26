@@ -3300,8 +3300,9 @@
 		)
 		(uuid "00e3e459-12b1-4bb0-93c6-68bd593d77e5")
 	)
-	(label "NC_2"
+	(global_label "ADIO2"
 		(at 82.22 122.7 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3432,8 +3433,9 @@
 		)
 		(uuid "3ea4c135-6266-4ca7-a780-4b1e1f4cc268")
 	)
-	(label "NC_9"
+	(global_label "ADIO2"
 		(at 82.22 104.92 0)
+		(shape input)
 		(effects
 			(font
 				(size 1.27 1.27)

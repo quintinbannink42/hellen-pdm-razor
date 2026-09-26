@@ -1,42 +1,110 @@
 ADIO ampacity — PowerCore PDM (pdmrazora)
-KiCad 8 / format 20240108. Applicator: scripts/adio_ampacity.py
-Even-pin audit (read-only, does not pour): scripts/even_adio_fanout.py
-Run the applicator only from a clean pdmrazora.kicad_pcb (it adds zones).
-kicad-cli 8.0.9 DRC --severity-error: violations 0, unconnected 184.
+KiCad 8 / format 20240108.
+Odd pours: scripts/adio_ampacity.py (run only from a clean board).
+Even ADIO2 corridor: scripts/even_nc_pour.py (run only from a clean board;
+it adds zones). Prior pad-only audit: scripts/even_adio_fanout.py.
+kicad-cli 8.0.9 DRC --severity-error: violations 0, unconnected 183
+(was 184). In1.Cu 181. F.Mask count unchanged.
 Stackup: external 1 oz (35 µm), IPC-2221A, ≤20 °C. 8 A = 3.47 mm.
-25 A = 16.72 mm. 80 A peak stays pour + F.Mask solder-blob.
+25 A = 16.72 mm. 80 A peak stays pour + F.Mask solder-blob. Not 2 oz.
 
-Board is unchanged: (−32, −40)–(142, 162), 174 × 202 mm.
-Aux origin (−32, 162). F1 gap stays open. Feeder stays
-(84.80, 23.40)–(101.70, 29.20), 16.90 mm. No SENSOR_GND pour.
-PWR_OUT zones were not rewritten. In1.Cu 181. F.Mask layer entries 350,
-same count as the floorplan file.
+Board outline unchanged: (−32, −40)–(142, 162), 174 × 202 mm.
+F1 gap stays open (VBAT fill at x=100 stops by y=18.7; F1.2 starts at
+y=22.45). Feeder filled X at y=26.30 is 16.90 mm,
+outline (84.80, 23.40)–(101.70, 29.20). No SENSOR_GND pour.
+PWR_OUT zone outlines were not rewritten. A7_east_B was not moved
+(still y=40.25–44.05, filled height 3.80 mm).
 
 Series necks (filled mm)
 ------------------------
-F and B on the same XY add. A 0.30 mm via drill is subtracted on each
-layer it pierces. SuperSeal pads (2.0 mm) and the BTS7004 OUT clusters
-are pad interfaces, not the 3.47 mm neck. Widths below are filled-zone
-cross-sections (edge found by binary search on the fill).
+F and B on the same XY add. A 0.30 mm via drill is a hole in that
+cross-section; the path goes around it and the drill is not subtracted
+a second time. SuperSeal pads (2.0 mm) and the BTS7004 OUT clusters
+are pad interfaces, not the neck. Odd and HP widths are filled-zone
+cross-sections. The ADIO2 width is the min continuous F+B of one path
+(see below), not a sum of slots.
 
-Path      Before              After series neck                         Need
-ADIO1     open                1.754 F + 1.760 B = 3.51, no via          3.47
-ADIO3     open                3.80 B under PO2_east (east F+B is 4.02)  3.47
-ADIO5     open                3.80 B under PO2_east (east F+B is 4.40)  3.47
-ADIO7     open                3.80 B after F ends at PO3 (pin F+B 4.40) 3.47
-ADIO2     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
-ADIO4     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
-ADIO6     open (0.15 removed) blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
-ADIO8     open                blocked, fanout still F+B 1.20 (ceiling 3.40) 3.47
-PWR_OUT1  16.72 class         zones untouched; fill reads 16.70–16.80   16.72
-PWR_OUT2  16.72 class         column 16.80, band 16.70, east 16.70      16.72
-PWR_OUT3  16.72 class         column 16.80, gallery 18.30, B drop 19.90 16.72
-PWR_OUT4  16.72 class         west leg 8.70 F and 8.70 B                16.72
-VBAT feed 16.90              unchanged                                  16.72
+Path      Series neck                                              Need
+ADIO1     1.75 F + 1.76 B = 3.51 at the x=100 notch, no via        3.47
+ADIO3     3.80 B under PO2_east (east outline F+B is 4.00)         3.47
+ADIO5     3.80 B under PO2_east                                    3.47
+ADIO7     3.80 B (A7_east_B outline unchanged)                     3.47
+ADIO2     4.53 F+B filled corridor, pins 2 and 9 same-net          3.47
+ADIO4     not poured; widest path to U14 ~0.80                     3.47
+ADIO6     not poured; widest path to U16 ~0.80                     3.47
+ADIO8     not poured; widest path to U18 ~0.80 even with pin 25    3.47
+PWR_OUT1  16.72 class; PO1_left still fills 8.55 (bypass leg)      16.72
+PWR_OUT2  column outline 16.72, fill samples 16.70                 16.72
+PWR_OUT3  column outline 16.72, fill samples 16.70                 16.72
+PWR_OUT4  west leg 8.70 F and 8.70 B; (8.70−0.30)×2 = 16.80        16.72
+VBAT feed 16.90 filled X span                                      16.72
 
-The 0.10 mm sampler reads a full 16.72 mm fill as 16.70. Those HP
-numbers match the floorplan pass. PWR_OUT4's 16.72 mm neck is still the
-F+B west leg: (8.70 − 0.30) × 2 = 16.80 mm.
+The 0.05 mm sampler reads a full 16.72 mm fill as 16.70. PWR_OUT4's
+16.72 mm neck is still the F+B west leg.
+
+Even ADIO NC bridge (this pass)
+-------------------------------
+Applicator: scripts/even_nc_pour.py. J1.2 and J1.9 are ADIO2 in the
+schematic (global labels) and on the pads. CONNECTOR.md still lists
+those pins N/C: no harness wire, no loom-map change. J1.25 stays a
+local NC_25 label and an unnetted pad.
+
+How the 4.53 mm number is measured. Filled ADIO2 copper, tracks, and
+pads are rasterized at 0.05 mm on F.Cu and on B.Cu. Via drills are
+punched out. At each cell the local width is twice the distance to the
+edge of that layer's copper; F and B add only on the same XY. The series
+neck is the highest width W such that pins 2, 9, and 15 still connect
+to U12 OUT pads 8–10 and 12–14 through cells of width ≥ W, ignoring the
+pads themselves and 0.8 mm around them (the pad fillet is not the neck).
+That W is 4.53 mm. A 0.15 mm trace of the same pour reads about 5.3–5.7 mm
+along the haul and bottoms at the same class of cut. Eight 0.60/0.30 vias
+sit by the U12 OUT pads, in copper wider than this cut, to reach the
+F-only SMD pads from the B.Cu haul.
+
+Parallel slots versus that neck. The pad-only audit summed every door
+around one pin and got at most about 5.66 mm of separate 0.52–0.60 mm
+slots. Those slots are not in series and are not the rating. Pins 2 and
+9 are the same net as pin 15, so the west doors merge into one corridor;
+4.53 mm is the minimum of that corridor. The east 0.60 mm doors of
+ADIO4, ADIO6, and ADIO8 stay empty: a pour there would be a skinny
+finger, and the continuous path to the driver is still ~0.80 mm.
+
+Assignment. The west chain can serve only one net. With the odd pours
+and PWR_OUT copper as obstacles, giving pins 9 then 2 to ADIO2 clears
+4.53 mm. Giving them to ADIO4 instead was 3.20 mm once those pours
+count (the pad-only audit's 3.66 mm does not survive), which misses
+3.47 mm, so the chain stays on ADIO2. Pin 25 raises the ADIO8 cage
+locally and still leaves the path to U18 at ~0.80 mm, pinch about
+(94.2, 56.2), in the resistor row beside the driver. PWR_OUT4's west
+leg is the 16.72 mm neck and was not trimmed to open that door.
+ADIO6's neighbors are SENSOR_5V, ADIO5, and ADIO7; none of the three
+NC pins opens it. ADIO4 without the west chain, ADIO6, and ADIO8 were
+not poured.
+
+What is still short of 3.47 mm, and what was not done about it. ADIO4,
+ADIO6, and ADIO8. No loom pin was renamed, no hole was moved, the
+continuous rating in this file was not derated, and the stackup was
+not changed to 2 oz.
+
+DRC for this pass: kicad-cli 8.0.9, --severity-error, violations 0
+(shorts, crossings, clearance, courtyards, padstack, solder_mask_bridge).
+Unconnected 183, was 184. ADIO2 is 1 open item (R202.2 at
+(70.825, 56.200)), same sense-pad class as ADIO1/3/5/7. ADIO4, ADIO6,
+and ADIO8 are still 7 each. GND 55 → 60 from the B.Cu ribbon pushing
+priority-1 GND aside. No gerbers. scripts/cut_crossings_sexp.py was
+not replayed. Pins were not frozen.
+
+Prior odd-pour record
+---------------------
+The sections below are the odd-channel pour and the read-only even
+fanout audit. They still describe ADIO1/3/5/7 and the cage. Where they
+say the even channels are unpoured or that NC pins were not applied,
+this pass supersedes that for ADIO2 only.
+
+Prior pass, before the ADIO2 corridor. The 0.10 mm sampler reads a full
+16.72 mm fill as 16.70. Those HP numbers match the floorplan pass.
+PWR_OUT4's 16.72 mm neck is still the F+B west leg:
+(8.70 − 0.30) × 2 = 16.80 mm.
 
 ADIO1 neck detail
 -----------------
@@ -56,8 +124,10 @@ the F spur stops and a 3.80 mm B.Cu leg runs under PO2_east
 Spur vias (0.60 / 0.30) sit at x=91.2, 92.3, 93.4 where F and B are
 both 3.80 mm, so that cut is 7.00 mm after the drills.
 
-Blocked even pins
------------------
+Blocked even pins (prior pad-only audit)
+----------------------------------------
+This section is the cage before pins 2 and 9 were tied to ADIO2.
+ADIO2's poured neck is the section at the top of this file.
 Pitch 3.0 mm, pads 2.0 mm round, clearance 0.20 mm. Orthogonal edge gap
 is 1.0 mm, so the usable aperture is 0.60 mm. The pins are PTH, so both
 layers see that aperture: F+B = 1.20 mm. The east and west exits are the

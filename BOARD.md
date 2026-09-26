@@ -2,7 +2,39 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — even ADIO fanout
+## This commit — even ADIO NC bridges
+
+ADIO2 now has a poured series neck of **4.53 mm** F+B, above the 1 oz / 20 °C line for 8 A (3.47 mm). SuperSeal pins 2 and 9 join the ADIO2 net on the PCB so the west cage slots merge into that one corridor. The loom table still calls those pins N/C: no harness wire is added, and no signal pin was reassigned. Applicator: `scripts/even_nc_pour.py`. Numbers: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
+
+Pin 25 stays N/C. Joining it to ADIO8 does not produce a continuous path to U18 at 3.47 mm (widest zone-aware path is about 0.80 mm, pinch beside U18). ADIO4 and ADIO6 stay at that same ~0.80 mm path once the odd pours and the PWR_OUT copper are treated as obstacles. The pad-only sum of every 0.52–0.60 mm slot around one pin (~5.66 mm) is not a series neck and was not poured. ADIO7's B.Cu leg was not moved.
+
+Outline stays **(−32, −40)–(142, 162)**. F1 stays open. There is still no SENSOR_GND pour. Copper is still 1 oz. No gerbers.
+
+| Path | Series neck | 20 °C need |
+|------|-------------|------------|
+| ADIO1 | 1.75 + 1.76 mm = 3.51 mm, no via | 3.47 mm |
+| ADIO3 | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO5 | 3.80 mm B.Cu under PWR_OUT2 east | 3.47 mm |
+| ADIO7 | 3.80 mm B.Cu (outline not moved) | 3.47 mm |
+| ADIO2 | 4.53 mm F+B filled corridor via pins 2 and 9 | 3.47 mm |
+| ADIO4 | not poured; widest path ~0.80 mm | 3.47 mm |
+| ADIO6 | not poured; widest path ~0.80 mm | 3.47 mm |
+| ADIO8 | not poured; widest path ~0.80 mm with pin 25 | 3.47 mm |
+| PWR_OUT1–4 | unchanged 16.72 mm class pours | 16.72 mm |
+
+Series neck is the minimum F+B cross-section of one continuous path (filled copper, layers on the same XY add, via drills are holes the path goes around). It is not the sum of parallel slots.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 184 | **183** |
+| SENSOR_GND pours | 0 | **0** |
+| F1 bridged | no | **no** |
+| In1.Cu count | 181 | **181** |
+
+Unconnected is one lower. ADIO2's power path dropped from 7 open items to the one sense pad (R202.2 at y=56.20), same class as the odd channels. GND went 55 → 60 because the B.Cu ribbon pushes priority-1 GND aside. `kicad-cli` 8.0.9, `--severity-error`. `scripts/cut_crossings_sexp.py` was not replayed. Pins were not frozen.
+
+## Previous commit — even ADIO fanout
 
 ADIO2, ADIO4, ADIO6, and ADIO8 still do not have a 3.47 mm neck. A read-only corridor search (`scripts/even_adio_fanout.py`, also `scripts/adio_ampacity.py --even-audit`) may leave each even pin in any direction, on F.Cu and on B.Cu. The widest single neck is **0.60 mm on a layer, F+B 1.20 mm**. The 1 oz ceiling, with copper flush to the 1.3 mm drills and zero clearance (a short to the next plating), is **F+B 3.40 mm**, still under 3.47 mm. Detail: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
 
