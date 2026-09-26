@@ -1,5 +1,45 @@
 ADIO ampacity — PowerCore PDM (pdmrazora)
 KiCad 8 / format 20240108.
+
+Loom-reassignment hold (this pass)
+----------------------------------
+Read-only. Applicator: scripts/even_reassign_audit.py.
+Output: scripts/even_reassign_audit.txt. Board copper was not edited.
+SuperSeal nets were not edited. 1 oz. 8 A still needs 3.47 mm.
+Not 2 oz. Not derated.
+
+Upper bound: J1 pins 3, 4, 5, 6, 10, 11, 12, 16, 17, 18, and 25 are
+all the candidate net at once. Pins 2, 9, 15 stay ADIO2. Pins 21–24
+stay the odd ADIO nets. PWR_OUT pins stay. Signal tracks and GND
+tracks are ignored. Pads and preserved zones are not.
+
+Path      Ceiling                                      Need
+ADIO4     2.60 mm to (96, 154), pinch (104.6, 114.7)   3.47
+          F 0.00 on the PO2_east edge, B 2.60 just
+          south of the ADIO7 B spur (y=109.55–113.35)
+ADIO6     no positive-width path to U16                3.47
+ADIO8     no positive-width path to U18                3.47
+ADIO2     poured neck on the board remains 4.53 mm     3.47
+          (this grid reads 4.29 mm; not a new fill)
+
+The ADIO2 tube beside U14 (about x=87–94, y=150–161) is on the
+series path to U12. Blanking it drops the audit reading to 0.40 mm.
+It was not cut to land ADIO4.
+
+U16 and U18 are inside the bay at y≈60. Pin 25 does reach the east
+alley (x≈138) at about 14 mm F+B. That alley does not enter the bay.
+The seal is the odd ADIO ribbons, spurs, and columns, PWR_OUT1
+PO1_drop, PWR_OUT2 PO2_east / PO2_band / PO2_col, and the ADIO2 B
+ribbon. The older "~0.80 mm to the driver" line below does not
+survive this obstacle set: even_nc_pour.py's corridor no longer
+reaches U16 or U18.
+
+Loom delta vs Link Razor: none.
+
+Prior record
+------------
+ADIO ampacity — PowerCore PDM (pdmrazora)
+KiCad 8 / format 20240108.
 Odd pours: scripts/adio_ampacity.py (run only from a clean board).
 Even ADIO2 corridor: scripts/even_nc_pour.py (run only from a clean board;
 it adds zones). Prior pad-only audit: scripts/even_adio_fanout.py.
