@@ -48,6 +48,8 @@ Viewed looking into wire side of loom connector (or into PDM header).
 
 Pins **2** and **9** stay N/C on the loom: no harness wire is added and the signal column above does not change. On the PCB those unused pads are tied to ADIO2 so the pour can leave between the same-net holes. Pin **25** stays N/C and is not tied.
 
+A loom break that would move ADIO4, ADIO6, or ADIO8 onto other SuperSeal pins (including pin 25 and the signal pins 3, 4, 5, 6, 10, 11, 12) does not open a continuous ≥3.47 mm neck at 1 oz. That reassignment was not applied. The table above is still the Link Razor map. See BOARD.md.
+
 Also on enclosure (not SuperSeal): **USB-C** for config.
 
 ## PowerCore carrier mapping intent

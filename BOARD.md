@@ -2,7 +2,51 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — even ADIO NC bridges
+## This commit — ADIO4/6/8 loom reassignment held
+
+Pin reassignment was allowed, including a break from the Link Razor harness map, so ADIO4, ADIO6, and ADIO8 could reach a continuous ≥3.47 mm series neck at 1 oz. No assignment does. The board copper is unchanged. The SuperSeal net list is unchanged. Stackup stays 1 oz. The 8 A line was not derated. Audit: `scripts/even_reassign_audit.py`. Numbers: [scripts/even_reassign_audit.txt](scripts/even_reassign_audit.txt) and [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
+
+The upper bound ties every SuperSeal pin that is not already a preserved high-current net onto the candidate at once: pins **3, 4, 5, 6, 10, 11, 12, 16, 17, 18, 25**. Pins 2, 9, and 15 stay ADIO2. Pins 21–24 stay ADIO1/3/5/7. The PWR_OUT pins stay. Signal tracks and GND tracks are ignored (a pour may push them). Pads stay. Preserved zones stay: PWR_OUT1–4, ADIO1/2/3/5/7, VBAT priority ≥2, and VBAT that reaches the fuse band. Priority-1 GND pours are not obstacles. Grid 0.30 mm, clearance 0.20 mm. F and B add on the same XY.
+
+| Path | Series neck under that upper bound | 20 °C need |
+|------|--------------------------------------|------------|
+| ADIO1 | unchanged 3.51 mm | 3.47 mm |
+| ADIO3 | unchanged 3.80 mm B | 3.47 mm |
+| ADIO5 | unchanged 3.80 mm B | 3.47 mm |
+| ADIO7 | unchanged 3.80 mm B | 3.47 mm |
+| ADIO2 | unchanged poured 4.53 mm (audit grid reads 4.29 mm to U12) | 3.47 mm |
+| ADIO4 | **2.60 mm** to the open field beside U14, then ADIO2 copper at the OUT pads | 3.47 mm |
+| ADIO6 | **no positive-width path** to U16 | 3.47 mm |
+| ADIO8 | **no positive-width path** to U18 | 3.47 mm |
+| PWR_OUT1–4 | unchanged 16.72 mm class | 16.72 mm |
+
+ADIO4's 2.60 mm pinch is (104.6, 114.7): F width is 0 on the edge of PWR_OUT2 `PO2_east`, and B is 2.60 mm in the gap just south of the ADIO7 B spur (y=109.55–113.35). Both are preserved, so that neck was not trimmed. Blanking the ADIO2 tube beside U14 (x=87.2–93.5, y=150.5–161) drops the ADIO2 reading from 4.29 mm to 0.40 mm, pinch (86.9, 144.7), so that tube is the series path to U12, not spare copper around U14.
+
+ADIO6 and ADIO8 sit in the bay at y≈60 (U16 OUT x=72.85, U18 OUT x=95.75). The east alley past x=134 is reached from pin 25 at about 14 mm F+B and still does not enter that bay. The walls are the odd-channel pours (ADIO5 ribbon y=45.15–47.35 across to x=129.8, ADIO7 B ribbon y=40.25–44.05 to x=134, the four spur rows near y=82.5 / 91.5 / 100.5 / 109.5, and the columns at x=122–134) plus PWR_OUT1 `PO1_drop`, PWR_OUT2 `PO2_east` / `PO2_band` / `PO2_col`, and the ADIO2 B ribbon. The earlier ~0.80 mm figure does not survive on this board: `scripts/even_nc_pour.py`'s own corridor, with those pours as obstacles, does not reach U16 or U18. R208 at (94.83, 56.20) is still the crowd beside U18, on the far side of that wall.
+
+Loom delta versus Link Razor: **none**. No pin changed old net to new net.
+
+| Pin | Razor net on main | After this pass |
+|----:|-------------------|-----------------|
+| 2, 9 | N/C on the loom, ADIO2 on the PCB | same |
+| 16 | ADIO4 | same |
+| 17 | ADIO6 | same |
+| 18 | ADIO8 | same |
+| 25 | N/C | same |
+| 3, 4, 5, 6, 10, 11, 12 | CANH, IGN_SW, SENSOR_5V, SENSOR_GND, CANL, SENSOR_5V, SENSOR_GND | same |
+
+Outline stays **(−32, −40)–(142, 162)**. F1 stays open. There is still no SENSOR_GND pour. No gerbers. `scripts/cut_crossings_sexp.py` was not replayed. Pins were not frozen.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 183 | **183** |
+| Board copper edited | — | **no** |
+| SuperSeal nets edited | — | **no** |
+
+`kicad-cli` 8.0.9, `--severity-error`. Violations 0. Unconnected 183.
+
+## Previous commit — even ADIO NC bridges
 
 ADIO2 now has a poured series neck of **4.53 mm** F+B, above the 1 oz / 20 °C line for 8 A (3.47 mm). SuperSeal pins 2 and 9 join the ADIO2 net on the PCB so the west cage slots merge into that one corridor. The loom table still calls those pins N/C: no harness wire is added, and no signal pin was reassigned. Applicator: `scripts/even_nc_pour.py`. Numbers: [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
 
