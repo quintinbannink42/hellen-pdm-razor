@@ -173,8 +173,8 @@
       ],
       "track_widths": [
         0.2,
-        3.47,
-        16.72
+        1.74,
+        8.36
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -255,10 +255,10 @@
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "HP_OUT",
+        "name": "ADIO_OUT",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 16.72,
+        "track_width": 1.74,
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
@@ -272,10 +272,10 @@
         "line_style": 0,
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
-        "name": "ADIO_OUT",
+        "name": "HP_OUT",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 3.47,
+        "track_width": 8.36,
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
@@ -292,7 +292,7 @@
         "name": "VBAT",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 16.72,
+        "track_width": 8.36,
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6

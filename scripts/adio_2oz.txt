@@ -1,0 +1,41 @@
+PowerCore pdmrazora — 2 oz series necks
+IPC-2221A external, I = 0.048 * dT^0.44 * A^0.725
+dT = 20 C, A in mil^2, 1 oz = 1.378 mil, 2 oz = 2.756 mil
+Width scales as 1/thickness from the 1 oz ruler (8 A = 3.472 mm, 25 A = 16.717 mm).
+
+  8 A  at 2 oz -> 1.736 mm, reported 1.74 mm
+  25 A at 2 oz -> 8.359 mm, reported 8.36 mm
+  80 A peak and 150 A fuse class are still not traces.
+
+Copper weight is board-wide: 70 um F.Cu + 70 um B.Cu, core 1.46 mm, 1.6 mm finished.
+Selective 2 oz was not used. A normal fab sets copper weight per layer for the whole board.
+
+Filled cross-section (0.02 mm raster of zone fill, longest run on the cut).
+F and B add only where both layers are in that cut. Pad clusters are not the neck.
+
+Net        target   filled series neck
+ADIO1      1.74     3.56   1.78 F + 1.78 B, pour not edited (prior notch 3.51)
+ADIO2      1.74     4.53   corridor not edited
+ADIO3      1.74     2.08   1.04 F + 1.04 B (was 3.80 B)
+ADIO4      1.74     1.76   throat F+B 1.98; A7 gate F+B 3.18
+ADIO5      1.74     1.74   B through the F slot x=111.20-114.00 (outline 1.77, was 3.80 B)
+ADIO6      1.74     1.76   throat F+B 1.80
+ADIO7      1.74     3.20   pin 1.60 F + 1.60 B; east B ribbon still 3.82
+ADIO8      1.74     1.76   throat F+B 1.84
+PWR_OUT1   8.36     16.72  class pours not trimmed
+PWR_OUT2   8.36     16.72  class pours not trimmed
+PWR_OUT3   8.36     16.72  class pours not trimmed
+PWR_OUT4   8.36     16.80  west leg (8.70-0.30) x 2; other legs 16.72 class
+
+Segment spans (mm), interior of the filled zone:
+  A8 throat F 0.92 + B 0.92 = 1.84, then F bridge 2.92, F drop 1.76, B haul 1.76, B alley 1.76, B west 1.78
+  A6 throat F 0.90 + B 0.90 = 1.80, F drop 1.76, B haul 1.76, B alley 1.76, B west 1.78
+  A4 throat F 0.96 + B 1.02 = 1.98, F drop 1.76, F haul 1.76, gate F 1.58 + B 1.60 = 3.18, F alley 1.76, F west 1.76
+  A5 east B 1.74 (F removed only at x=111.20-114.00)
+  A3 east F 1.04 + B 1.04 = 2.08
+  A1 low F 1.78 + B 1.78 = 3.56
+  A7 east B 3.82, A7 pin block 1.60 F + 1.60 B = 3.20
+
+Drivers: U18 (108, 150), U16 (120, 146), U14 (120, 156), rotation 0. U12 stays (84.80, 146).
+Pads J1 16/17/18/22/23/24/25 are 1.60 mm. Pin 25 stays N/C.
+kicad-cli 8.0.9 --severity-error: 0 violations, 174 unconnected (was 183).

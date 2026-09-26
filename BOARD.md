@@ -2,7 +2,46 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — ADIO4/6/8 loom reassignment held
+## This commit — board-wide 2 oz, ADIO4/6/8 at 8 A
+
+Copper weight is **2 oz (70 µm) on both layers, for the whole board**. Fab notes are in the title block and on Dwgs.User. Stackup in `pdmrazora.kicad_pcb`: F.Cu 0.07 mm, FR4 core 1.46 mm, B.Cu 0.07 mm, finished 1.6 mm. Numbers: [scripts/adio_2oz.txt](scripts/adio_2oz.txt). Applicator: `scripts/even_2oz_pour.py` (run only from a clean board).
+
+Board-wide 2 oz is the normal fab path. A board house sets copper weight per layer for the whole panel, not for a region of ADIO4/6/8. Selective heavy copper is a different process. The HP pours were already wider than the new 25 A line, so the whole board going to 2 oz does not require trimming them.
+
+IPC-2221A external, k = 0.048, ΔT = 20 °C. Width scales as 1/thickness. The 1 oz ruler was 8 A → 3.47 mm and 25 A → 16.72 mm. At 2 oz that is **8 A → 1.74 mm** (1.736 mm) and **25 A → 8.36 mm** (8.359 mm). Netclass defaults in `pdmrazora.kicad_pro` follow that (ADIO_OUT 1.74, HP_OUT and VBAT 8.36). Existing HP and VBAT copper was not narrowed to the new default.
+
+2 oz does not open the stock SuperSeal cage. With 2.0 mm pads the even door is still F+B 1.20 mm, under 1.74 mm. Pins 16, 17, 18 and 22, 23, 24, 25 are 1.60 mm pads (0.15 mm annular ring on the 1.3 mm drill). Pins 15 and 21 and the HP pads stay 2.0 mm. Pin 25 stays N/C. The Razor loom map is unchanged.
+
+U14, U16, and U18 still had to move. At 1.74 mm, U14's old OUT sat inside the ADIO2 corridor, and U16/U18 still had no path into the y≈60 bay without cutting the odd pours, the HP pours, or ADIO2. They sit in the empty south-east: U18 (108, 150), U16 (120, 146), U14 (120, 156), all rotation 0. U12 stays at (84.80, 146).
+
+The odd east ribbons were narrowed where a 1.74 mm even throat cannot exist beside a 3.80 mm odd ribbon on a 3.0 mm pitch. Downstream odd spurs and columns were not cut. ADIO2 was not edited.
+
+| Path | Series neck (filled) | 2 oz / 20 °C target |
+|------|----------------------|---------------------|
+| ADIO1 | 1.78 + 1.78 mm = 3.56 mm F+B (pour not edited; prior notch reading 3.51 mm) | 1.74 mm |
+| ADIO2 | 4.53 mm F+B corridor, not edited | 1.74 mm |
+| ADIO3 | 1.04 + 1.04 mm = 2.08 mm F+B (was 3.80 mm B) | 1.74 mm |
+| ADIO4 | 1.76 mm (throat F+B 1.98 mm, gate under A7 is F+B 3.18 mm) | 1.74 mm |
+| ADIO5 | 1.74 mm B through the F slot at x=111.2–114.0 (was 3.80 mm B) | 1.74 mm |
+| ADIO6 | 1.76 mm (throat F+B 1.80 mm) | 1.74 mm |
+| ADIO7 | 3.20 mm F+B at the pin (1.60 + 1.60); east B ribbon still 3.82 mm | 1.74 mm |
+| ADIO8 | 1.76 mm (throat F+B 1.84 mm) | 1.74 mm |
+| PWR_OUT1–4 | unchanged 16.72 mm class (west leg (8.70−0.30)×2 = 16.80 mm) | 8.36 mm |
+
+Series neck is the minimum F+B cross-section of one continuous path. F and B add on the same XY. Via drills are stitches, not summed as parallel slots. SuperSeal pads and the PROFET OUT clusters are the pad interface, not the neck.
+
+Outline stays **(−32, −40)–(142, 162)**. F1 stays open (new copper starts at y=34.24; F1 pads are at y=15 and y=24.2). There is still no SENSOR_GND pour. No gerbers. `scripts/cut_crossings_sexp.py` was not replayed. Pins were not frozen. 80 A peak and the 150 A fuse class are still not traces.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack / mask bridge | 0 | **0** |
+| unconnected_items | 183 | **174** |
+| Copper weight | 1 oz (not recorded) | **2 oz both layers** |
+| SuperSeal nets edited | — | **no** |
+
+Unconnected is lower because the new pours tie the even power paths. It is not zero. The moved drivers' VBAT pad 15, GND pad 1, and signal pads are open, and the sense pads R204.2 / R206.2 / R208.2 are open in the same way as the odd channels. The old VBAT zone rats are still there. `kicad-cli` 8.0.9, `--severity-error`. Violations 0. Unconnected 174.
+
+## Previous commit — ADIO4/6/8 loom reassignment held
 
 Pin reassignment was allowed, including a break from the Link Razor harness map, so ADIO4, ADIO6, and ADIO8 could reach a continuous ≥3.47 mm series neck at 1 oz. No assignment does. The board copper is unchanged. The SuperSeal net list is unchanged. Stackup stays 1 oz. The 8 A line was not derated. Audit: `scripts/even_reassign_audit.py`. Numbers: [scripts/even_reassign_audit.txt](scripts/even_reassign_audit.txt) and [scripts/adio_ampacity.txt](scripts/adio_ampacity.txt).
 
