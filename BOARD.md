@@ -2,7 +2,38 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — board-wide 2 oz, ADIO4/6/8 at 8 A
+## This commit — reconnect U14/U16/U18 and even sense
+
+Moved drivers U14, U16, and U18 are tied again: VBAT pad 15, GND pad 1, EN pads 2–3, and the IS pad. Sense pads R204.2, R206.2, and R208.2 land on ADIO4/6/8 with a 0.12 mm tap, the same class of connection as the odd-channel sense pads (those odd pads stay open). Applicator: `scripts/reconnect_moved.py`. `scripts/cut_crossings_sexp.py` was not replayed. `scripts/even_2oz_pour.py` was not re-run.
+
+VBAT branches are priority 2 on B.Cu, the same 3.6 mm class as the existing driver column, not a new 25 A neck. Signals use exclusive south-east lanes (0.20 mm, 0.15 mm in the east margin) and 0.50 mm vias. The only preserved-pour edit is the east tip of `A1/A3/A5/A7_spur_Fw`, pulled from x=104.25 to x=102.20 so a sense slot fits beside PWR_OUT2. Spur height stays 3.80 mm. ADIO2 was not edited. HP pours were not trimmed. F1 stays open. There is still no SENSOR_GND pour. The Razor loom / SuperSeal map is unchanged. No gerbers. Pins were not frozen.
+
+Filled necks on the same cuts, before and after this refill, did not move:
+
+| Path | Filled series neck | 2 oz floor |
+|------|--------------------|------------|
+| ADIO1 | 1.76 + 1.76 mm = 3.52 mm F+B (documented 3.56) | 1.74 mm |
+| ADIO2 | corridor not edited (4.53 mm) | 4.53 mm |
+| ADIO3 | 1.03 + 1.03 mm = 2.06 mm F+B (documented 2.08) | 1.74 mm |
+| ADIO4 | alley 1.75 mm, drop 1.74 mm, throat 0.94 + 1.00 mm | 1.74 mm |
+| ADIO5 | 1.71 mm B through the F slot (same as the 2 oz fill) | 1.74 mm |
+| ADIO6 | alley 1.74 mm, throat 0.88 + 0.88 mm = 1.76 mm | 1.74 mm |
+| ADIO7 | east B ribbon 3.80 mm (documented 3.82) | 1.74 mm |
+| ADIO8 | alley 1.74 mm, drop 1.73 mm, throat 0.90 + 0.90 mm | 1.74 mm |
+| PWR_OUT1 | 16.72 mm, outline not edited | 8.36 mm |
+| PWR_OUT2–4 | outlines not edited; class pours stay 16.72 mm | 8.36 mm |
+
+ADIO5's filled reading is 1.71 mm on both the 2 oz board and this refill. The outline at that slot is still the 1.77 mm ribbon from the 2 oz merge. Nothing in this pass cut it.
+
+| Issue | Before | After |
+|-------|-------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack | 0 | **0** |
+| unconnected_items | 174 | **158** |
+| SuperSeal nets edited | — | **no** |
+
+The drop is the moved-driver pads and the three even sense pads. U12's GND rat to the new U18 via is still open. Old VBAT zone rats are still there, and the refill added one VBAT zone rat, one GND zone rat, and one IN_AUX4 rat. `kicad-cli` 8.0.9, `--severity-error`. Violations 0. Unconnected 158.
+
+## Previous commit — board-wide 2 oz, ADIO4/6/8 at 8 A
 
 Copper weight is **2 oz (70 µm) on both layers, for the whole board**. Fab notes are in the title block and on Dwgs.User. Stackup in `pdmrazora.kicad_pcb`: F.Cu 0.07 mm, FR4 core 1.46 mm, B.Cu 0.07 mm, finished 1.6 mm. Numbers: [scripts/adio_2oz.txt](scripts/adio_2oz.txt). Applicator: `scripts/even_2oz_pour.py` (run only from a clean board).
 
