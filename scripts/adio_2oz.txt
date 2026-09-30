@@ -1,4 +1,25 @@
 PowerCore pdmrazora — 2 oz series necks
+
+Filled remeasure after the ADIO5 slot / ADIO8 drop polish (0.01 mm raster).
+Same cuts on main except the two pinches. ADIO2 corridor was not remeasured
+as an F+B sum; it was not edited.
+
+  ADIO5 slot B   1.71 -> 1.83   x=111.05-113.35, floor 1.74
+  ADIO8 drop F   1.73 -> 1.77   y=34.3-39.8, floor 1.74
+  ADIO8 alley B  1.73 unchanged (main is 1.73; #26 wrote 1.74). Not jogged.
+  ADIO1          3.52   1.76 F + 1.76 B
+  ADIO3          2.06   1.03 F + 1.03 B
+  ADIO4          alley 1.74, drop 1.74, throat 0.94 F + 1.00 B
+  ADIO6          alley 1.74, throat 0.88 F + 0.88 B
+  ADIO7          east B ribbon 3.80
+  PWR_OUT1       19.21 F
+  PWR_OUT2       16.72 F
+  PWR_OUT3       21.40 F
+  PWR_OUT4       17.40  8.70 F + 8.70 B
+  kicad-cli 8.0.9 --severity-error: 0 violations, 141 unconnected (was 158).
+
+Historical 2 oz fill (outlines; ADIO5 filled reading was later 1.71):
+
 IPC-2221A external, I = 0.048 * dT^0.44 * A^0.725
 dT = 20 C, A in mil^2, 1 oz = 1.378 mil, 2 oz = 2.756 mil
 Width scales as 1/thickness from the 1 oz ruler (8 A = 3.472 mm, 25 A = 16.717 mm).

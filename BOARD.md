@@ -2,7 +2,53 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — reconnect U14/U16/U18 and even sense
+## This commit — leftover rats and ADIO5/ADIO8 fill
+
+Closes rats left after the U14/U16/U18 reconnect, and brings the two 2 oz fill residuals back to the 8 A floor. Applicators: `scripts/close_remaining_rats.py` (ADIO5/ADIO8 polish and the five EN ties) and `scripts/route_short_rats.py` (short pairs). Both are already applied; re-running them duplicates copper. `scripts/cut_crossings_sexp.py` was not replayed. `scripts/even_2oz_pour.py` was not re-run. No footprint moved. ADIO2 was not edited. HP pours were not trimmed. F1 stays open. There is still no SENSOR_GND pour. The Razor loom / SuperSeal map is unchanged. No gerbers. Pins were not frozen.
+
+ADIO5 polish is a B.Cu sliver `A5_slot_ext` under the F slot only, outline (111.00, 45.46)–(113.45, 45.78), overlapping the ribbon bottom at y=45.58. The top of that slot stays against ADIO4. The ribbon was not lowered west of the slot, where ADIO6 sits 0.23 mm under it. ADIO8 polish moves the west edge of `A8_drop_F` from x=47.12 to x=47.08, into the gap beside PWR_OUT4 (fill ends at x=46.68). The east edge stays on ADIO6. Neither edit takes copper from ADIO2 or from a PWR_OUT pour.
+
+Filled necks, 0.01 mm raster of the zone fill, same cuts on main and on this board except the two pinches:
+
+| Path | Filled series neck | 2 oz floor |
+|------|--------------------|------------|
+| ADIO1 | 1.76 + 1.76 mm = 3.52 mm F+B, unchanged | 1.74 mm |
+| ADIO2 | corridor not edited (4.53 mm) | 4.53 mm |
+| ADIO3 | 1.03 + 1.03 mm = 2.06 mm F+B, unchanged | 1.74 mm |
+| ADIO4 | alley 1.74 mm, drop 1.74 mm, throat 0.94 + 1.00 mm | 1.74 mm |
+| ADIO5 | slot B **1.71 → 1.83 mm** (x=111.05–113.35) | 1.74 mm |
+| ADIO6 | alley 1.74 mm, throat 0.88 + 0.88 mm = 1.76 mm | 1.74 mm |
+| ADIO7 | east B ribbon 3.80 mm, unchanged | 1.74 mm |
+| ADIO8 | drop **1.73 → 1.77 mm**; alley 1.73 mm unchanged (main is also 1.73); throat 0.90 + 0.90 mm | 1.74 mm |
+| PWR_OUT1 | 19.21 mm F | 8.36 mm |
+| PWR_OUT2 | 16.72 mm F | 8.36 mm |
+| PWR_OUT3 | 21.40 mm F | 8.36 mm |
+| PWR_OUT4 | 8.70 + 8.70 mm = 17.40 mm F+B | 8.36 mm |
+
+The ADIO8 alley was already 1.73 mm filled on main. #26 wrote 1.74 mm for that alley. This pass did not narrow it and did not jog it: the named residual was the drop. Widening the alley would crowd the next even pour.
+
+| Issue | Before (main `fc83f20`) | After |
+|-------|------------------------:|------:|
+| shorting_items / crossings / clearance / courtyard / padstack | 0 | **0** |
+| unconnected_items | 158 | **141** |
+| SuperSeal nets edited | — | **no** |
+
+`kicad-cli` 8.0.9, `pcb drc --severity-error`. Violations 0. Unconnected 141.
+
+What closed: EN pad 2–3 on U11 (`OUT_PWM5`), U13 (`OUT_PWM7`), U15 (`OUT_IO5`), U17 (`OUT_IO7`), and U12 (`OUT_PWM6`), 0.20 mm on F.Cu. Short same-net stitches on GND, SENSOR_5V (including SuperSeal pins 11 and 5, already the same net), SENSOR_GND (pins 12 and 6, already the same net), IN_AUX1 (C10.1–R10.2), and IN_VIGN (R2.1–R1.2). Ten M1000 GND fingers get a 0.20 mm exit out of the pour keepout (tracks are allowed there). Pre-fuse VBAT ties C1 to C2 and D1 toward the north zone with 0.40 mm tracks that stay north of the fuse body. The B.Cu GND zone self-rat at (−31.2, −39.2) closed on the refill.
+
+Still open, and why:
+
+- **U12 GND.** Pad 1 at (81.95, 144.05) to the U18 via at (103.55, 147.95). ADIO2 seals the west and south of that pad. The east gutter to the VBAT column is about 0.40 mm, and a via does not fit between B.Cu ADIO2 (ends x=82.70) and F.Cu VBAT (starts x=83.0). Moving U12 would pull the OUT pads off the 4.53 mm corridor. Footprint stays.
+- **F1.** Zone (68.5, 1) to zone (54.5, 27.5) stays open. The schematic uses one VBAT net through the fuse.
+- **VBAT post-fuse islands.** Three self-rats on the F zone at (54.5, 27.5). The split is the #26 ADIO4/ADIO8 sense slot near x=86.7–87.9. Bridging it cuts those taps. There is no B.Cu VBAT under the slot. M1000 N27 at (−11.5, 26.2) is still open to the post-fuse zone.
+- **VBAT north stub.** Track at (102.65, −26.25) to the D1 track at (112, 10.15). C1, C2, and D1 are tied on the pre-fuse side; that stub still does not meet D1.
+- **IN_AUX4**, four rats. The U4 stub (101.65, 40.47) to (97.6, 32) is blocked by the U4 VBAT pad and PWR_OUT4. M1000 S10 (2.70, 65.70) is still open to C40.1 and R40.2.
+- **Sense pad 2.** R201 (ADIO1), R202 (ADIO2), R203 (ADIO3), R205 (ADIO5), R207 (ADIO7). Schematic intent is pad 2 on ADIOn and pad 1 on SENSOR_5V, same as the even taps #26 already closed. These five sit in the VBAT / SENSOR_5V row at y=56.20. A 0.12 mm path to the pour is blocked (nearest fill is 4.6 mm to 20 mm away). Left open.
+- **F.Cu GND slivers** at (68, 76.2), and U15 / U17 pad 1. The slivers sit against ADIO2. A via there hits the ADIO2 ribbon. Not cut. One M1000 GND finger at (14.2, 59.35) has no clear exit. The other fingers are 0.20 mm SMD with a separate F and B pad, so a one-layer exit leaves the other finger ratted. They are too narrow for a via.
+- **Longer signal rats** (IN_RES, IN_MAP, IN_O2S, and the rest of the 141). The short router stops at 8 mm. The paths run through foreign pours. Those pours were not sliced.
+
+## Previous commit — reconnect U14/U16/U18 and even sense
 
 Moved drivers U14, U16, and U18 are tied again: VBAT pad 15, GND pad 1, EN pads 2–3, and the IS pad. Sense pads R204.2, R206.2, and R208.2 land on ADIO4/6/8 with a 0.12 mm tap, the same class of connection as the odd-channel sense pads (those odd pads stay open). Applicator: `scripts/reconnect_moved.py`. `scripts/cut_crossings_sexp.py` was not replayed. `scripts/even_2oz_pour.py` was not re-run.
 
