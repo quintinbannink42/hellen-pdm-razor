@@ -26,11 +26,13 @@ Production-intent parts chosen for Link Razor-compatible ratings. Firmware must 
 
 Soft EN from `OUT_PWM1..4`. Optional DIR on `OUT_IO1..4` not wired in rev a.
 
-## ADIO (ADIO1–8)
+## ADIO (ADIO1, ADIO3, ADIO5, ADIO7)
+
+Four 8 A channels. Removed from the board: **U12, U14, U16, U18** (ADIO2/4/6/8 drivers), **R102, R104, R106, R108**, **C102, C104, C106, C108**, **R202, R204, R206, R208**.
 
 | Ref | PN | Package | Why |
 |-----|-----|---------|-----|
-| U11–U18 | **Infineon BTS7004-1EPP** | PG-TSDSO-14-22 | PROFET™ +2 12 V, **4.4 mΩ**, IL(NOM) **15 A** @ 85 °C — headroom above Razor **8 A continuous / ~10 A trip**. Single-channel maps 1:1 to eight ADIO stubs. |
+| U11, U13, U15, U17 | **Infineon BTS7004-1EPP** | PG-TSDSO-14-22 | PROFET™ +2 12 V, **4.4 mΩ**, IL(NOM) **15 A** @ 85 °C — headroom above the **8 A continuous / ~10 A trip** rating. One device per remaining ADIO. |
 
 Schematic still uses a simplified 5-pin stub symbol (EN/IS/VBAT/GND/OUT). PCB footprint is full TSDSO-14-22:
 
@@ -47,8 +49,8 @@ Schematic still uses a simplified 5-pin stub symbol (EN/IS/VBAT/GND/OUT). PCB fo
 | Param | Value | Notes |
 |-------|-------|-------|
 | kILIS (typ) | **≈ 20000** | at IL(NOM) |
-| RIS | **4.7 kΩ** (R101–R108) | Vis = (IL / kILIS) · RIS |
-| Filter | **10 nF** (C101–C108) | |
+| RIS | **4.7 kΩ** (R101, R103, R105, R107) | Vis = (IL / kILIS) · RIS |
+| Filter | **10 nF** (C101, C103, C105, C107) | |
 | At 10 A | Vis ≈ 2.35 V | ADC-safe on 3.3 V Hellen analogs |
 | **AmpsPerVolt TODO** | `≈ kILIS / RIS ≈ 4.26 A/V` | Calibrate per channel |
 
@@ -56,7 +58,7 @@ Schematic still uses a simplified 5-pin stub symbol (EN/IS/VBAT/GND/OUT). PCB fo
 
 | Ref | Value | Net |
 |-----|-------|-----|
-| R201–R208 | **4.7 kΩ** to **SENSOR_5V** | Series toward ADIOn node; **enable with FET/GPIO** already labeled (`OUT_IO9..13`, `IO1..3` per PINMAP). Rev a wires R to ADIO node + SENSOR_5V; discrete N-FET high-side enable still TODO if hard disconnect required. |
+| R201, R203, R205, R207 | **4.7 kΩ** to **SENSOR_5V** | Pad 1 is SENSOR_5V, pad 2 is ADIO1/3/5/7. Enable GPIOs `OUT_IO9`, `OUT_IO11`, `OUT_IO13`, and `IO2` stay labeled; the discrete N-FET high-side enable is still TODO. |
 
 Voltage sense dividers to `IN_TPS` / `IN_PPS` / … are labeled on the ADIO sheet (V-sense stubs); ratio TBD with SENSOR_5V domain.
 
@@ -79,5 +81,5 @@ Voltage sense dividers to `IN_TPS` / `IN_PPS` / … are labeled on the ADIO shee
 
 1. Set `AmpsPerVolt` HP ≈ 19.3 and ADIO ≈ 4.26, then two-point calibrate.
 2. Confirm IN_AUX3/AUX4 orientation on mega-mcu144 **0.7**.
-3. `protected_gpio` bank: HP1–4 + ADIO1–4 first.
+3. `protected_gpio` bank: HP1–4 + ADIO1/3/5/7. Even ADIO channels are not populated.
 4. VBATT scaler: match R1/R2 11:1 in board config.

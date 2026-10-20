@@ -13,7 +13,7 @@ Former working names (docs/history only): `hellen-pdm-razor`, Hellen Razor-class
 Ship a first PowerCore Hellen-One carrier + firmware that can:
 
 1. Drive **4× high-power** channels at **25 A continuous / 80 A peak**, HS (DIR/H-bridge optional if pins allow).
-2. Provide **8× ADIO** at **8 A** high-side, with analog/digital input modes and software pull-ups.
+2. Provide **4× low-current ADIO** (ADIO1, ADIO3, ADIO5, ADIO7) at **8 A** high-side, with analog/digital input modes and software pull-ups. ADIO2, ADIO4, ADIO6, and ADIO8 are removed; SuperSeal pins 2, 9, 15, 16, 17, and 18 are no-connect.
 3. Log **per-channel current** on high-power outputs (and ADIO when used as outputs).
 4. Implement programmable electronic-fuse behaviour (inrush window, overcurrent, trip time, retry/latch, over-temp).
 5. Speak **USB** + **CAN**; expose channels in TunerStudio / gauges.
@@ -32,7 +32,7 @@ Non-goals for rev 1: sealed Link-style CNC housing, PC “PDM Link” clone UI, 
               +--------------+--------------+
               |                             |
      +--------v--------+           +--------v--------+
-     | HP stage x4     |           | ADIO stage x8   |
+     | HP stage x4     |           | ADIO stage x4   |
      | PROFET / half-  |           | 8 A high-side   |
      | bridge capable  |           | + pin mux       |
      | IS -> ADC       |           | V/I -> ADC      |
@@ -58,7 +58,7 @@ Non-goals for rev 1: sealed Link-style CNC housing, PC “PDM Link” clone UI, 
 | Block | Count | Continuous | Peak / trip notes | Modes |
 |-------|------:|------------|-------------------|--------|
 | High-power | 4 | 25 A | 80 A safe peak; measure to ~60 A | HS (rev1); LS / half / full bridge stretch |
-| ADIO | 8 | 8 A HS out | Fixed ~10 A hardware trip class | Analog in, digital in, HS out; ADIO1–4 PWM out; ADIO5–8 freq/PWM in |
+| ADIO | 4 | 8 A HS out | Fixed ~10 A hardware trip class | Analog in, digital in, HS out on ADIO1/3/5/7. ADIO1 and ADIO3 keep PWM enable; ADIO5 and ADIO7 keep the freq/PWM input path |
 | Supply | — | 6–24 V | 12/16 V nominal | Quiescent &lt;300 mA outputs off |
 | Aux | — | 5 V sensor @ 50 mA/pin class | — | Sensor GND separate from chassis |
 
@@ -84,10 +84,10 @@ Provisional function map — STM32 / MM144 edge names filled from module docs in
 | HP_EN / PWM | 4 | TIM PWM ≥10 kHz |
 | HP_DIR | 0–4 | Stretch; omit on first spin if copper tight |
 | HP_ISENSE ADC | 4 | Continuous current |
-| ADIO_EN / PWM | 8 | 4 with PWM timers |
-| ADIO_PU | 8 | Soft 4k7 to 5 V |
-| ADIO_SENSE ADC | 8–16 | Prefer V+I; 144 should allow at least V **or** I per pin without mux |
-| Freq / PWM in | 4 | ADIO5–8 input path |
+| ADIO_EN / PWM | 4 | ADIO1/3 use timer PWM; ADIO5/7 use GPIO enable |
+| ADIO_PU | 4 | Soft 4k7 to 5 V on ADIO1/3/5/7 (R201, R203, R205, R207) |
+| ADIO_SENSE ADC | 8 | V and I on each of the four channels |
+| Freq / PWM in | 2 | ADIO5 and ADIO7 input path |
 | VBATT / 5V / TEMP ADC | 3 | |
 | USB | 1 | On module |
 | CAN | 1 | On module |

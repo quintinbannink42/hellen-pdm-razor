@@ -2,7 +2,47 @@
 
 Open with **KiCad 8.x** (Hellen mega-mcu144 0.7 is K8). KiCad 9 also works. KiCad 6/7 will not open this module. File format stays **20240108 / generator_version 8.0**. Stem is `pdmrazora`.
 
-## This commit — leftover rats and ADIO5/ADIO8 fill
+## This commit — 4 high-power + 4 low-current
+
+The carrier drops the four even ADIO channels. What remains is **4× high-power** (PWR_OUT1–4, 25 A continuous / 80 A peak) and **4× low-current** (ADIO1, ADIO3, ADIO5, ADIO7, 8 A, still 2 oz). `scripts/cut_crossings_sexp.py` was not replayed. No footprint moved. J2, J3, and M1000 stay put. The board outline is unchanged. HP pours and the odd ADIO zone outlines were not edited. F1 stays open. There is still no SENSOR_GND pour. No gerbers. Pins were not frozen.
+
+Removed from the schematic and the PCB: **U12, U14, U16, U18, R102, R104, R106, R108, C102, C104, C106, C108, R202, R204, R206, R208**. Their nets, tracks, vias, and pours went with them, including the ADIO2 4.53 mm corridor (the y=140 probe is now 0). SuperSeal pads that used to feed those channels are no-connect: **J1 pins 2, 9, 15, 16, 17, 18**. Pin 25 was already no-connect. Every other J1 assignment is unchanged (CAN 3/10, IGN_SW 4, SENSOR_5V 5 and 11, SENSOR_GND 6 and 12, HP pairs 14+20, 1+8, 7+13, 19+26, ADIO 21/22/23/24).
+
+The root-sheet J1 symbol is rewired so schematic pin numbers match the PCB pad numbers (pad = loom pin). Pins 5 and 11 are both SENSOR_5V, tied, matching the copper. The odd pull-ups R201, R203, R205, and R207 no longer short pad 1 to pad 2; pad 1 is SENSOR_5V and pad 2 is the ADIO node. The even pull-ups are gone, so SENSOR_5V is not merged into IO2.
+
+Filled necks, same cuts as the previous commit, 0.01 mm raster of the zone fill. Odd ADIO and HP did not go below the widths this commit started from. ADIO5's slot grew on the refill after the even copper came off.
+
+| Path | Filled series neck | Floor |
+|------|--------------------|-------|
+| ADIO1 | 3.52 mm F+B | 3.52 mm (8 A floor 1.74 mm) |
+| ADIO3 | 2.06 mm F+B | 2.06 mm |
+| ADIO5 | 1.89 mm B slot | 1.83 mm |
+| ADIO7 | 3.80 mm B | 3.80 mm |
+| PWR_OUT1 | 19.21 mm F | unchanged |
+| PWR_OUT2 | 16.72 mm F | unchanged |
+| PWR_OUT3 | 21.40 mm F | unchanged |
+| PWR_OUT4 | 17.40 mm F+B | unchanged |
+
+| Issue | Before (main, 141 unconnected) | After |
+|-------|-------------------------------:|------:|
+| shorting_items / crossings / clearance / courtyard | 0 | **0** |
+| unconnected_items | 141 | **86** |
+
+`kicad-cli` 8.0.9, `pcb drc --severity-error`. Violations 0. Unconnected 141 → 111 after the even-channel delete, then **86** after the routes below.
+
+What closed: the even-channel rats (drivers, sense, pours, and the U12 GND rat that the ADIO2 corridor had sealed). U15 pad 1 and U17 pad 1 reach GND through the space that corridor left (U15 north into the F.Cu sliver, U17 west to a via onto the B.Cu pour). R40 pad 1 gets a via onto that pour. Other short GND, SENSOR_5V, IN_MAP3, IN_RES2, IN_AUX3, IN_VIGN, and OUT_PWM2 stitches landed where clearance allowed.
+
+Still open:
+
+- **F1 / VBAT**, four rats. The fuse Y band (y=16.8–23.4) is not crossed, including a path around the fuse body. Post-fuse islands, M1000 N27, and the north stub stay open.
+- **Sense pad 2** on R201 (ADIO1), R203 (ADIO3), R205 (ADIO5), and R207 (ADIO7). Each pad sits in a VBAT well at y=56.20. A 0.12 mm track does not clear 0.20 mm out of that well, so J1.22 stays ratted with R203.2. J1.21 / 23 / 24 are on the pours; the open item is the sense pad.
+- **J1.3 CANH, J1.4 IGN_SW, J1.10 CANL.** The runs into the SuperSeal cage still cross foreign pours.
+- **SENSOR_5V**, nine rats. The pull-up pads in the same well have no via site that clears both layers.
+- **SENSOR_GND**, two rats. No pour was added.
+- **IN_AUX4** (four) and the other IN_AUX / OUT_PWM rats the pours still block.
+- **GND**, 21 left. Most are M1000 0.20 mm fingers with a separate F and B pad, too narrow for a via. A handful of short sense-row and module-wall gaps failed the same clearance check.
+
+## Previous commit — leftover rats and ADIO5/ADIO8 fill
 
 Closes rats left after the U14/U16/U18 reconnect, and brings the two 2 oz fill residuals back to the 8 A floor. Applicators: `scripts/close_remaining_rats.py` (ADIO5/ADIO8 polish and the five EN ties) and `scripts/route_short_rats.py` (short pairs). Both are already applied; re-running them duplicates copper. `scripts/cut_crossings_sexp.py` was not replayed. `scripts/even_2oz_pour.py` was not re-run. No footprint moved. ADIO2 was not edited. HP pours were not trimmed. F1 stays open. There is still no SENSOR_GND pour. The Razor loom / SuperSeal map is unchanged. No gerbers. Pins were not frozen.
 
@@ -893,7 +933,7 @@ FreeRouting / dense meshes still skipped (mega-mcu144 padstacks).
 | Root | `pdmrazora.kicad_sch` | SuperSeal 26 **vertical** + **split M6 bobbins** (J2 VBAT+ / J3 GND) + power entry + IGN_SW divider |
 | MM144 | `MM144.kicad_sch` | mega-mcu144 0.7 + PINMAP globals |
 | HP | `HP.kicad_sch` | HP1–4 BTS50010-1TAD + IS sense |
-| ADIO | `ADIO.kicad_sch` | ADIO1–8 BTS7004-1EPP + IS/PU |
+| ADIO | `ADIO.kicad_sch` | ADIO1/3/5/7 BTS7004-1EPP + IS/PU (even channels removed) |
 
 ## Fab-blocker checklist
 
