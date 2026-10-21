@@ -5,7 +5,7 @@
 	(uuid "58d1ef36-9821-4a01-902d-65a56364218a")
 	(paper "A3")
 	(title_block
-		(title "pdmrazora - ADIO x8")
+		(title "pdmrazora - ADIO x4 (8 A)")
 		(date "2026-09-15")
 		(rev "a")
 		(company "quintinbannink42")
@@ -350,7 +350,7 @@
 			)
 		)
 	)
-	(text "ADIO1-8: Infineon BTS7004-1EPP (PROFET +2, 4.4 mΩ, IL(NOM) 15 A, PG-TSDSO-14-22). Simplified 5-pin stub; RIS 4k7 + PU 4k7; see HARDWARE_BOM.md."
+	(text "ADIO1/3/5/7: Infineon BTS7004-1EPP (PROFET +2, 4.4 mΩ, IL(NOM) 15 A, PG-TSDSO-14-22). Simplified 5-pin stub; RIS 4k7 + PU 4k7 to SENSOR_5V; see HARDWARE_BOM.md."
 		(at 10 10 0)
 		(effects
 			(font
@@ -536,182 +536,18 @@
 		)
 		(uuid "473556e2-883c-4b2e-b668-73573f280cc6")
 	)
-	(symbol
-		(lib_id "Device:Power_Switch_PROFET_TBD")
-		(at 110 40 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "3bd8dd4c-4815-41f7-9763-7afab9cee90b")
-		(property "Reference" "U12"
-			(at 104.92 32.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS7004-1EPP"
-			(at 118 32.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_SO:Infineon_PG-TSDSO-14-22"
-			(at 110 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 110 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
-		)
-		(pin "2"
-			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
-		)
-		(pin "3"
-			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
-		)
-		(pin "4"
-			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
-		)
-		(pin "5"
-			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
-		)
-	)
-	(wire
-		(pts (xy 102.38 42.54) (xy 92.00 42.54))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "641de111-e0c5-4a44-acda-dd0e90777cac")
-	)
-	(global_label "OUT_PWM6"
-		(shape input)
-		(at 92.00 42.54 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1e5ce607-9730-40c4-9311-c5d0f4ced28c")
-	)
-	(wire
-		(pts (xy 110.00 47.62) (xy 110.00 54.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0f947236-30d7-4e89-92be-f070a5b6544e")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 110.00 54.00 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "7b0131b6-deaf-4e7c-a5fc-68d85771e1ee")
-	)
-	(wire
-		(pts (xy 110.00 32.38) (xy 110.00 26.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0a64134f-4627-4c01-b697-6bda6361a575")
-	)
-	(global_label "VBAT"
-		(shape input)
-		(at 110.00 26.00 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "b4fc31e3-18e2-4a00-96da-8150d382463c")
-	)
-	(wire
-		(pts (xy 117.62 40.00) (xy 132.00 40.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c7288daa-9d0e-4a51-99ce-004c437590ab")
-	)
-	(global_label "ADIO2"
-		(shape input)
-		(at 132.00 40.00 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "e42bb63f-b314-42c5-b797-a88dcfae6f8d")
-	)
-	(global_label "IN_PPS"
-		(shape input)
-		(at 132.00 45.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "369da178-a4ef-4409-8fc3-9f6ed70385f0")
-	)
-	(global_label "OUT_IO10"
-		(shape input)
-		(at 132.00 34.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "34ef4e3f-8c9f-424d-8be2-c2c20dd40194")
-	)
-	(text "ADIO2\nV=IN_PPS\nPU=OUT_IO10"
-		(at 92 60 0)
-		(effects
-			(font
-				(size 0.9 0.9)
-			)
-			(justify left top)
-		)
-		(uuid "e8536941-2cda-4f94-9b52-1d6dbc7c2242")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:Power_Switch_PROFET_TBD")
 		(at 180 40 0)
@@ -888,182 +724,18 @@
 		)
 		(uuid "2b6b3cf3-d328-4972-bd84-51776208073f")
 	)
-	(symbol
-		(lib_id "Device:Power_Switch_PROFET_TBD")
-		(at 250 40 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f9651b81-1e03-4f0d-888f-0ef68b49672c")
-		(property "Reference" "U14"
-			(at 244.92 32.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS7004-1EPP"
-			(at 258 32.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_SO:Infineon_PG-TSDSO-14-22"
-			(at 250 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 250 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 250 40 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
-		)
-		(pin "2"
-			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
-		)
-		(pin "3"
-			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
-		)
-		(pin "4"
-			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
-		)
-		(pin "5"
-			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
-		)
-	)
-	(wire
-		(pts (xy 242.38 42.54) (xy 232.00 42.54))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "282d113c-a5e3-47db-b581-1d1b983d1398")
-	)
-	(global_label "OUT_PWM8"
-		(shape input)
-		(at 232.00 42.54 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "6c9e431c-cf13-4021-8460-18dabe844636")
-	)
-	(wire
-		(pts (xy 250.00 47.62) (xy 250.00 54.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1d9437a4-d5ec-4c2a-b7d7-73baedc27cab")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 250.00 54.00 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "4879841e-e85b-487c-b929-9d328405c76c")
-	)
-	(wire
-		(pts (xy 250.00 32.38) (xy 250.00 26.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "95f998b4-a0bb-4987-91b6-51808c716219")
-	)
-	(global_label "VBAT"
-		(shape input)
-		(at 250.00 26.00 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "9f51ffc0-4f86-466a-882a-3b394e2324ef")
-	)
-	(wire
-		(pts (xy 257.62 40.00) (xy 272.00 40.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "93adc7bf-660e-45f1-831a-ddf4dda1bc3e")
-	)
-	(global_label "ADIO4"
-		(shape input)
-		(at 272.00 40.00 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "aad1a089-5e0f-44e7-b84a-fa6f70c39982")
-	)
-	(global_label "IN_PPS2"
-		(shape input)
-		(at 272.00 45.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "110a0d8c-e060-4732-a4ce-494309df4bad")
-	)
-	(global_label "OUT_IO12"
-		(shape input)
-		(at 272.00 34.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "5ed72d35-6bf7-4ab1-92df-25a767a8e61c")
-	)
-	(text "ADIO4\nV=IN_PPS2\nPU=OUT_IO12"
-		(at 232 60 0)
-		(effects
-			(font
-				(size 0.9 0.9)
-			)
-			(justify left top)
-		)
-		(uuid "c0ca3e3d-4d60-492e-a13b-dffd4a885567")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:Power_Switch_PROFET_TBD")
 		(at 40 110 0)
@@ -1240,182 +912,18 @@
 		)
 		(uuid "ae86fa57-8a03-45fc-96d4-21d800bbf434")
 	)
-	(symbol
-		(lib_id "Device:Power_Switch_PROFET_TBD")
-		(at 110 110 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "740180fc-fc9b-4b9b-823c-446f7324bed0")
-		(property "Reference" "U16"
-			(at 104.92 102.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS7004-1EPP"
-			(at 118 102.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_SO:Infineon_PG-TSDSO-14-22"
-			(at 110 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 110 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 110 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
-		)
-		(pin "2"
-			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
-		)
-		(pin "3"
-			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
-		)
-		(pin "4"
-			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
-		)
-		(pin "5"
-			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
-		)
-	)
-	(wire
-		(pts (xy 102.38 112.54) (xy 92.00 112.54))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d0494a19-2ce1-40c2-a43a-1e1027d9244e")
-	)
-	(global_label "OUT_IO6"
-		(shape input)
-		(at 92.00 112.54 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "c685fcb8-2df1-4520-9293-12a611b9d846")
-	)
-	(wire
-		(pts (xy 110.00 117.62) (xy 110.00 124.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1a4c2ded-62ce-43a5-8089-61fe40508ef0")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 110.00 124.00 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "82663920-8f22-4820-9bf2-0bc48633228c")
-	)
-	(wire
-		(pts (xy 110.00 102.38) (xy 110.00 96.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4131a664-d6cb-423e-9b81-6bf712563f62")
-	)
-	(global_label "VBAT"
-		(shape input)
-		(at 110.00 96.00 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "0b95df5a-16de-4cc2-9ebc-936e92c7e71c")
-	)
-	(wire
-		(pts (xy 117.62 110.00) (xy 132.00 110.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "26953a28-e6dc-40cd-a18e-7b91ed81c868")
-	)
-	(global_label "ADIO6"
-		(shape input)
-		(at 132.00 110.00 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "1a5c3c4f-288c-41c3-b5ba-0e96e114bc44")
-	)
-	(global_label "IN_IAT"
-		(shape input)
-		(at 132.00 115.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "5a2c8d09-f444-4e9a-b258-6fa40c6368f4")
-	)
-	(global_label "IO1"
-		(shape input)
-		(at 132.00 104.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "3e3c2706-0378-4f88-9393-65c112423f93")
-	)
-	(text "ADIO6\nV=IN_IAT\nPU=IO1"
-		(at 92 130 0)
-		(effects
-			(font
-				(size 0.9 0.9)
-			)
-			(justify left top)
-		)
-		(uuid "bcc47f6b-70d7-4e84-bd86-f12521b860a2")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:Power_Switch_PROFET_TBD")
 		(at 180 110 0)
@@ -1592,182 +1100,18 @@
 		)
 		(uuid "1d121042-7100-4cba-9e6e-29af32e3179c")
 	)
-	(symbol
-		(lib_id "Device:Power_Switch_PROFET_TBD")
-		(at 250 110 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "9ada55c9-09b9-498b-83b3-358599c07fbf")
-		(property "Reference" "U18"
-			(at 244.92 102.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "BTS7004-1EPP"
-			(at 258 102.38 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Package_SO:Infineon_PG-TSDSO-14-22"
-			(at 250 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 250 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 250 110 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "196e52bb-3063-4f5c-8fec-68bdfcf56483")
-		)
-		(pin "2"
-			(uuid "024b5308-79cc-4756-8956-b3b6ec91bfde")
-		)
-		(pin "3"
-			(uuid "6e7f8b81-157d-45be-bb1d-f382d29fc54f")
-		)
-		(pin "4"
-			(uuid "4fe8170b-c4e4-4d86-b6f8-05878a20f5ea")
-		)
-		(pin "5"
-			(uuid "6c3d7480-a12b-49b1-826b-4c05a43cdd8c")
-		)
-	)
-	(wire
-		(pts (xy 242.38 112.54) (xy 232.00 112.54))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5cb427b0-524c-4f81-a754-2c7fbb4ca482")
-	)
-	(global_label "OUT_IO8"
-		(shape input)
-		(at 232.00 112.54 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "21d756e9-2fdc-45c0-b539-c576e0e6bdf2")
-	)
-	(wire
-		(pts (xy 250.00 117.62) (xy 250.00 124.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d0711bdd-00a9-4387-bb56-a999398795bf")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 250.00 124.00 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "e1bbdaab-36a1-4ef7-a937-aa2217f254dc")
-	)
-	(wire
-		(pts (xy 250.00 102.38) (xy 250.00 96.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bc01cc85-bf4c-457b-a5f4-9128dac713b4")
-	)
-	(global_label "VBAT"
-		(shape input)
-		(at 250.00 96.00 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "55aae06d-bbef-4574-99b5-458f7bcdcad3")
-	)
-	(wire
-		(pts (xy 257.62 110.00) (xy 272.00 110.00))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8b8429b9-3369-497d-9d65-bd07a2f70798")
-	)
-	(global_label "ADIO8"
-		(shape input)
-		(at 272.00 110.00 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "7aa30b8e-e832-4dd5-abc2-362afee27791")
-	)
-	(global_label "IN_AT2"
-		(shape input)
-		(at 272.00 115.08 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "90bfe0da-8a96-49b2-a8e1-a848ddc28ac2")
-	)
-	(global_label "IO3"
-		(shape input)
-		(at 272.00 104.92 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "3569f253-de13-4989-88bf-497a64905c6c")
-	)
-	(text "ADIO8\nV=IN_AT2\nPU=IO3"
-		(at 232 130 0)
-		(effects
-			(font
-				(size 0.9 0.9)
-			)
-			(justify left top)
-		)
-		(uuid "caaa0a76-f564-40d0-8420-73e11565883d")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	(sheet_instances
 		(path "/" (page "1"))
 	)
@@ -2013,16 +1357,16 @@
 		)
 	)
 	(wire
-		(pts (xy 66.19 34.92) (xy 60 34.92))
+		(pts (xy 66.1900 34.9200) (xy 64.1900 34.9200))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bf841700-b824-4eaf-bf31-fb412f70aec9")
+		(uuid "a2ba9b62-7e10-4979-976a-78f2d16ce85b")
 	)
 	(global_label "SENSOR_5V"
 		(shape input)
-		(at 60 34.92 180)
+		(at 64.19 34.92 180)
 		(effects
 			(font
 				(size 1.0 1.0)
@@ -2032,12 +1376,12 @@
 		(uuid "7ed8d30f-cc73-41b2-83ff-ecc013be6d89")
 	)
 	(wire
-		(pts (xy 73.81 34.92) (xy 62 34.92))
+		(pts (xy 73.8100 34.9200) (xy 73.8100 40.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "be71f1b6-78fb-4aa2-bed2-9cdf1423da3e")
+		(uuid "cda6da75-784b-493d-b79c-17242a148ec1")
 	)
 	(text "PU via OUT_IO9 enables R201"
 		(at 65 38.92 0)
@@ -2049,153 +1393,11 @@
 		)
 		(uuid "c992b1dd-735f-4fcb-af94-298bbdb4dc48")
 	)
-	(symbol
-		(lib_id "Device:R")
-		(at 95 37.46 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b34c3bd7-5222-461e-9f15-58ffbf5b8cde")
-		(property "Reference" "R102"
-			(at 95 34.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 95 39.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 95 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 95 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "ADIO IS RIS; kILIS~20000"
-			(at 95 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "6622c868-63d6-441b-8eef-3b472242f79d")
-		)
-		(pin "2"
-			(uuid "016965cb-792c-4b34-9836-2f4d6f202e7f")
-		)
-	)
-	(wire
-		(pts (xy 102.38 37.46) (xy 91.19 37.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3d757b04-d439-4066-bd95-eb3d4c1bbe61")
-	)
-	(wire
-		(pts (xy 98.81 37.46) (xy 86 37.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3e934acd-d216-45b0-bded-05f33a598963")
-	)
-	(global_label "IN_MAP2"
-		(shape input)
-		(at 86 37.46 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "b4c5f898-8f74-499e-b49a-8040b258a920")
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 90 44.46 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "70ba7e0a-ab18-4997-a180-7f07d826fee7")
-		(property "Reference" "C102"
-			(at 92.5 44.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 87.5 44.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 90 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 90 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 90 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "7ab9cd2b-37b6-40f9-b7b6-09327d90c16f")
-		)
-		(pin "2"
-			(uuid "1d24a922-7eca-4e99-9913-4af39288c266")
-		)
-	)
+	
+	
+	
+	
+	
 	(wire
 		(pts (xy 86 37.46) (xy 90 37.46))
 		(stroke
@@ -2204,129 +1406,14 @@
 		)
 		(uuid "7ebfb269-c555-4aee-bce9-d7254c1a84e6")
 	)
-	(wire
-		(pts (xy 90 37.46) (xy 90 40.65))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0c6cafd8-d571-44ba-becf-65ebb079594a")
-	)
-	(wire
-		(pts (xy 90 48.27) (xy 90 50.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "890aa5fe-e023-4acc-a5da-ed2fe0b48057")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 90 50.46 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "acf48c56-512f-4976-a375-559e71d616dc")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 140 34.92 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b44233b2-886a-43ba-b0d4-bb4fc9ec92e1")
-		(property "Reference" "R202"
-			(at 140 32.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 140 37.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 140 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 140 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Soft PU to SENSOR_5V; enable via OUT_IO10"
-			(at 140 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "149db43c-7690-49f9-b620-f1852af804d4")
-		)
-		(pin "2"
-			(uuid "7ccab5a9-e44c-426f-82a8-667033304072")
-		)
-	)
-	(wire
-		(pts (xy 136.19 34.92) (xy 130 34.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5c4e1bff-0509-4574-bcfe-3a9993309614")
-	)
-	(global_label "SENSOR_5V"
-		(shape input)
-		(at 130 34.92 180)
-		(effects
-			(font
-				(size 1.0 1.0)
-			)
-			(justify right)
-		)
-		(uuid "a4fdee83-2d3e-40f8-940b-80d6444d281d")
-	)
-	(wire
-		(pts (xy 143.81 34.92) (xy 132 34.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ac1f02f3-6b54-4692-b616-0298f82867db")
-	)
-	(text "PU via OUT_IO10 enables R202"
-		(at 135 38.92 0)
-		(effects
-			(font
-				(size 0.8 0.8)
-			)
-			(justify left top)
-		)
-		(uuid "e2d4a19d-cf42-4d65-93c0-e375db1c2e47")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:R")
 		(at 165 37.46 90)
@@ -2569,16 +1656,16 @@
 		)
 	)
 	(wire
-		(pts (xy 206.19 34.92) (xy 200 34.92))
+		(pts (xy 206.1900 34.9200) (xy 204.1900 34.9200))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d48d0f23-5a5f-4fa4-af3d-636c2645265c")
+		(uuid "6e6c64b2-28c5-40a4-8426-bdd4afd83ff4")
 	)
 	(global_label "SENSOR_5V"
 		(shape input)
-		(at 200 34.92 180)
+		(at 204.19 34.92 180)
 		(effects
 			(font
 				(size 1.0 1.0)
@@ -2588,12 +1675,12 @@
 		(uuid "c49e095b-fca9-461b-a8aa-6878b74ea620")
 	)
 	(wire
-		(pts (xy 213.81 34.92) (xy 202 34.92))
+		(pts (xy 213.8100 34.9200) (xy 213.8100 40.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "10532139-da4d-4ff4-a178-947e04f69219")
+		(uuid "a871c352-0776-4abf-bd44-50f4a1f9abca")
 	)
 	(text "PU via OUT_IO11 enables R203"
 		(at 205 38.92 0)
@@ -2605,153 +1692,11 @@
 		)
 		(uuid "fd8e5ef3-74d9-44aa-9119-af62d0927b66")
 	)
-	(symbol
-		(lib_id "Device:R")
-		(at 235 37.46 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "77e0c32e-472b-4498-8d87-17b451b62f89")
-		(property "Reference" "R104"
-			(at 235 34.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 235 39.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 235 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 235 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "ADIO IS RIS; kILIS~20000"
-			(at 235 37.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "645b0327-099c-4174-a4ab-d09efa7b55cf")
-		)
-		(pin "2"
-			(uuid "aeb71eef-dd4f-44ff-b16a-f8416c125cb4")
-		)
-	)
-	(wire
-		(pts (xy 242.38 37.46) (xy 231.19 37.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "531492e9-f9f6-460e-8314-23b8ecf37cb0")
-	)
-	(wire
-		(pts (xy 238.81 37.46) (xy 226 37.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "de04c068-9a2a-483d-b726-82a3ed1f70a1")
-	)
-	(global_label "IN_O2S"
-		(shape input)
-		(at 226 37.46 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "d9ab9ef1-7a36-4934-b013-f62a19ed267f")
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 230 44.46 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b4cac0df-4735-440f-81be-d8c3b8a48303")
-		(property "Reference" "C104"
-			(at 232.5 44.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 227.5 44.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 230 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 230 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 230 44.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2f2f5bae-df2f-4f82-a4e2-21dcd51b4f08")
-		)
-		(pin "2"
-			(uuid "5e4e113f-0537-485c-8f1d-65eef978d619")
-		)
-	)
+	
+	
+	
+	
+	
 	(wire
 		(pts (xy 226 37.46) (xy 230 37.46))
 		(stroke
@@ -2760,129 +1705,14 @@
 		)
 		(uuid "51520a7e-d8c6-43d4-9c54-0959081407f6")
 	)
-	(wire
-		(pts (xy 230 37.46) (xy 230 40.65))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3aeda4b5-a444-44e6-b063-890e423481e6")
-	)
-	(wire
-		(pts (xy 230 48.27) (xy 230 50.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3e026d5b-21ee-4a81-a091-585df9bfe137")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 230 50.46 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "3b8c5cd6-019a-4410-924c-d04afc75a6f5")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 280 34.92 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c1aa72a3-0178-451a-ae05-30d33176c3d4")
-		(property "Reference" "R204"
-			(at 280 32.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 280 37.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 280 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 280 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Soft PU to SENSOR_5V; enable via OUT_IO12"
-			(at 280 34.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ab208de9-2d8f-4c5d-98bc-425b98cfefda")
-		)
-		(pin "2"
-			(uuid "7791f10c-9b03-4caf-9fb5-d1415b9e591a")
-		)
-	)
-	(wire
-		(pts (xy 276.19 34.92) (xy 270 34.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8d580595-c346-4e9d-9bfa-75e500b5afbf")
-	)
-	(global_label "SENSOR_5V"
-		(shape input)
-		(at 270 34.92 180)
-		(effects
-			(font
-				(size 1.0 1.0)
-			)
-			(justify right)
-		)
-		(uuid "e94fd974-10d3-48da-95d3-23aad9b5cb30")
-	)
-	(wire
-		(pts (xy 283.81 34.92) (xy 272 34.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6b5d7119-869c-4c5c-8ef1-89c237d96db4")
-	)
-	(text "PU via OUT_IO12 enables R204"
-		(at 275 38.92 0)
-		(effects
-			(font
-				(size 0.8 0.8)
-			)
-			(justify left top)
-		)
-		(uuid "7fe9fd8c-181c-464f-b44e-01d9823120c7")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:R")
 		(at 25 107.46 90)
@@ -3125,16 +1955,16 @@
 		)
 	)
 	(wire
-		(pts (xy 66.19 104.92) (xy 60 104.92))
+		(pts (xy 66.1900 104.9200) (xy 64.1900 104.9200))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "902254d6-2a19-4e88-803a-041944328d56")
+		(uuid "33a62501-4148-402f-8812-96e4b0cfcbcb")
 	)
 	(global_label "SENSOR_5V"
 		(shape input)
-		(at 60 104.92 180)
+		(at 64.19 104.92 180)
 		(effects
 			(font
 				(size 1.0 1.0)
@@ -3144,12 +1974,12 @@
 		(uuid "9842c4f1-40bf-49b1-b651-7d0d277cfbda")
 	)
 	(wire
-		(pts (xy 73.81 104.92) (xy 62 104.92))
+		(pts (xy 73.8100 104.9200) (xy 73.8100 110.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a8ffe3ab-fd21-40a6-8d3d-be33f2706d0f")
+		(uuid "1f5f1fe2-a3e4-4084-99f5-213ae4579cd2")
 	)
 	(text "PU via OUT_IO13 enables R205"
 		(at 65 108.92 0)
@@ -3161,153 +1991,11 @@
 		)
 		(uuid "e5ac3f6a-8b7b-48b6-b7fc-c2f4aa7d3ab6")
 	)
-	(symbol
-		(lib_id "Device:R")
-		(at 95 107.46 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1c380a17-cc3c-4909-b0f8-7c05c03ae7fd")
-		(property "Reference" "R106"
-			(at 95 104.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 95 109.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 95 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 95 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "ADIO IS RIS; kILIS~20000"
-			(at 95 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "975cc5fc-e80d-4bf6-bbf4-8bf37bdf93d6")
-		)
-		(pin "2"
-			(uuid "d6f7b085-dabf-4e0c-abeb-bd70209e7988")
-		)
-	)
-	(wire
-		(pts (xy 102.38 107.46) (xy 91.19 107.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5c26a3e6-e1fe-49d4-a986-6c09d4ff805b")
-	)
-	(wire
-		(pts (xy 98.81 107.46) (xy 86 107.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3889c662-9e2c-4071-8376-fa4e94bb8b63")
-	)
-	(global_label "IN_RES1"
-		(shape input)
-		(at 86 107.46 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "303b9134-4da3-434d-8f95-ab51499f5fab")
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 90 114.46 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "628056b1-dd10-4d2f-9d86-52393f2b075a")
-		(property "Reference" "C106"
-			(at 92.5 114.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 87.5 114.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 90 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 90 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 90 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "b788cae6-978e-4f43-9cc7-15ce8a67f942")
-		)
-		(pin "2"
-			(uuid "63169bc8-9c6b-43e0-81eb-5451b3a98e79")
-		)
-	)
+	
+	
+	
+	
+	
 	(wire
 		(pts (xy 86 107.46) (xy 90 107.46))
 		(stroke
@@ -3316,129 +2004,14 @@
 		)
 		(uuid "295afa01-dd6a-4156-a83a-b6160e5d768b")
 	)
-	(wire
-		(pts (xy 90 107.46) (xy 90 110.64999999999999))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b9c04790-cc64-430f-8f1e-d53deb70bd2b")
-	)
-	(wire
-		(pts (xy 90 118.27) (xy 90 120.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "57b5aa52-1085-438c-9c91-781e86a88a2e")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 90 120.46 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "5b636f7e-9a77-42e0-830d-b228c02bc8bc")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 140 104.92 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7bd91d55-f022-4372-b57a-4d694cf7ef2f")
-		(property "Reference" "R206"
-			(at 140 102.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 140 107.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 140 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 140 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Soft PU to SENSOR_5V; enable via IO1"
-			(at 140 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f36f9bcf-de29-4917-825b-8314a36dc735")
-		)
-		(pin "2"
-			(uuid "777da2d9-a79f-41be-8f1e-06577b0073b6")
-		)
-	)
-	(wire
-		(pts (xy 136.19 104.92) (xy 130 104.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b62d55c6-521e-4cad-99f3-62b83832747f")
-	)
-	(global_label "SENSOR_5V"
-		(shape input)
-		(at 130 104.92 180)
-		(effects
-			(font
-				(size 1.0 1.0)
-			)
-			(justify right)
-		)
-		(uuid "7332249c-dc3f-423f-90d2-599312379f7d")
-	)
-	(wire
-		(pts (xy 143.81 104.92) (xy 132 104.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "db8f3afe-7275-4886-996f-89d2dd7b1175")
-	)
-	(text "PU via IO1 enables R206"
-		(at 135 108.92 0)
-		(effects
-			(font
-				(size 0.8 0.8)
-			)
-			(justify left top)
-		)
-		(uuid "aa95be59-a8af-40e7-b2aa-44be74c1da21")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
 	(symbol
 		(lib_id "Device:R")
 		(at 165 107.46 90)
@@ -3681,16 +2254,16 @@
 		)
 	)
 	(wire
-		(pts (xy 206.19 104.92) (xy 200 104.92))
+		(pts (xy 206.1900 104.9200) (xy 204.1900 104.9200))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f07f8c6f-9a9b-4638-a3c6-e3cc996326f5")
+		(uuid "63136d50-c5eb-4c44-bf93-9b7ccfe0639d")
 	)
 	(global_label "SENSOR_5V"
 		(shape input)
-		(at 200 104.92 180)
+		(at 204.19 104.92 180)
 		(effects
 			(font
 				(size 1.0 1.0)
@@ -3700,12 +2273,12 @@
 		(uuid "0c06a59e-5f31-4b64-8083-34c8e6ec3088")
 	)
 	(wire
-		(pts (xy 213.81 104.92) (xy 202 104.92))
+		(pts (xy 213.8100 104.9200) (xy 213.8100 110.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7fc7e409-e141-4631-be68-a3b430d0dcd8")
+		(uuid "a12ffe42-366b-4b97-928f-afca8767f3df")
 	)
 	(text "PU via IO2 enables R207"
 		(at 205 108.92 0)
@@ -3717,153 +2290,11 @@
 		)
 		(uuid "17887ca8-5580-4bf9-b2f2-2478617cb53b")
 	)
-	(symbol
-		(lib_id "Device:R")
-		(at 235 107.46 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "197e9e5d-d3ff-43dd-96f0-c10778e71267")
-		(property "Reference" "R108"
-			(at 235 104.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 235 109.96 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 235 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 235 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "ADIO IS RIS; kILIS~20000"
-			(at 235 107.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "97304551-6e0f-414f-8bb1-009b57e92f9d")
-		)
-		(pin "2"
-			(uuid "43361045-a4bd-47f6-bb02-91f3088599d8")
-		)
-	)
-	(wire
-		(pts (xy 242.38 107.46) (xy 231.19 107.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "605eb440-80e7-4510-b0b2-fc46433c3186")
-	)
-	(wire
-		(pts (xy 238.81 107.46) (xy 226 107.46))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5222ed71-c5dc-4948-a276-335804164048")
-	)
-	(global_label "IN_RES3"
-		(shape input)
-		(at 226 107.46 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "7fe2426c-e7aa-4f0e-872f-9b844df8780e")
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 230 114.46 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7369ea55-be33-4070-8423-54f48a852d8d")
-		(property "Reference" "C108"
-			(at 232.5 114.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "10n"
-			(at 227.5 114.46 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 230 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 230 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 230 114.46 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1e44e274-12cc-43ef-8c6c-37a37586ee7a")
-		)
-		(pin "2"
-			(uuid "19ed0dff-6072-4a55-899f-b93cc37fc887")
-		)
-	)
+	
+	
+	
+	
+	
 	(wire
 		(pts (xy 226 107.46) (xy 230 107.46))
 		(stroke
@@ -3872,127 +2303,45 @@
 		)
 		(uuid "14bca8a8-96b7-4392-ad73-cd862efa4eb0")
 	)
+	
+	
+	
+	
+	
+	
+	
+	
+
 	(wire
-		(pts (xy 230 107.46) (xy 230 110.64999999999999))
+		(pts (xy 73.8100 40.0000) (xy 47.6200 40.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "aaebd289-b89e-4253-9d44-c2363d4bdbb8")
+		(uuid "828c337b-2167-4214-be34-b891a6e510f2")
 	)
 	(wire
-		(pts (xy 230 118.27) (xy 230 120.46))
+		(pts (xy 213.8100 40.0000) (xy 187.6200 40.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "189a6458-a6c1-4a6c-8496-c04faf0539fe")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 230 120.46 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "455b03e0-b7aa-42b0-a8a2-46a2cd32114b")
-	)
-	(symbol
-		(lib_id "Device:R")
-		(at 280 104.92 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "fee1fa73-535d-4d19-8a72-2d29328d74ab")
-		(property "Reference" "R208"
-			(at 280 102.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Value" "4k7"
-			(at 280 107.42 0)
-			(effects
-				(font
-					(size 1.0 1.0)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 280 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 280 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Soft PU to SENSOR_5V; enable via IO3"
-			(at 280 104.92 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4b404e3f-937c-4d6f-a636-b7fe03671f8c")
-		)
-		(pin "2"
-			(uuid "7c7a0ed2-a89d-46ea-b6fb-6440b30e90ca")
-		)
+		(uuid "22ae7406-3f43-438d-b114-57c9867b33a9")
 	)
 	(wire
-		(pts (xy 276.19 104.92) (xy 270 104.92))
+		(pts (xy 73.8100 110.0000) (xy 47.6200 110.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0760981f-b917-4f1e-986f-01398db61a38")
-	)
-	(global_label "SENSOR_5V"
-		(shape input)
-		(at 270 104.92 180)
-		(effects
-			(font
-				(size 1.0 1.0)
-			)
-			(justify right)
-		)
-		(uuid "0b377755-dece-42b2-8890-b874e28be719")
+		(uuid "973bfd39-fc3b-4ea4-9a5c-16190c91470c")
 	)
 	(wire
-		(pts (xy 283.81 104.92) (xy 272 104.92))
+		(pts (xy 213.8100 110.0000) (xy 187.6200 110.0000))
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6d87a438-e9ca-4094-81c3-4691524b0caf")
-	)
-	(text "PU via IO3 enables R208"
-		(at 275 108.92 0)
-		(effects
-			(font
-				(size 0.8 0.8)
-			)
-			(justify left top)
-		)
-		(uuid "4493454a-5c63-4d02-9286-a1662b74616b")
+		(uuid "4eeb45fd-7b01-4dbe-9c0d-fff6565a5df5")
 	)
 )

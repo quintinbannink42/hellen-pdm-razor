@@ -23,20 +23,20 @@ Viewed looking into wire side of loom connector (or into PDM header).
 | 2 | N/C | |
 | 3 | CAN H | |
 | 4 | IGN SW | Switched +12 V ignition sense / key-on |
-| 5 | SENSOR 5V | ≤50 mA; not tied internally to pin 11 |
+| 5 | SENSOR 5V | ≤50 mA; tied on the PCB to pin 11 (both `SENSOR_5V`) |
 | 6 | SENSOR GND | **Do not** bond to chassis |
 | 7 | PWR OUT 3 | Parallel with pin 13 |
 | 8 | PWR OUT 2 | Parallel with pin 1 |
 | 9 | N/C | |
 | 10 | CAN L | |
-| 11 | SENSOR 5V | Second 5 V pin; spread loads |
+| 11 | SENSOR 5V | Tied on the PCB to pin 5; spread loads across the two loom pins |
 | 12 | SENSOR GND | **Do not** bond to chassis |
 | 13 | PWR OUT 3 | Parallel with pin 7 |
 | 14 | PWR OUT 1 | Parallel with pin 20 |
-| 15 | A/D I/O 2 | ADIO2 |
-| 16 | A/D I/O 4 | ADIO4 |
-| 17 | A/D I/O 6 | ADIO6 |
-| 18 | A/D I/O 8 | ADIO8 |
+| 15 | N/C | Was ADIO2. Pad is no-connect; not tied to another pin |
+| 16 | N/C | Was ADIO4. Pad is no-connect |
+| 17 | N/C | Was ADIO6. Pad is no-connect |
+| 18 | N/C | Was ADIO8. Pad is no-connect |
 | 19 | PWR OUT 4 | Parallel with pin 26 |
 | 20 | PWR OUT 1 | Parallel with pin 14 |
 | 21 | A/D I/O 1 | ADIO1 |
@@ -46,9 +46,7 @@ Viewed looking into wire side of loom connector (or into PDM header).
 | 25 | N/C | |
 | 26 | PWR OUT 4 | Parallel with pin 19 |
 
-Pins **2** and **9** stay N/C on the loom: no harness wire is added and the signal column above does not change. On the PCB those unused pads are tied to ADIO2 so the pour can leave between the same-net holes. Pin **25** stays N/C and is not tied.
-
-A loom break that would move ADIO4, ADIO6, or ADIO8 onto other SuperSeal pins (including pin 25 and the signal pins 3, 4, 5, 6, 10, 11, 12) does not open a continuous ≥3.47 mm neck at 1 oz. That reassignment was not applied. The table above is still the Link Razor map. See BOARD.md.
+Pins **2, 9, 15, 16, 17, 18, and 25** are no-connect on the PCB. Nothing ties them to a net, and the ADIO2 bridge that used to join pins 2 and 9 is gone. Pins **5 and 11** are tied together (`SENSOR_5V`). Pins **6 and 12** are tied together (`SENSOR_GND`). The four low-current outputs stay on pins 21, 22, 23, and 24 (ADIO1, ADIO3, ADIO5, ADIO7) at 8 A. High-power pairs are unchanged.
 
 Also on enclosure (not SuperSeal): **USB-C** for config.
 
@@ -58,7 +56,7 @@ Also on enclosure (not SuperSeal): **USB-C** for config.
 |------------|----------------|
 | M6 + / − | VBAT / GND power entry (fusing, TVS) |
 | PWR OUT 1..4 (paired pins) | HP1..HP4 dual SuperSeal feeds from PROFET outs. On the 109×98 board the four PROFET outputs (`PWR_OUT1–4`) are exposed F.Cu from the BTS50010 pads toward J1, with an F.Mask opening over that copper so solder can be added for current. A short B.Cu neck crosses the mega-mcu144 south pad wall. Pin pairs stay split: 14+20, 1+8, 7+13, 19+26. |
-| ADIO 1..8 | ADIO front-end I/O |
+| ADIO 1, 3, 5, 7 | Four 8 A low-current outputs. ADIO 2, 4, 6, 8 are removed; SuperSeal 15–18 are N/C |
 | CAN H/L | Module CANH/CANL |
 | IGN SW | Key sense → divider → `IN_VIGN` path (and/or digital) |
 | SENSOR 5V ×2 | `V5A_SWITCHABLE` via PWR_EN |

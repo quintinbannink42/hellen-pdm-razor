@@ -3281,7 +3281,7 @@
 		)
 		(uuid "4bb3df38-0a4f-4935-b383-132fd00740ee")
 	)
-	(global_label "PWR_OUT2"
+	(global_label "PWR_OUT3"
 		(at 82.22 125.24 0)
 		(shape input)
 		(effects
@@ -3300,7 +3300,7 @@
 		)
 		(uuid "00e3e459-12b1-4bb0-93c6-68bd593d77e5")
 	)
-	(global_label "ADIO2"
+	(global_label "SENSOR_GND"
 		(at 82.22 122.7 0)
 		(shape input)
 		(effects
@@ -3319,7 +3319,7 @@
 		)
 		(uuid "f9c6a5d5-9026-476c-bd99-c228e801047b")
 	)
-	(global_label "CANH"
+	(global_label "SENSOR_5V"
 		(at 82.22 120.16 0)
 		(shape input)
 		(effects
@@ -3338,7 +3338,7 @@
 		)
 		(uuid "f60cc524-d59a-4c80-82f8-d813fb4c8290")
 	)
-	(global_label "IGN_SW"
+	(global_label "CANL"
 		(at 82.22 117.62 0)
 		(shape input)
 		(effects
@@ -3349,25 +3349,8 @@
 		)
 		(uuid "b5697cca-276c-4780-9e99-44daba020eb6")
 	)
-	(wire
-		(pts (xy 94.92 115.08) (xy 82.22 115.08))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dd555920-a2de-48cb-bc7a-8b67b6faf43b")
-	)
-	(global_label "SENSOR_5V"
-		(at 82.22 115.08 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1d3018a4-7208-4131-84b7-c235d6a4988d")
-	)
+	
+	
 	(wire
 		(pts (xy 94.92 112.54) (xy 82.22 112.54))
 		(stroke
@@ -3376,7 +3359,7 @@
 		)
 		(uuid "548c187f-a993-433e-9954-eab948f6a70e")
 	)
-	(global_label "SENSOR_GND"
+	(global_label "PWR_OUT2"
 		(at 82.22 112.54 0)
 		(shape input)
 		(effects
@@ -3414,7 +3397,7 @@
 		)
 		(uuid "aa74bc1b-3b13-44e6-93e6-d31aefd61bc2")
 	)
-	(global_label "PWR_OUT2"
+	(global_label "SENSOR_GND"
 		(at 82.22 107.46 0)
 		(shape input)
 		(effects
@@ -3433,7 +3416,7 @@
 		)
 		(uuid "3ea4c135-6266-4ca7-a780-4b1e1f4cc268")
 	)
-	(global_label "ADIO2"
+	(global_label "SENSOR_5V"
 		(at 82.22 104.92 0)
 		(shape input)
 		(effects
@@ -3452,7 +3435,7 @@
 		)
 		(uuid "8f460277-3a5f-494b-89ba-e33d6f884fce")
 	)
-	(global_label "CANL"
+	(global_label "IGN_SW"
 		(at 82.22 102.38 0)
 		(shape input)
 		(effects
@@ -3471,7 +3454,7 @@
 		)
 		(uuid "a788606a-0a8e-4905-bcde-3622a890e700")
 	)
-	(global_label "SENSOR_5V"
+	(global_label "CANH"
 		(at 82.22 99.84 0)
 		(shape input)
 		(effects
@@ -3482,25 +3465,8 @@
 		)
 		(uuid "bf06b59f-0177-4856-9f47-48192fdc87f8")
 	)
-	(wire
-		(pts (xy 94.92 97.3) (xy 82.22 97.3))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5b749ce3-c8e7-4d7a-87d1-345b2e906126")
-	)
-	(global_label "SENSOR_GND"
-		(at 82.22 97.3 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "35f3a89b-bde6-4f11-a3a1-bb98bd4a7010")
-	)
+	
+	
 	(wire
 		(pts (xy 94.92 94.76) (xy 82.22 94.76))
 		(stroke
@@ -3509,7 +3475,7 @@
 		)
 		(uuid "35311c87-43c3-40cc-8394-9f3fda473447")
 	)
-	(global_label "PWR_OUT3"
+	(global_label "PWR_OUT2"
 		(at 82.22 94.76 0)
 		(shape input)
 		(effects
@@ -3528,7 +3494,7 @@
 		)
 		(uuid "c565d3d4-3175-4d30-9fd0-e536bb71e2fc")
 	)
-	(global_label "PWR_OUT1"
+	(global_label "PWR_OUT4"
 		(at 120.32000000000001 125.24 0)
 		(shape input)
 		(effects
@@ -3539,25 +3505,8 @@
 		)
 		(uuid "0f3d5821-42bd-49fd-95a0-bd02f9307986")
 	)
-	(wire
-		(pts (xy 107.62 122.7) (xy 120.32000000000001 122.7))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0ba2b807-dca1-4d2b-beaf-01347270daf1")
-	)
-	(global_label "ADIO2"
-		(at 120.32000000000001 122.7 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "784040f2-f487-4192-8e78-ed86a070bf52")
-	)
+	
+	
 	(wire
 		(pts (xy 107.62 120.16) (xy 120.32000000000001 120.16))
 		(stroke
@@ -3566,7 +3515,7 @@
 		)
 		(uuid "48a35235-f50b-4d97-b151-669a80a4a651")
 	)
-	(global_label "ADIO4"
+	(global_label "ADIO7"
 		(at 120.32000000000001 120.16 0)
 		(shape input)
 		(effects
@@ -3585,7 +3534,7 @@
 		)
 		(uuid "8fc2bf1f-1b95-4e2e-860c-965262498955")
 	)
-	(global_label "ADIO6"
+	(global_label "ADIO5"
 		(at 120.32000000000001 117.62 0)
 		(shape input)
 		(effects
@@ -3604,7 +3553,7 @@
 		)
 		(uuid "da84c1c5-0f6b-4001-9cd6-2b0bc9548dbb")
 	)
-	(global_label "ADIO8"
+	(global_label "ADIO3"
 		(at 120.32000000000001 115.08 0)
 		(shape input)
 		(effects
@@ -3623,7 +3572,7 @@
 		)
 		(uuid "61d6d22a-c86e-4eda-9cc5-5a4d099329f3")
 	)
-	(global_label "PWR_OUT4"
+	(global_label "ADIO1"
 		(at 120.32000000000001 112.54 0)
 		(shape input)
 		(effects
@@ -3661,7 +3610,7 @@
 		)
 		(uuid "b5d9e1e3-4a27-47af-8409-dceb780a1612")
 	)
-	(global_label "ADIO1"
+	(global_label "PWR_OUT4"
 		(at 120.32000000000001 107.46 0)
 		(shape input)
 		(effects
@@ -3672,81 +3621,14 @@
 		)
 		(uuid "a052120a-651c-4135-8cb3-bc2a9ac4ae1d")
 	)
-	(wire
-		(pts (xy 107.62 104.92) (xy 120.32000000000001 104.92))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4ebf3f5c-f4b8-4dd6-84b6-8289e9c2c70e")
-	)
-	(global_label "ADIO3"
-		(at 120.32000000000001 104.92 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "2c071f4a-5bdf-446a-a9bb-726db6c85a4f")
-	)
-	(wire
-		(pts (xy 107.62 102.38) (xy 120.32000000000001 102.38))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a4422558-9d85-4714-bcdf-d58303742322")
-	)
-	(global_label "ADIO5"
-		(at 120.32000000000001 102.38 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "d046441f-559c-4024-bd40-26306ea3c3d3")
-	)
-	(wire
-		(pts (xy 107.62 99.84) (xy 120.32000000000001 99.84))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ff4eb13f-7cfe-4102-8ffc-e1d8c566df6b")
-	)
-	(global_label "ADIO7"
-		(at 120.32000000000001 99.84 0)
-		(shape input)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "fcb4c18d-9188-418d-806d-c5ec1c027fb1")
-	)
-	(wire
-		(pts (xy 107.62 97.3) (xy 120.32000000000001 97.3))
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c2b0f26-d710-45ac-80e5-ebf051b79ea7")
-	)
-	(label "NC_25"
-		(at 120.32000000000001 97.3 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "3d7f8dda-bf12-420f-9da2-8833857d4561")
-	)
+	
+	
+	
+	
+	
+	
+	
+	
 	(wire
 		(pts (xy 107.62 94.76) (xy 120.32000000000001 94.76))
 		(stroke
@@ -3755,7 +3637,7 @@
 		)
 		(uuid "411da803-533a-4074-86e7-b7cffbfee82b")
 	)
-	(global_label "PWR_OUT4"
+	(global_label "PWR_OUT1"
 		(at 120.32000000000001 94.76 0)
 		(shape input)
 		(effects
@@ -3926,7 +3808,7 @@
 		)
 		(uuid "6868f392-e873-427c-a22d-160f5e58ab41")
 	)
-	(text "Status: mega-mcu144 0.7 placed (sheet MM144).\nHP PROFET x4 + ADIO x8 schematic stubs on sheets.\nUSB-C -> MM144 USBM/USBP/USBID. IGN_SW -> IN_VIGN path TBD."
+	(text "Status: mega-mcu144 0.7 placed (sheet MM144).\nHP PROFET x4 + ADIO x4 (8 A) schematic stubs on sheets.\nUSB-C -> MM144 USBM/USBP/USBID. IGN_SW -> IN_VIGN path TBD."
 		(at 20 95 0)
 		(effects
 			(font
@@ -4025,6 +3907,34 @@
 				(justify left top)
 			)
 		)
+	)
+	(no_connect
+		(at 94.92 115.08)
+		(uuid "71d5fa5c-d299-4de3-8254-899c371685eb")
+	)
+	(no_connect
+		(at 94.92 97.30)
+		(uuid "34081670-6b85-4a4e-9359-98623afc5df0")
+	)
+	(no_connect
+		(at 107.62 122.70)
+		(uuid "66306d8d-7a06-4134-b41a-ad5bc0e0c339")
+	)
+	(no_connect
+		(at 107.62 104.92)
+		(uuid "4e74594f-8619-4ade-9f9e-5949cc408ec0")
+	)
+	(no_connect
+		(at 107.62 102.38)
+		(uuid "4af4f269-19b4-41cf-a475-2dc80871564d")
+	)
+	(no_connect
+		(at 107.62 99.84)
+		(uuid "7f58e992-0455-40e8-b876-e0ecae40f865")
+	)
+	(no_connect
+		(at 107.62 97.30)
+		(uuid "ebb982d7-f941-4136-a8bd-9b8d191416c5")
 	)
 	(sheet_instances
 		(path "/" (page "1"))
